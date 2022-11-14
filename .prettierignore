@@ -1,0 +1,5 @@
+.expo-shared
+.assets
+node_modules
+yarn.lock
+.expo
