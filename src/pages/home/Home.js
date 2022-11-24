@@ -1,12 +1,8 @@
 import { Button, View } from "react-native";
+import { BottomTab } from "../../components/BottomTab";
 
 const Home = ({ navigation }) => {
-  return (
-    <View>
-      <Button title="page1" onPress={() => navigation.navigate("Page1")} />
-      <Button title="page2" onPress={() => navigation.navigate("Page2")} />
-    </View>
-  );
+  return <BottomTab />;
 };
 
 export { Home };
