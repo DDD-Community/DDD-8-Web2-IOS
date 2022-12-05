@@ -1,7 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import { Login } from "./login";
 import { Main } from "./main";
 
@@ -15,8 +14,8 @@ const Router = () => {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="main" component={Main} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Main" component={Main} />
       </Stack.Navigator>
     </NavigationContainer>
   );

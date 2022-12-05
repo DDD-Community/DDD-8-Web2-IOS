@@ -1,5 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
+import { NavigationProp } from "@react-navigation/native";
+import { RootStackPramList } from "../../types";
 
 const styles = StyleSheet.create({
   view: {
@@ -9,12 +11,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const Login = () => {
+type Props = {
+  navigation: NavigationProp<RootStackPramList, "Login">;
+};
+
+const Login: FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.view}>
       <Text>Logo Here</Text>
-      <Button title="Google Login" />
-      <Button title="Apple Login!" />
+      <Button
+        title="Google Login"
+        onPress={() => navigation.navigate("Main")}
+      />
+      <Button
+        title="Apple Login!"
+        onPress={() => navigation.navigate("Main")}
+      />
     </View>
   );
 };
