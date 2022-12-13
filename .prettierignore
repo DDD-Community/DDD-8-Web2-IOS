@@ -1,8 +1,9 @@
 .expo-shared
-.assets
+assets
 node_modules
 yarn.lock
 .expo
 assets
 .github
 .vscode
+frontend

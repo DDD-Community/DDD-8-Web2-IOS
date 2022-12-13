@@ -1,0 +1,1 @@
+export { SettingRegion } from "./SettingRegion";

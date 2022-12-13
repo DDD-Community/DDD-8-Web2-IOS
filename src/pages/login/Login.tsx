@@ -21,11 +21,11 @@ const Login: FC<Props> = ({ navigation }) => {
       <Text>Logo Here</Text>
       <Button
         title="Google Login"
-        onPress={() => navigation.navigate("Main")}
+        onPress={() => navigation.navigate("SettingRegion")}
       />
       <Button
         title="Apple Login!"
-        onPress={() => navigation.navigate("Main")}
+        onPress={() => navigation.navigate("SettingRegion")}
       />
     </View>
   );
