@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import React, { FC, useMemo, useState } from "react";
+import { View, StyleSheet } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { RootStackPramList } from "../../types";
 import { CalendarList, DateData, CalendarProps } from "react-native-calendars";
-import { format } from "date-fns";
+import { dateFormatter, getDatesBetween } from "../../utils/date";
 
 const styles = StyleSheet.create({
   view: {
@@ -24,29 +24,11 @@ type Props = {
 
 type MarkedDates = CalendarProps["markedDates"];
 
-function getDates(startDate: Date, endDate: Date): Date[] {
-  const dates: Date[] = [];
-  let currentDate = startDate;
-  const addDays = function (days) {
-    const date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date;
-  };
-  while (currentDate <= endDate) {
-    dates.push(currentDate);
-    currentDate = addDays.call(currentDate, 1);
-  }
-  return dates;
-}
-
-function formatDate(date: Date): string {
-  return format(date, "yyyy-MM-dd");
-}
+const formatDate = dateFormatter('yyyy-MM-dd"');
 
 const SettingDate: FC<Props> = ({ navigation }) => {
   const [startDate, setStartDate] = useState<DateData | null>(null);
   const [endDate, setEndDate] = useState<DateData | null>(null);
-  const [markedDates, setMarkedDates] = useState<MarkedDates>({});
 
   const onDayPress = (date: DateData) => {
     if (!startDate) {
@@ -56,17 +38,24 @@ const SettingDate: FC<Props> = ({ navigation }) => {
 
     if (!endDate) {
       setEndDate(date);
+      return;
+    }
+
+    if (startDate) {
+      setStartDate(date);
+      setEndDate(null);
+      return;
     }
   };
 
-  useEffect(() => {
+  const markedDates = useMemo(() => {
     if (startDate || endDate) {
       const startTimestamp = startDate?.timestamp || endDate?.timestamp;
       const endTimestamp = endDate?.timestamp || startDate.timestamp;
       const startDateIns = new Date(startTimestamp);
       const endDateIns = new Date(endTimestamp);
+      const dates = getDatesBetween(startDateIns, endDateIns);
 
-      const dates = getDates(startDateIns, endDateIns);
       const datesSet = dates.reduce((dateSet, date) => {
         const key = formatDate(date);
         dateSet[key] = {
@@ -76,20 +65,26 @@ const SettingDate: FC<Props> = ({ navigation }) => {
         return dateSet;
       }, {} as MarkedDates);
 
-      datesSet[formatDate(startDateIns)] = {
+      const startDateKey = formatDate(startDateIns);
+      const endDateKey = formatDate(endDateIns);
+
+      datesSet[startDateKey] = {
         startingDay: true,
         endingDay: false,
         selected: true,
         color: "green",
       };
-      datesSet[formatDate(endDateIns)] = {
-        endingDay: true,
-        startingDay: false,
-        selected: true,
-        color: "green",
-      };
 
-      setMarkedDates(datesSet);
+      if (startDateKey !== endDateKey) {
+        datesSet[endDateKey] = {
+          endingDay: true,
+          startingDay: false,
+          selected: true,
+          color: "green",
+        };
+      }
+
+      return datesSet;
     }
   }, [startDate?.dateString, endDate?.dateString]);
 
