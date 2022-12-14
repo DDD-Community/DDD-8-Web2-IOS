@@ -24,7 +24,7 @@ type Props = {
 
 type MarkedDates = CalendarProps["markedDates"];
 
-const formatDate = dateFormatter('yyyy-MM-dd"');
+const formatDate = dateFormatter("yyyy-MM-dd");
 
 const SettingDate: FC<Props> = ({ navigation }) => {
   const [startDate, setStartDate] = useState<DateData | null>(null);
