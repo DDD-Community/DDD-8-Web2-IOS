@@ -1,10 +1,11 @@
 import React, { FC, Fragment, useMemo, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Button } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { RootStackPramList } from "../../types";
 import { Col, Grid, Row } from "../../components/Grid";
 import { ALL_REGION_LIST } from "../../constants/regions";
-import { chunk } from "../../utils/array";
+import { chunk, toggle } from "../../utils/array";
+import { usePlanRegionsState } from "../../store/plan";
 
 const styles = StyleSheet.create({
   page: {
@@ -26,8 +27,7 @@ type Props = {
 };
 
 const SettingRegion: FC<Props> = ({ navigation }) => {
-  const [text, setText] = useState("");
-
+  const { regions, toggleRegion } = usePlanRegionsState();
   const regionRows = useMemo(() => chunk(ALL_REGION_LIST, 3), []);
 
   return (
@@ -39,9 +39,17 @@ const SettingRegion: FC<Props> = ({ navigation }) => {
           return (
             <Row key={rowIndex}>
               {row.map((col) => {
+                const isSelected = regions.includes(col.title);
+                const borderColor = isSelected ? "black" : "white";
                 return (
-                  <Col key={col.title}>
-                    <Text>{col.title}</Text>
+                  <Col
+                    key={col.title}
+                    onPress={() => toggleRegion(col.title)}
+                    borderColor={borderColor}
+                    borderWidth={2}
+                    height={40}
+                  >
+                    <Text style={{ height: "100%" }}>{col.title}</Text>
                   </Col>
                 );
               })}
@@ -49,6 +57,7 @@ const SettingRegion: FC<Props> = ({ navigation }) => {
           );
         })}
       </Grid>
+      <Button title="Next" onPress={() => navigation.navigate("SettingDate")} />
     </View>
   );
 };

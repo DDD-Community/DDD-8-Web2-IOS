@@ -1,14 +1,33 @@
 import React, { FC, ReactNode } from "react";
-import { View } from "react-native";
+import { ColorValue, StyleProp, TouchableOpacity, View } from "react-native";
 
 type Props = {
   children: ReactNode;
+  borderColor?: ColorValue;
+  borderWidth?: number;
+  height?: number;
+  onPress?: () => void;
 };
 
-export const Col: FC<Props> = ({ children }) => {
+export const Col: FC<Props> = ({
+  children,
+  borderColor,
+  borderWidth,
+  height,
+  onPress,
+}) => {
   return (
-    <View style={{ flex: 1, backgroundColor: "red", margin: 1 }}>
+    <TouchableOpacity
+      style={{
+        flex: 1,
+        margin: 1,
+        borderColor,
+        borderWidth,
+        height,
+      }}
+      onPress={onPress}
+    >
       {children}
-    </View>
+    </TouchableOpacity>
   );
 };

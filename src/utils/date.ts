@@ -1,4 +1,4 @@
-import { format, addDays } from "date-fns";
+import { format, addDays, subDays } from "date-fns";
 
 export const dateFormatter =
   (pattern: string) =>
@@ -8,9 +8,10 @@ export const dateFormatter =
 export const getDatesBetween = (start: Date, end: Date): Date[] => {
   const dates: Date[] = [];
 
-  let currentDate = start;
+  let endBetweenDate = subDays(end, 1);
+  let currentDate = addDays(start, 1);
 
-  while (currentDate <= end) {
+  while (currentDate <= endBetweenDate) {
     dates.push(currentDate);
     currentDate = addDays(currentDate, 1);
   }

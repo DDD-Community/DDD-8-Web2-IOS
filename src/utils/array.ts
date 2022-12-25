@@ -12,3 +12,10 @@ export const chunk = <T>(arr: T[], len: number): T[][] => {
 
   return result;
 };
+
+export const toggle = <T>(arr: T[], elem: T): T[] => {
+  if (arr.includes(elem)) {
+    return arr.filter((e) => e !== elem);
+  }
+  return arr.concat(elem);
+};
