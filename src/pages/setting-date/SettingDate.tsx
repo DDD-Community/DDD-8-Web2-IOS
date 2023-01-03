@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { RootStackPramList } from "../../types";
 import { CalendarList, DateData, CalendarProps } from "react-native-calendars";
@@ -101,9 +101,11 @@ const SettingDate: FC<Props> = ({ navigation }) => {
         markedDates={markedDates}
         pastScrollRange={50}
         futureScrollRange={50}
+        style={{ maxHeight: 600 }}
         scrollEnabled={true}
         showScrollIndicator={true}
       />
+      <Button title="Next" onPress={() => navigation.navigate("Main")}></Button>
     </View>
   );
 };

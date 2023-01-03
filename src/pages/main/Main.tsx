@@ -8,7 +8,9 @@ const Tab = createMaterialBottomTabNavigator();
 const Main = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Map" component={Map} />
+      <Tab.Screen name="1" component={Map} />
+      <Tab.Screen name="2" component={My} />
+      <Tab.Screen name="3" component={My} />
       <Tab.Screen name="My" component={My} />
     </Tab.Navigator>
   );
