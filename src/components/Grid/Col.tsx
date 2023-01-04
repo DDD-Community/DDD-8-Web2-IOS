@@ -5,6 +5,9 @@ type Props = {
   children: ReactNode;
   borderColor?: ColorValue;
   borderWidth?: number;
+  borderRadius?: number;
+  backgroundColor?: string;
+  margin?: string | number;
   height?: number;
   onPress?: () => void;
 };
@@ -13,6 +16,9 @@ export const Col: FC<Props> = ({
   children,
   borderColor,
   borderWidth,
+  borderRadius,
+  backgroundColor,
+  margin,
   height,
   onPress,
 }) => {
@@ -20,10 +26,14 @@ export const Col: FC<Props> = ({
     <TouchableOpacity
       style={{
         flex: 1,
-        margin: 1,
         borderColor,
         borderWidth,
+        margin,
+        borderRadius,
+        backgroundColor,
         height,
+        alignItems: "center",
+        justifyContent: "center",
       }}
       onPress={onPress}
     >

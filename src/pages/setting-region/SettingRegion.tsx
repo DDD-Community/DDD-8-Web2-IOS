@@ -1,17 +1,28 @@
 import React, { FC, Fragment, useMemo, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Button } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { RootStackPramList } from "../../types";
-import { Col, Grid, Row } from "../../components/Grid";
-import { ALL_REGION_LIST } from "../../constants/regions";
 import { chunk, toggle } from "../../utils/array";
 import { usePlanRegionsState } from "../../store/plan";
+
+import { Button } from "../../components/Button";
+import { Col, Grid, Row } from "../../components/Grid";
+
+import { THEME } from "../../constants/theme";
+import { ALL_REGION_LIST } from "../../constants/regions";
 
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: 44,
+    backgroundColor: "#fff",
+    paddingHorizontal: 11,
   },
   input: {
     borderStyle: "solid",
@@ -31,25 +42,40 @@ const SettingRegion: FC<Props> = ({ navigation }) => {
   const regionRows = useMemo(() => chunk(ALL_REGION_LIST, 3), []);
 
   return (
-    <View style={styles.page}>
-      <Text>라트립은 현재 국내여행 중 여행지를 선택해주세요!</Text>
-      <View></View>
+    <ScrollView style={styles.page}>
+      <View>
+        <Text>라트립은 현재 국내여행 중 여행지를 선택해주세요!</Text>
+      </View>
       <Grid>
         {regionRows.map((row, rowIndex) => {
           return (
             <Row key={rowIndex}>
               {row.map((col) => {
                 const isSelected = regions.includes(col.title);
-                const borderColor = isSelected ? "black" : "white";
+                const borderColor = isSelected
+                  ? THEME.PRIMARY_BG_COLOR
+                  : "transparent";
+
                 return (
                   <Col
                     key={col.title}
                     onPress={() => toggleRegion(col.title)}
                     borderColor={borderColor}
-                    borderWidth={2}
-                    height={40}
+                    borderWidth={4}
+                    height={106}
+                    margin={6}
+                    borderRadius={16}
+                    backgroundColor="#f3f3f3"
                   >
-                    <Text style={{ height: "100%" }}>{col.title}</Text>
+                    <Text
+                      style={{
+                        color: "#AAAAAA",
+                        textAlign: "center",
+                        textAlignVertical: "center",
+                      }}
+                    >
+                      {col.title}
+                    </Text>
                   </Col>
                 );
               })}
@@ -57,8 +83,16 @@ const SettingRegion: FC<Props> = ({ navigation }) => {
           );
         })}
       </Grid>
-      <Button title="Next" onPress={() => navigation.navigate("SettingDate")} />
-    </View>
+      <Button
+        title={`${regions.join("/")} 선택`}
+        onPress={() => navigation.navigate("SettingDate")}
+        style={{
+          backgroundColor: THEME.PRIMARY_BG_COLOR,
+          color: THEME.PRIMARY_TEXT_COLOR,
+          shadowColor: "#000",
+        }}
+      />
+    </ScrollView>
   );
 };
 
