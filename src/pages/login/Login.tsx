@@ -32,6 +32,17 @@ const styles = StyleSheet.create({
   },
 });
 
+const KAKAO_BUTTON_STYLE = {
+  backgroundColor: "#FEE500",
+  color: "#000",
+  width: "100%",
+};
+
+const APPLE_BUTTON_STYLE = {
+  backgroundColor: "#000000",
+  color: "#fff",
+};
+
 type Props = {
   navigation: NavigationProp<RootStackPramList, "Login">;
 };
@@ -44,20 +55,13 @@ const Login: FC<Props> = ({ navigation }) => {
       <View style={styles.buttonWrap}>
         <Button
           title="Kakao로 로그인"
-          style={{
-            backgroundColor: "#FEE500",
-            color: "#000",
-            width: "100%",
-          }}
+          buttonStyle={KAKAO_BUTTON_STYLE}
           Icon={() => <LogoKakao width={28} height={28} />}
           onPress={() => navigation.navigate("SettingRegion")}
         />
         <Button
           title="Apple로 로그인"
-          style={{
-            backgroundColor: "#000000",
-            color: "#fff",
-          }}
+          buttonStyle={APPLE_BUTTON_STYLE}
           Icon={() => <LogoApple width={28} height={28} />}
           onPress={() => navigation.navigate("SettingRegion")}
         />

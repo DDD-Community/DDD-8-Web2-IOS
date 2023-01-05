@@ -6,7 +6,7 @@ type Props = {
   Icon?: FC<any>;
   title: string;
   onPress: () => void;
-  style?: {
+  buttonStyle?: {
     backgroundColor: string;
     color: string;
     width?: number | string;
@@ -20,8 +20,7 @@ type Props = {
   };
 };
 
-const Button: FC<Props> = ({ Icon, title, style, onPress }) => {
-  style;
+const Button: FC<Props> = ({ Icon, title, buttonStyle, onPress }) => {
   return (
     <TouchableHighlight
       onPress={onPress}
@@ -30,7 +29,7 @@ const Button: FC<Props> = ({ Icon, title, style, onPress }) => {
     >
       <View
         style={{
-          ...style,
+          ...buttonStyle,
           display: "flex",
           flexDirection: "row",
           borderRadius: 12,
@@ -48,7 +47,9 @@ const Button: FC<Props> = ({ Icon, title, style, onPress }) => {
           </View>
         )}
         <View>
-          <Text style={{ color: style?.color, fontSize: 16 }}>{title}</Text>
+          <Text style={{ color: buttonStyle?.color, fontSize: 16 }}>
+            {title}
+          </Text>
         </View>
       </View>
     </TouchableHighlight>

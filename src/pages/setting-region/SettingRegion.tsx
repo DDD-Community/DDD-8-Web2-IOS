@@ -1,19 +1,11 @@
-import React, { FC, Fragment, useMemo, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import React, { FC, useMemo } from "react";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { RootStackPramList } from "../../types";
-import { chunk, toggle } from "../../utils/array";
+import { chunk } from "../../utils/array";
 import { usePlanRegionsState } from "../../store/plan";
-
 import { Button } from "../../components/Button";
 import { Col, Grid, Row } from "../../components/Grid";
-
 import { THEME } from "../../constants/theme";
 import { ALL_REGION_LIST } from "../../constants/regions";
 
@@ -86,7 +78,7 @@ const SettingRegion: FC<Props> = ({ navigation }) => {
       <Button
         title={`${regions.join("/")} 선택`}
         onPress={() => navigation.navigate("SettingDate")}
-        style={{
+        buttonStyle={{
           backgroundColor: THEME.PRIMARY_BG_COLOR,
           color: THEME.PRIMARY_TEXT_COLOR,
           shadowColor: "#000",

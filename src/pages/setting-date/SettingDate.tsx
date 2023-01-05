@@ -1,10 +1,12 @@
 import React, { FC, useMemo, useState } from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { RootStackPramList } from "../../types";
 import { CalendarList, DateData, CalendarProps } from "react-native-calendars";
-import { dateFormatter, getDatesBetween } from "../../utils/date";
+import { DateFormatter, getDatesBetween } from "../../utils/date";
+import { Button } from "../../components/Button";
 import { usePlanDatesState } from "../../store/plan";
+import { THEME } from "../../constants/theme";
 
 const styles = StyleSheet.create({
   view: {
@@ -27,9 +29,8 @@ type MarkedDates = CalendarProps["markedDates"];
 type NullableDateData = DateData | null;
 type DateRange = [NullableDateData, NullableDateData];
 
-const formatDate = dateFormatter("yyyy-MM-dd");
-
 const SettingDate: FC<Props> = ({ navigation }) => {
+  const [buttonText, setButtonText] = useState("None");
   const [[startDateData, endDateData], setDateDataRange] = useState<DateRange>([
     null,
     null,
@@ -54,27 +55,31 @@ const SettingDate: FC<Props> = ({ navigation }) => {
   };
 
   const markedDates = useMemo(() => {
+    const formatDateDash = DateFormatter["yyyy-MM-dd"];
+    const formatDateDot = DateFormatter["yyyy.MM.dd"];
+    const formatDay = DateFormatter["dd"];
+
     const datesSet: MarkedDates = {};
     const startDate = startDateData ? new Date(startDateData.timestamp) : null;
     const endDate = endDateData ? new Date(endDateData.timestamp) : null;
 
     if (startDate) {
-      const key = formatDate(startDate);
+      const key = formatDateDash(startDate);
       datesSet[key] = {
         startingDay: true,
         endingDay: endDate ? false : true,
         selected: true,
-        color: "green",
+        color: THEME.PRIMARY_BG_COLOR,
       };
     }
 
     if (endDate) {
-      const key = formatDate(endDate);
+      const key = formatDateDash(endDate);
       datesSet[key] = {
         startingDay: false,
         endingDay: true,
         selected: true,
-        color: "green",
+        color: THEME.PRIMARY_BG_COLOR,
       };
     }
 
@@ -82,12 +87,16 @@ const SettingDate: FC<Props> = ({ navigation }) => {
       const dateBetween = getDatesBetween(startDate, endDate);
 
       dateBetween.forEach((date) => {
-        const key = formatDate(date);
+        const key = formatDateDash(date);
         datesSet[key] = {
           selected: true,
-          color: "green",
+          color: THEME.PRIMARY_BG_COLOR,
         };
       });
+
+      setButtonText(
+        `${formatDateDot(startDate)} - ${formatDay(endDate)} 출발!`
+      );
     }
 
     return datesSet;
@@ -101,11 +110,28 @@ const SettingDate: FC<Props> = ({ navigation }) => {
         markedDates={markedDates}
         pastScrollRange={50}
         futureScrollRange={50}
-        style={{ maxHeight: 600 }}
         scrollEnabled={true}
         showScrollIndicator={true}
       />
-      <Button title="Next" onPress={() => navigation.navigate("Main")}></Button>
+      <View
+        style={{
+          width: "100%",
+          backgroundColor: "transparent",
+          position: "absolute",
+          bottom: 0,
+          paddingHorizontal: 21,
+        }}
+      >
+        <Button
+          title={buttonText}
+          onPress={() => navigation.navigate("Main")}
+          buttonStyle={{
+            backgroundColor: THEME.PRIMARY_BG_COLOR,
+            color: THEME.PRIMARY_TEXT_COLOR,
+            width: "100%",
+          }}
+        />
+      </View>
     </View>
   );
 };
