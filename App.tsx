@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Router } from "./src/pages/router";
 import { RecoilRoot } from "recoil";
 import * as SplashScreen from "expo-splash-screen";
+import "react-native-gesture-handler";
+import { AppNavigator } from "~navigators/app.navigator";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,7 +22,7 @@ export default function App() {
 
   return (
     <RecoilRoot>
-      <Router />
+      <AppNavigator />
     </RecoilRoot>
   );
 }

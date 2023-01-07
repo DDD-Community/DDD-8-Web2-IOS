@@ -1,0 +1,38 @@
+import { StyleSheet } from "react-native";
+import { BgColor, FontWeight, TextColor } from "../../constants/theme";
+
+export const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bottomFixed: {
+    width: "100%",
+    backgroundColor: "transparent",
+    position: "absolute",
+    bottom: 0,
+    paddingHorizontal: 21,
+    paddingVertical: 4,
+  },
+  selectDateButtonActive: {
+    backgroundColor: BgColor.Primary,
+  },
+  selectDateButtonInActive: {
+    backgroundColor: BgColor.InActive,
+  },
+  selectDateButtonTextCommon: {
+    fontWeight: FontWeight.SemiBold,
+  },
+  selectDateButtonTextActive: {
+    color: TextColor.Primary,
+  },
+  selectDateButtonTextInActive: {
+    color: TextColor.InActive,
+  },
+  input: {
+    borderStyle: "solid",
+    borderWidth: 1,
+    padding: 10,
+  },
+});
