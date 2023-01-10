@@ -9,6 +9,7 @@ export const THEME = {
 export const BgColor = {
   Primary: "#6147FF",
   InActive: "#F3F3F3",
+  Base: "#fff",
 } as const;
 
 export const TextColor = {

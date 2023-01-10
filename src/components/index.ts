@@ -7,3 +7,4 @@ export * from "./tab-bar-icon.component";
 export * from "./layout.component";
 export * from "./top-fixed-card.component";
 export * from "./text.component";
+export * from "./days-tab.component";

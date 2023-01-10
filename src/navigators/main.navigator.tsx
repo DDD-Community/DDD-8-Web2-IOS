@@ -3,7 +3,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { My } from "~screens/my";
 import { BookmarkScreen } from "~screens/bookmark";
 import { THEME } from "~constants";
-import { MyTripScreen } from "~screens/my-trip";
+import { MyTripMapScreen } from "~screens/my-trip";
 import { NavigationKey } from "~types";
 import { TabBarIcon } from "~components";
 import { HomeMapScreen } from "~screens/home";
@@ -28,7 +28,7 @@ export const MainNavigator = () => {
       labeled={false}
     >
       <Tab.Screen name={NavigationKey.HomeMap} component={HomeMapScreen} />
-      <Tab.Screen name={NavigationKey.MyTripMap} component={MyTripScreen} />
+      <Tab.Screen name={NavigationKey.MyTripMap} component={MyTripMapScreen} />
       <Tab.Screen name={NavigationKey.Bookmark} component={BookmarkScreen} />
       <Tab.Screen name={NavigationKey.Profile} component={My} />
     </Tab.Navigator>

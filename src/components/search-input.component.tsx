@@ -1,14 +1,15 @@
 import React, { FC } from "react";
-import { View } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
 import { TextInput } from "react-native";
 
 type Props = {
   placeholder?: string;
+  style?: StyleProp<ViewStyle>;
 };
 
-const SearchInput: FC<Props> = ({ placeholder }) => {
+const SearchInput: FC<Props> = ({ placeholder, style }) => {
   return (
-    <View style={{ position: "absolute", top: 20, width: "100%" }}>
+    <View style={style}>
       <View
         style={{
           opacity: 0.8,
