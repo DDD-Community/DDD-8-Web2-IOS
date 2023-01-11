@@ -92,7 +92,7 @@ export const SettingDateScreen: FC<Props> = ({ navigation }) => {
   const dateSelected = startDateData || endDateData;
 
   return (
-    <Layout style={styles.view}>
+    <Layout style={styles.view} safeAreaStyle={{ height: "100%" }}>
       <CalendarList
         markingType="period"
         onDayPress={onDayPress}
@@ -107,6 +107,7 @@ export const SettingDateScreen: FC<Props> = ({ navigation }) => {
           title={buttonText}
           onPress={() => navigation.navigate(NavigationKey.MainNavigator)}
           buttonStyle={[
+            styles.selectDateButtonCommon,
             dateSelected
               ? styles.selectDateButtonActive
               : styles.selectDateButtonInActive,

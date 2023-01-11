@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
   },
+  safeArea: { height: "100%" },
   header: {
     display: "flex",
     flexDirection: "row",
@@ -83,5 +84,12 @@ export const styles = StyleSheet.create({
   },
   selectButtonTextInactive: {
     color: TextColor.InActive,
+  },
+  bottomFixedView: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
   },
 });

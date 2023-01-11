@@ -22,7 +22,7 @@ export const SettingRegionScreen: FC<Props> = ({ navigation }) => {
   const regionRows = useMemo(() => chunk(ALL_REGION_LIST, 3), []);
 
   return (
-    <Layout>
+    <Layout safeAreaStyle={styles.safeArea}>
       <ScrollView style={styles.view}>
         <View style={styles.header}>
           <IconMarker />
@@ -72,6 +72,8 @@ export const SettingRegionScreen: FC<Props> = ({ navigation }) => {
             );
           })}
         </Grid>
+      </ScrollView>
+      <View style={styles.bottomFixedView}>
         <Button
           title={region ? `${region} 선택` : "하나의 지역을 선택해주세요"}
           onPress={() => navigation.navigate(NavigationKey.SettingDate)}
@@ -85,7 +87,7 @@ export const SettingRegionScreen: FC<Props> = ({ navigation }) => {
               : styles.selectButtonTextInactive
           }
         />
-      </ScrollView>
+      </View>
     </Layout>
   );
 };

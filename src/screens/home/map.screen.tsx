@@ -14,7 +14,7 @@ type Props = {
 
 const HomeMapScreen: FC<Props> = ({ navigation }) => {
   return (
-    <Layout style={styles.container} statusBarLayoutOptions={{ show: true }}>
+    <Layout style={styles.container}>
       <MapWebView />
       <TopFixedCard style={styles.topFixed}>
         <View
@@ -47,7 +47,6 @@ const HomeMapScreen: FC<Props> = ({ navigation }) => {
           title="일정 작성"
           buttonStyle={{
             backgroundColor: THEME.PRIMARY_BG_COLOR,
-            color: THEME.PRIMARY_TEXT_COLOR,
           }}
           onPress={() => {
             navigation.navigate(NavigationKey.SettingRegion);

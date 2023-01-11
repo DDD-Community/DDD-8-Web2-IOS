@@ -5,7 +5,7 @@ const config: ExpoConfig = {
   name: "my-app",
   slug: "my-app",
   splash: {
-    image: "./assets/splash.png",
+    image: "./assets/splash-bg-init.png",
     resizeMode: "cover",
     backgroundColor: "#ffffff",
   },

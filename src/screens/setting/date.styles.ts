@@ -9,11 +9,16 @@ export const styles = StyleSheet.create({
   },
   bottomFixed: {
     width: "100%",
-    backgroundColor: "transparent",
+    backgroundColor: "#fff",
     position: "absolute",
     bottom: 0,
     paddingHorizontal: 21,
     paddingVertical: 4,
+  },
+  selectDateButtonCommon: {
+    marginTop: 8,
+    marginBottom: 34,
+    marginHorizontal: 4,
   },
   selectDateButtonActive: {
     backgroundColor: BgColor.Primary,

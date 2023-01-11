@@ -1,6 +1,12 @@
 import React, { FC, ReactNode } from "react";
 import Constants from "expo-constants";
-import { StyleProp, View, ViewStyle } from "react-native";
+import {
+  StyleProp,
+  View,
+  ViewStyle,
+  StatusBar,
+  SafeAreaView,
+} from "react-native";
 
 const StatusBarHeight = Constants.statusBarHeight;
 
@@ -18,14 +24,11 @@ type StatusBarLayoutOptions = {
 type Props = {
   style?: StyleProp<ViewStyle>;
   statusBarLayoutOptions?: StatusBarLayoutOptions;
+  safeAreaStyle?: StyleProp<ViewStyle>;
   children?: ReactNode;
 };
 
-export const Layout: FC<Props> = ({
-  style,
-  statusBarLayoutOptions,
-  children,
-}) => {
+export const Layout: FC<Props> = ({ style, children, safeAreaStyle }) => {
   return (
     <View
       style={[
@@ -37,16 +40,7 @@ export const Layout: FC<Props> = ({
         style,
       ]}
     >
-      {(statusBarLayoutOptions?.show ?? true) && (
-        <View
-          style={{
-            width: "100%",
-            height: StatusBarHeight,
-            backgroundColor: statusBarLayoutOptions?.backgroundColor || "#fff",
-          }}
-        />
-      )}
-      {children}
+      <SafeAreaView style={safeAreaStyle}>{children}</SafeAreaView>
     </View>
   );
 };

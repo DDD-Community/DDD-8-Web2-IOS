@@ -14,7 +14,15 @@ type Props = {
 
 const LoginMenuScreen: FC<Props> = ({ navigation }) => {
   return (
-    <Layout style={styles.view} statusBarLayoutOptions={{ show: false }}>
+    <Layout
+      style={styles.view}
+      safeAreaStyle={{
+        width: "100%",
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Logo />
       <Text style={styles.subTitle}>라트립과 함께 여행을 떠나요!</Text>
       <View style={styles.buttonWrap}>
