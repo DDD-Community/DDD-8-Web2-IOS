@@ -1,20 +1,11 @@
 import React, { FC } from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import type { NavigationProp } from "@react-navigation/native";
 import IconNavClose from "~assets/icon/icon-nav-close.svg";
 import { Button, KakaoLoginWebView } from "~components";
-
-const styles = StyleSheet.create({
-  view: {
-    height: "100%",
-    width: "100%",
-    backgroundColor: "#fff",
-  },
-  header: {
-    display: "flex",
-    flexDirection: "column",
-  },
-});
+import { setAccessToken, setRefreshToken } from "~utils/secure-store";
+import { NavigationKey } from "../../types/navigations";
+import { styles } from "./kakao.styles";
 
 type Props = {
   navigation: NavigationProp<any>;
@@ -25,18 +16,22 @@ const LoginKakaoScreen: FC<Props> = ({ navigation }) => {
     <View style={styles.view}>
       <View style={styles.header}>
         <Button
-          style={{
-            width: 20,
-            marginLeft: "auto",
-            marginRight: 20,
-          }}
+          style={styles.closeButton}
           Icon={() => <IconNavClose width={17} height={17} />}
           onPress={() => {
             navigation.goBack();
           }}
         ></Button>
       </View>
-      <KakaoLoginWebView />
+      <KakaoLoginWebView
+        onLoginSuccess={async (data) => {
+          await Promise.all([
+            setAccessToken(data.token.accessToken),
+            setRefreshToken(data.token.refreshToken),
+          ]);
+          navigation.navigate(NavigationKey.MainNavigator);
+        }}
+      />
     </View>
   );
 };
