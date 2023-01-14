@@ -17,7 +17,7 @@ type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
 };
 
-const MyTripMapScreen: FC<Props> = () => {
+const MyTripMapScreen: FC<Props> = ({ navigation }) => {
   const [selectedDay, setSelectedDay] = useState(1);
 
   return (
@@ -50,6 +50,9 @@ const MyTripMapScreen: FC<Props> = () => {
         <SearchInput
           style={styles.searchInput}
           placeholder="장소를 검색해보세요!"
+          onSumbitEditing={() =>
+            navigation.navigate(NavigationKey.SearchResult)
+          }
         />
       </TopFixedCard>
     </Layout>

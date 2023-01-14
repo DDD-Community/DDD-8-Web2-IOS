@@ -5,7 +5,7 @@ import { View, TouchableHighlight, Text } from "react-native";
 type Props = {
   Icon?: FC<any>;
   title?: string;
-  onPress: () => void;
+  onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;

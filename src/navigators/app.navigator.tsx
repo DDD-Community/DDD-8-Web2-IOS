@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MainNavigator } from "./main.navigator";
 import { LoginNavigator } from "./login.navigator";
 import { SettingDateScreen, SettingRegionScreen } from "~screens/setting";
+import { SearchResultScreen } from "~screens/my-trip";
 import { NavigationKey } from "~types";
 
 const Stack = createNativeStackNavigator();
@@ -31,6 +32,10 @@ const AppNavigator = () => {
         <Stack.Screen
           name={NavigationKey.SettingRegion}
           component={SettingRegionScreen}
+        />
+        <Stack.Screen
+          name={NavigationKey.SearchResult}
+          component={SearchResultScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

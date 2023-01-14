@@ -14,6 +14,7 @@ export enum NavigationKey {
   MyTripMap = "MyTripMap",
   Bookmark = "Bookmark",
   Profile = "Profile",
+  SearchResult = "SearchResult",
 }
 
 export type AppNavigationParamList = {
@@ -39,4 +40,5 @@ export type MainNavigationParamList = {
   [NavigationKey.MyTripMap]: undefined;
   [NavigationKey.Bookmark]: undefined;
   [NavigationKey.Profile]: undefined;
+  [NavigationKey.SearchResult]: undefined;
 };

@@ -9,3 +9,4 @@ export * from "./top-fixed-card.component";
 export * from "./text.component";
 export * from "./days-tab.component";
 export * from "./safe-area-layout.component";
+export * from "./stack-header.component";
