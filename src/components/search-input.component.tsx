@@ -7,10 +7,18 @@ import { FontFamily } from "~constants";
 type Props = {
   placeholder?: string;
   style?: StyleProp<ViewStyle>;
+  value?: string;
+  onChangeText?: (value: string) => void;
   onSumbitEditing?: () => void;
 };
 
-const SearchInput: FC<Props> = ({ placeholder, style, onSumbitEditing }) => {
+const SearchInput: FC<Props> = ({
+  placeholder,
+  style,
+  value,
+  onSumbitEditing,
+  onChangeText,
+}) => {
   return (
     <View style={style}>
       <View
@@ -34,6 +42,8 @@ const SearchInput: FC<Props> = ({ placeholder, style, onSumbitEditing }) => {
             width: "100%",
             fontFamily: FontFamily,
           }}
+          value={value}
+          onChangeText={onChangeText}
           onSubmitEditing={onSumbitEditing}
         />
         <View style={{ width: 18, height: 18, margin: 16, marginLeft: "auto" }}>

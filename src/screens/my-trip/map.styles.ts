@@ -10,6 +10,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 4,
   },
+  daysTabContainer: {
+    height: 227,
+    paddingLeft: 0,
+    paddingTop: 13,
+    paddingRight: 0,
+  },
   mapContainer: {
     width: "100%",
     height: "100%",

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { View } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import {
@@ -12,6 +12,8 @@ import {
 import IconMarker from "~assets/icon/icon-marker.svg";
 import { styles } from "./map.styles";
 import { MainNavigationParamList, NavigationKey } from "~types";
+import * as api from "~api";
+import * as Location from "expo-location";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -19,19 +21,38 @@ type Props = {
 
 const MyTripMapScreen: FC<Props> = ({ navigation }) => {
   const [selectedDay, setSelectedDay] = useState(1);
+  const [currentLocation, setCurrentLocation] =
+    useState<Location.LocationObject | null>(null);
+  const [searchText, setSearchText] = useState("");
+
+  const [fetchSearchPlaces, data] = api.useSearchPlaces({
+    keyword: searchText,
+    latitude: String(currentLocation?.coords.latitude) || "",
+    longitude: String(currentLocation?.coords.longitude) || "",
+    page: 1,
+  });
+
+  const onSearchInputSumbitEditing = async () => {
+    const { data } = await fetchSearchPlaces();
+    console.log(data);
+    navigation.navigate(NavigationKey.SearchResultList);
+  };
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === "granted") {
+        const location = await Location.getCurrentPositionAsync();
+        setCurrentLocation(location);
+      }
+    })();
+  }, []);
 
   return (
     <Layout>
       <View style={styles.mapContainer}>
         <MapWebView />
-        <View
-          style={{
-            height: 227,
-            paddingLeft: 0,
-            paddingTop: 13,
-            paddingRight: 0,
-          }}
-        >
+        <View style={styles.daysTabContainer}>
           <DaysTab
             days={10}
             selectedDay={selectedDay}
@@ -50,9 +71,9 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
         <SearchInput
           style={styles.searchInput}
           placeholder="장소를 검색해보세요!"
-          onSumbitEditing={() =>
-            navigation.navigate(NavigationKey.SearchResult)
-          }
+          value={searchText}
+          onChangeText={setSearchText}
+          onSumbitEditing={onSearchInputSumbitEditing}
         />
       </TopFixedCard>
     </Layout>

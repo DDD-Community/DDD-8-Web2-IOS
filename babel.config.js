@@ -22,6 +22,7 @@ module.exports = function (api) {
             "~stores": "./src/stores",
             "~utils": "./src/utils",
             "~types": "./src/types",
+            "~api": "./src/api",
           },
         },
       ],
