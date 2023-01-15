@@ -1,14 +1,40 @@
-import React, { useRef } from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { WebView } from "react-native-webview";
+import { MessageType } from "../types/messages";
+import { MAP_WEB_URL } from "@env";
+import { WebViewRef } from "~types";
 
-const MapWebView = () => {
-  const ref = useRef();
-  return (
-    <WebView
-      ref={ref as any}
-      source={{ uri: "https://ddd-web2-map.web.app" }}
-    />
-  );
+export type MapWebViewHandle = {
+  postMessage(type: MessageType, data: unknown): void;
 };
+
+type Props = {};
+
+const MapWebView = forwardRef<MapWebViewHandle, Props>(
+  (props, forwardedRef) => {
+    const webViewRef = useRef<WebViewRef>();
+
+    useImperativeHandle(
+      forwardedRef,
+      () => ({
+        postMessage(type: MessageType, data: unknown) {
+          webViewRef.current?.postMessage({
+            type,
+            data,
+          });
+        },
+      }),
+      [webViewRef]
+    );
+
+    return (
+      <WebView
+        ref={webViewRef as any}
+        javaScriptEnabled
+        source={{ uri: MAP_WEB_URL }}
+      />
+    );
+  }
+);
 
 export { MapWebView };
