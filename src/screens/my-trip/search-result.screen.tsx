@@ -12,7 +12,11 @@ type Props = {
 export const SearchResultScreen: FC<Props> = ({ navigation }) => {
   return (
     <Layout>
-      <StackHeader showGoBack showClose={false}>
+      <StackHeader
+        showGoBack
+        showClose={false}
+        onPressGoBack={() => navigation.goBack()}
+      >
         <Text style={styles.headerTitle}>00카페</Text>
       </StackHeader>
       <View style={styles.mapContainer}>
