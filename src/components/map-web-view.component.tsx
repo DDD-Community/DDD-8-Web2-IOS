@@ -13,7 +13,12 @@ type Props = {};
 const MapWebView = forwardRef<MapWebViewHandle, Props>(
   (props, forwardedRef) => {
     const webViewRef = useRef<WebViewRef>();
-
+    const webData = async (message: any) => {
+      const { nativeEvent } = message;
+      const req = nativeEvent.data && JSON.parse(nativeEvent.data);
+      alert(req.title + req.lat + req.lng);
+      // await onMessage(req);
+    };
     useImperativeHandle(
       forwardedRef,
       () => ({
@@ -32,6 +37,7 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
         ref={webViewRef as any}
         javaScriptEnabled
         source={{ uri: MAP_WEB_URL }}
+        onMessage={webData}
       />
     );
   }
