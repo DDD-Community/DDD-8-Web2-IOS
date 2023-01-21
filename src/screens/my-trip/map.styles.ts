@@ -11,7 +11,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   daysTabContainer: {
-    height: 227,
+    minHeight: 227,
+    maxHeight: 426,
     paddingLeft: 0,
     paddingTop: 13,
     paddingRight: 0,

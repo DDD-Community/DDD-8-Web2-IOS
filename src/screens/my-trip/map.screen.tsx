@@ -9,6 +9,7 @@ import {
   Text,
   DaysTab,
   MapWebViewHandle,
+  PlaceItem,
 } from "~components";
 import IconMarker from "~assets/icon/icon-marker.svg";
 import { styles } from "./map.styles";
@@ -17,6 +18,7 @@ import * as api from "~api";
 import * as Location from "expo-location";
 import { useRef } from "react";
 import { getAccessToken } from "~utils/secure-store";
+import DraggableFlatList from "react-native-draggable-flatlist";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -28,6 +30,7 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
   const [currentLocation, setCurrentLocation] =
     useState<Location.LocationObject | null>(null);
   const [searchText, setSearchText] = useState("");
+  const [tempList, setTempList] = useState(["카페1", "카페2", "카페3"]);
 
   const [fetchSearchPlaces] = api.useSearchPlaces({
     keyword: searchText,
@@ -66,12 +69,24 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
     })();
   }, [webViewRef]);
 
+  const renderItem = (param: { item: string; drag: any }) => {
+    return <PlaceItem title={param.item} onLongPress={param.drag} />;
+  };
+
   return (
     <Layout>
       <View style={styles.mapContainer}>
         <MapWebView ref={webViewRef} />
         <View style={styles.daysTabContainer}>
           <DaysTab days={10} selectedDay={selectedDay} onSelect={onSelectDay} />
+          <View>
+            <DraggableFlatList
+              data={tempList}
+              renderItem={renderItem}
+              keyExtractor={(item) => item}
+              onDragEnd={({ data }) => setTempList(data)}
+            />
+          </View>
         </View>
       </View>
       <TopFixedCard>
