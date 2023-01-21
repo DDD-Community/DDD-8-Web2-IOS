@@ -10,6 +10,7 @@ type Props = {
   value?: string;
   onChangeText?: (value: string) => void;
   onSumbitEditing?: () => void;
+  onPress?: () => void;
 };
 
 const SearchInput: FC<Props> = ({
@@ -18,6 +19,7 @@ const SearchInput: FC<Props> = ({
   value,
   onSumbitEditing,
   onChangeText,
+  onPress,
 }) => {
   return (
     <View style={style}>
@@ -45,6 +47,7 @@ const SearchInput: FC<Props> = ({
           value={value}
           onChangeText={onChangeText}
           onSubmitEditing={onSumbitEditing}
+          onPressIn={onPress}
         />
         <View style={{ width: 18, height: 18, margin: 16, marginLeft: "auto" }}>
           <IconSearch height={18} />

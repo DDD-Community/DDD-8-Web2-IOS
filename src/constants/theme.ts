@@ -6,6 +6,22 @@ export const THEME = {
   BASE_BG_COLOR: "#fff",
 } as const;
 
+export const HexColor = {
+  Primary: "#6147FF",
+  Black: "#000000",
+  N900: "#b2027",
+  N700: "#333C47",
+  N500: "#4C5561",
+  N200: "#6C7682",
+  N90: "#8C95A1",
+  N60: "#B1B8C0",
+  N50: "#C2C8CF",
+  N40: "#DEE1E6",
+  N30: "#E9ECEF",
+  N20: "#F1F3F5",
+  N10: "#F9FAFB",
+};
+
 export const BgColor = {
   Primary: "#6147FF",
   InActive: "#F3F3F3",
@@ -27,6 +43,7 @@ export const FontWeight = {
 } as const;
 
 export const FontSize = {
+  XXXLarge: 28,
   XXLarge: 24,
   XLarge: 20,
   Large: 18,

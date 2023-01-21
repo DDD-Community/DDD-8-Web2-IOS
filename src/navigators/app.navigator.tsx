@@ -5,8 +5,8 @@ import { MainNavigator } from "./main.navigator";
 import { LoginNavigator } from "./login.navigator";
 import { SettingDateScreen, SettingRegionScreen } from "~screens/setting";
 import {
-  SearchResultListScreen,
   SearchResultMapScreen,
+  SearchResultDetailScreen,
 } from "~screens/my-trip";
 import { NavigationKey } from "~types";
 
@@ -41,8 +41,8 @@ const AppNavigator = () => {
           component={SearchResultMapScreen}
         />
         <Stack.Screen
-          name={NavigationKey.SearchResultList}
-          component={SearchResultListScreen}
+          name={NavigationKey.SearchResultDetail}
+          component={SearchResultDetailScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

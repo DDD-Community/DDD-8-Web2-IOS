@@ -10,10 +10,16 @@ import {
   DaysTab,
   MapWebViewHandle,
   PlaceItem,
+  Button,
 } from "~components";
 import IconMarker from "~assets/icon/icon-marker.svg";
 import { styles } from "./map.styles";
-import { MainNavigationParamList, MessageType, NavigationKey } from "~types";
+import {
+  AppNavigationParamList,
+  MainNavigationParamList,
+  MessageType,
+  NavigationKey,
+} from "~types";
 import * as api from "~api";
 import * as Location from "expo-location";
 import { useRef } from "react";
@@ -22,6 +28,10 @@ import DraggableFlatList from "react-native-draggable-flatlist";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
+  // appNavigation: NavigationProp<
+  //   AppNavigationParamList,
+  //   NavigationKey.MainNavigator
+  // >;
 };
 
 const MyTripMapScreen: FC<Props> = ({ navigation }) => {
@@ -102,8 +112,16 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
           placeholder="장소를 검색해보세요!"
           value={searchText}
           onChangeText={setSearchText}
-          onSumbitEditing={onSearchInputSumbitEditing}
+          onSumbitEditing={() => {
+            console.log("aaa");
+          }}
         />
+        <Button
+          title="temp"
+          onPress={() =>
+            navigation.getParent()?.navigate(NavigationKey.SearchResultDetail)
+          }
+        ></Button>
       </TopFixedCard>
     </Layout>
   );

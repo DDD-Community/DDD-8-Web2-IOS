@@ -16,6 +16,7 @@ export enum NavigationKey {
   Profile = "Profile",
   SearchResultMap = "SearchResultMap",
   SearchResultList = "SearchResultList",
+  SearchResultDetail = "SearchResultDetail",
 }
 
 export type AppNavigationParamList = {
@@ -23,6 +24,7 @@ export type AppNavigationParamList = {
   [NavigationKey.MainNavigator]: undefined;
   [NavigationKey.SettingDate]: undefined;
   [NavigationKey.SettingRegion]: undefined;
+  [NavigationKey.SearchResultDetail]: undefined;
 };
 
 export type LoginNavigationParamList = {
@@ -43,4 +45,5 @@ export type MainNavigationParamList = {
   [NavigationKey.Profile]: undefined;
   [NavigationKey.SearchResultMap]: undefined;
   [NavigationKey.SearchResultList]: undefined;
+  [NavigationKey.SearchResultDetail]: undefined;
 };

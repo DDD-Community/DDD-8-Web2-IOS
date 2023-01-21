@@ -9,7 +9,7 @@ type Props = {
   style?: StyleProp<ViewStyle>;
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  iconStyle?: { width: number; height: number };
+  iconStyle?: { width?: number; height?: number; fill?: string };
 };
 
 const DEFAULT_BUTTON_STYLE = {
