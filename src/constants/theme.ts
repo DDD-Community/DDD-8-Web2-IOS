@@ -9,6 +9,7 @@ export const THEME = {
 export const HexColor = {
   Primary: "#6147FF",
   Black: "#000000",
+  White: "#ffffff",
   N900: "#b2027",
   N700: "#333C47",
   N500: "#4C5561",
@@ -20,6 +21,8 @@ export const HexColor = {
   N30: "#E9ECEF",
   N20: "#F1F3F5",
   N10: "#F9FAFB",
+  Green: "#32B44A",
+  Shadow: "#ECF0F4",
 };
 
 export const BgColor = {
