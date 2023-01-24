@@ -7,6 +7,7 @@ import { Button, Layout } from "~components";
 import { THEME } from "~constants";
 import { styles } from "./date.styles";
 import { NavigationKey, AppNavigationParamList } from "~types";
+import { useCreateTravelPlan } from "~api";
 
 type Props = {
   navigation: NavigationProp<AppNavigationParamList, NavigationKey.SettingDate>;
@@ -17,6 +18,7 @@ type NullableDateData = DateData | null;
 type DateRange = [NullableDateData, NullableDateData];
 
 export const SettingDateScreen: FC<Props> = ({ navigation }) => {
+  const { createTravelPlan, isLoading } = useCreateTravelPlan();
   const [buttonText, setButtonText] = useState("날짜를 선택해주세요");
   const [[startDateData, endDateData], setDateDataRange] = useState<DateRange>([
     null,
@@ -91,6 +93,27 @@ export const SettingDateScreen: FC<Props> = ({ navigation }) => {
 
   const dateSelected = startDateData || endDateData;
 
+  const onPressSubmit = () => {
+    if (!dateSelected) {
+      return;
+    }
+    // createTravelPlan(
+    //   {
+    //     region: "",
+    //     trabelStartDate: "",
+    //     travelDays: 1,
+    //   },
+    //   {
+    //     onSuccess() {
+    navigation.navigate(NavigationKey.MainNavigator);
+    //     },
+    //     onError(e) {
+    //       alert(JSON.stringify(e));
+    //     },
+    //   }
+    // );
+  };
+
   return (
     <Layout style={styles.view} safeAreaStyle={{ height: "100%" }}>
       <CalendarList
@@ -105,7 +128,7 @@ export const SettingDateScreen: FC<Props> = ({ navigation }) => {
       <View style={styles.bottomFixed}>
         <Button
           title={buttonText}
-          onPress={() => navigation.navigate(NavigationKey.MainNavigator)}
+          onPress={onPressSubmit}
           buttonStyle={[
             styles.selectDateButtonCommon,
             dateSelected

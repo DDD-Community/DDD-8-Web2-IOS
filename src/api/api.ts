@@ -1,24 +1,11 @@
-import { useQuery } from "react-query";
 import { authedClient } from "./clients";
+import {
+  SearchPlaceParams,
+  SearchPlaceResponse,
+  CreateTravelPlanParams,
+} from "./types";
 
-type SearchPlaceParams = {
-  keyword: string;
-  latitude: string;
-  longitude: string;
-  page: number;
-};
-
-type SearchPlaceResponse = {
-  palceSearchModels: {
-    placeKakaoId: string;
-    placeName: string;
-    address: string;
-    latitude: string;
-    longitude: string;
-  };
-};
-
-const searchPlaces = ({
+export const searchPlaces = ({
   keyword,
   latitude,
   longitude,
@@ -30,9 +17,6 @@ const searchPlaces = ({
     .then((res) => res.data);
 };
 
-export const useSearchPlaces = (params: SearchPlaceParams) => {
-  const query = useQuery("searchPlaces", () => searchPlaces(params), {
-    enabled: false,
-  });
-  return [query.refetch, query] as const;
+export const postTravelPlan = (params: CreateTravelPlanParams) => {
+  return authedClient.post(`/v1/travel-pans`, params).then((res) => res.data);
 };
