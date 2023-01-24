@@ -22,6 +22,10 @@ export const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
   },
+  listView: {
+    width: "100%",
+    paddingHorizontal: 16,
+  },
   topFixedCardViewTextView: {
     width: "100%",
   },

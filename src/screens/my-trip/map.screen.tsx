@@ -89,14 +89,13 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
         <MapWebView ref={webViewRef} />
         <View style={styles.daysTabContainer}>
           <DaysTab days={10} selectedDay={selectedDay} onSelect={onSelectDay} />
-          <View>
-            <DraggableFlatList
-              data={tempList}
-              renderItem={renderItem}
-              keyExtractor={(item) => item}
-              onDragEnd={({ data }) => setTempList(data)}
-            />
-          </View>
+          <DraggableFlatList
+            style={styles.listView}
+            data={tempList}
+            renderItem={renderItem}
+            keyExtractor={(item) => item}
+            onDragEnd={({ data }) => setTempList(data)}
+          />
         </View>
       </View>
       <TopFixedView>
