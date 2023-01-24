@@ -9,7 +9,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const TopFixedCard: FC<Props> = ({ style, children }) => {
+export const TopFixedView: FC<Props> = ({ style, children }) => {
   return (
     <View
       style={[

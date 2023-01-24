@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { View, Text } from "react-native";
-import { Button, MapWebView, Layout, TopFixedCard } from "~components";
+import { Button, MapWebView, Layout, TopFixedView } from "~components";
 import { THEME } from "~constants";
 import IconSearch from "~assets/icon/icon-search.svg";
 import IconBell from "~assets/icon/icon-bell.svg";
@@ -16,7 +16,7 @@ const HomeMapScreen: FC<Props> = ({ navigation }) => {
   return (
     <Layout style={styles.container}>
       <MapWebView />
-      <TopFixedCard style={styles.topFixed}>
+      <TopFixedView style={styles.topFixed}>
         <View
           style={{
             display: "flex",
@@ -52,7 +52,7 @@ const HomeMapScreen: FC<Props> = ({ navigation }) => {
             navigation.navigate(NavigationKey.SettingRegion);
           }}
         />
-      </TopFixedCard>
+      </TopFixedView>
     </Layout>
   );
 };

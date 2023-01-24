@@ -8,17 +8,42 @@ import {
 } from "~constants";
 
 export const styles = StyleSheet.create({
+  view: {
+    backgroundColor: HexColor.N10,
+    height: "100%",
+  },
+  placeDetailView: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: HexColor.White,
+    paddingBottom: 20,
+  },
   titleView: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "baseline",
+    marginBottom: 3,
   },
   titleText: {
     fontSize: FontSize.XXXLarge,
     fontWeight: FontWeight.Bold,
     color: HexColor.Black,
+    marginRight: 8,
+  },
+  addressView: {
+    marginTop: 3,
+  },
+  addressText: {
+    marginBottom: 4,
+    color: HexColor.N900,
+    fontWeight: FontWeight.Regular,
+    fontFamily: FontFamily,
+    fontSize: FontSize.Small,
   },
   categoryText: {
     fontSize: FontSize.Small,
+    color: HexColor.N500,
+    fontWeight: FontWeight.Regular,
   },
   phoneNumText: {
     color: HexColor.Primary,
@@ -35,7 +60,6 @@ export const styles = StyleSheet.create({
     marginLeft: 8,
   },
   blogItemsView: {
-    backgroundColor: HexColor.N10,
     paddingHorizontal: 16,
     paddingVertical: 16,
   },

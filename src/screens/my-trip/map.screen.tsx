@@ -4,7 +4,7 @@ import { NavigationProp } from "@react-navigation/native";
 import {
   SearchInput,
   MapWebView,
-  TopFixedCard,
+  TopFixedView,
   Layout,
   Text,
   DaysTab,
@@ -99,7 +99,7 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <TopFixedCard>
+      <TopFixedView>
         <View style={styles.topFixedCardView}>
           <IconMarker />
           <View style={styles.topFixedCardViewTextView}>
@@ -122,7 +122,7 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
             navigation.getParent()?.navigate(NavigationKey.SearchResultDetail)
           }
         ></Button>
-      </TopFixedCard>
+      </TopFixedView>
     </Layout>
   );
 };
