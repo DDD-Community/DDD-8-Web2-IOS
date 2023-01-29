@@ -22,7 +22,9 @@ export enum NavigationKey {
 export type AppNavigationParamList = {
   [NavigationKey.LoginNavigator]: undefined;
   [NavigationKey.MainNavigator]: undefined;
-  [NavigationKey.SettingDate]: undefined;
+  [NavigationKey.SettingDate]: {
+    region: string;
+  };
   [NavigationKey.SettingRegion]: undefined;
   [NavigationKey.SearchResultDetail]: undefined;
 };

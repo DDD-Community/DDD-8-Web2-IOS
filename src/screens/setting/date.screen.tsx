@@ -1,23 +1,40 @@
 import React, { FC, useMemo, useState } from "react";
 import { View } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, Route } from "@react-navigation/native";
 import { CalendarList, DateData, CalendarProps } from "react-native-calendars";
 import { DateFormatter, getDatesBetween } from "~utils/date";
 import { Button, Layout } from "~components";
+import { usePlanRegionState } from "~stores/plan";
 import { THEME } from "~constants";
 import { styles } from "./date.styles";
 import { NavigationKey, AppNavigationParamList } from "~types";
 import { useCreateTravelPlan } from "~api";
+import { differenceInDays } from "date-fns";
 
 type Props = {
   navigation: NavigationProp<AppNavigationParamList, NavigationKey.SettingDate>;
+  route: Route<
+    NavigationKey.SettingDate,
+    {
+      region: string;
+    }
+  >;
 };
 
 type MarkedDates = CalendarProps["markedDates"];
 type NullableDateData = DateData | null;
 type DateRange = [NullableDateData, NullableDateData];
 
-export const SettingDateScreen: FC<Props> = ({ navigation }) => {
+const formatDateDash = DateFormatter["yyyy-MM-dd"];
+const formatDateDot = DateFormatter["yyyy.MM.dd"];
+const formatDay = DateFormatter["dd"];
+
+export const SettingDateScreen: FC<Props> = ({
+  navigation,
+  route: {
+    params: { region },
+  },
+}) => {
   const { createTravelPlan, isLoading } = useCreateTravelPlan();
   const [buttonText, setButtonText] = useState("날짜를 선택해주세요");
   const [[startDateData, endDateData], setDateDataRange] = useState<DateRange>([
@@ -42,15 +59,11 @@ export const SettingDateScreen: FC<Props> = ({ navigation }) => {
       setDateDataRange(dateRange);
     }
   };
+  const startDate = startDateData ? new Date(startDateData.timestamp) : null;
+  const endDate = endDateData ? new Date(endDateData.timestamp) : null;
 
   const markedDates = useMemo(() => {
-    const formatDateDash = DateFormatter["yyyy-MM-dd"];
-    const formatDateDot = DateFormatter["yyyy.MM.dd"];
-    const formatDay = DateFormatter["dd"];
-
     const datesSet: MarkedDates = {};
-    const startDate = startDateData ? new Date(startDateData.timestamp) : null;
-    const endDate = endDateData ? new Date(endDateData.timestamp) : null;
 
     if (startDate) {
       const key = formatDateDash(startDate);
@@ -94,24 +107,24 @@ export const SettingDateScreen: FC<Props> = ({ navigation }) => {
   const dateSelected = startDateData || endDateData;
 
   const onPressSubmit = () => {
-    if (!dateSelected) {
+    if (!startDate || !endDate || !region) {
       return;
     }
-    // createTravelPlan(
-    //   {
-    //     region: "",
-    //     trabelStartDate: "",
-    //     travelDays: 1,
-    //   },
-    //   {
-    //     onSuccess() {
-    navigation.navigate(NavigationKey.MainNavigator);
-    //     },
-    //     onError(e) {
-    //       alert(JSON.stringify(e));
-    //     },
-    //   }
-    // );
+    createTravelPlan(
+      {
+        region,
+        trabelStartDate: formatDateDash(startDate),
+        travelDays: Math.abs(differenceInDays(endDate, startDate)) + 1,
+      },
+      {
+        onSuccess() {
+          navigation.navigate(NavigationKey.MainNavigator);
+        },
+        onError(e) {
+          alert(JSON.stringify(e));
+        },
+      }
+    );
   };
 
   return (

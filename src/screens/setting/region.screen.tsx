@@ -1,8 +1,7 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { View, ScrollView, ImageBackground } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { chunk } from "~utils/array";
-import { usePlanRegionState } from "~stores/plan";
 import { Button, Col, Grid, Layout, Row, Text } from "~components";
 import { THEME, ALL_REGION_LIST, FontSize, FontWeight } from "~constants";
 import { styles } from "./region.styles";
@@ -17,9 +16,30 @@ type Props = {
   >;
 };
 
+const REGION_ROWS = chunk(ALL_REGION_LIST, 3);
+
 export const SettingRegionScreen: FC<Props> = ({ navigation }) => {
-  const { region, setRegion } = usePlanRegionState();
-  const regionRows = useMemo(() => chunk(ALL_REGION_LIST, 3), []);
+  const [region, setRegion] = useState("");
+
+  const confirmButtonStyle = region
+    ? styles.selectButtonActive
+    : styles.selectButtonInactive;
+
+  const confirmButtonTextStyle = region
+    ? styles.selectButtonTextActive
+    : styles.selectButtonTextInactive;
+
+  const buttonTitle = region ? `${region} 선택` : "하나의 지역을 선택해주세요";
+
+  const onPressConfirm = () => {
+    if (region) {
+      navigation.navigate(NavigationKey.SettingDate, {
+        region,
+      });
+    }
+  };
+
+  const onPressBackButton = () => navigation.goBack();
 
   return (
     <Layout safeAreaStyle={styles.safeArea}>
@@ -32,62 +52,73 @@ export const SettingRegionScreen: FC<Props> = ({ navigation }) => {
           <Button
             Icon={IconNavClose}
             style={styles.headerCloseButton}
-            onPress={() => navigation.goBack()}
+            onPress={onPressBackButton}
           />
         </View>
         <Grid>
-          {regionRows.map((row, rowIndex) => {
+          {REGION_ROWS.map((row, rowIndex) => {
             return (
-              <Row key={rowIndex}>
-                {row.map(({ title, source }) => {
-                  const isSelected = region === title;
-                  const borderColor = isSelected
-                    ? THEME.PRIMARY_BG_COLOR
-                    : "transparent";
-
-                  return (
-                    <Col
-                      key={title}
-                      onPress={() => setRegion(title)}
-                      style={[
-                        styles.col,
-                        {
-                          borderColor,
-                        },
-                      ]}
-                    >
-                      <ImageBackground
-                        source={source}
-                        resizeMode="cover"
-                        style={styles.colImage}
-                      >
-                        <View style={styles.colMask}>
-                          <Text style={styles.regionText}>{title}</Text>
-                        </View>
-                      </ImageBackground>
-                    </Col>
-                  );
-                })}
-              </Row>
+              <RegionRow
+                row={row}
+                key={rowIndex}
+                selectedRegion={region}
+                onPressRegion={setRegion}
+              />
             );
           })}
         </Grid>
       </ScrollView>
       <View style={styles.bottomFixedView}>
         <Button
-          title={region ? `${region} 선택` : "하나의 지역을 선택해주세요"}
-          onPress={() => navigation.navigate(NavigationKey.SettingDate)}
-          buttonStyle={[
-            styles.selectButtonCommon,
-            region ? styles.selectButtonActive : styles.selectButtonInactive,
-          ]}
-          textStyle={
-            region
-              ? styles.selectButtonTextActive
-              : styles.selectButtonTextInactive
-          }
+          title={buttonTitle}
+          onPress={onPressConfirm}
+          buttonStyle={confirmButtonStyle}
+          textStyle={confirmButtonTextStyle}
         />
       </View>
     </Layout>
+  );
+};
+
+type RegionRowProps = {
+  row: typeof REGION_ROWS[number];
+  selectedRegion: string;
+  onPressRegion: (region: string) => void;
+};
+
+const RegionRow: FC<RegionRowProps> = ({
+  row,
+  selectedRegion,
+  onPressRegion,
+}) => {
+  return (
+    <Row>
+      {row.map(({ title, value, source }) => {
+        const isSelected = selectedRegion === title;
+        const borderColor = isSelected ? THEME.PRIMARY_BG_COLOR : "transparent";
+        return (
+          <Col
+            key={title}
+            onPress={() => onPressRegion(value)}
+            style={[
+              styles.col,
+              {
+                borderColor,
+              },
+            ]}
+          >
+            <ImageBackground
+              source={source}
+              resizeMode="cover"
+              style={styles.colImage}
+            >
+              <View style={styles.colMask}>
+                <Text style={styles.regionText}>{title}</Text>
+              </View>
+            </ImageBackground>
+          </Col>
+        );
+      })}
+    </Row>
   );
 };

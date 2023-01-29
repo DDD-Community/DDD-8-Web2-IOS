@@ -6,6 +6,12 @@ import {
   TextColor,
 } from "../../constants/theme";
 
+const selectButtonCommon = {
+  marginTop: 8,
+  marginBottom: 34,
+  marginHorizontal: 4,
+};
+
 export const styles = StyleSheet.create({
   view: {
     flex: 1,
@@ -65,18 +71,15 @@ export const styles = StyleSheet.create({
     fontSize: FontSize.Small,
     fontWeight: FontWeight.SemiBold,
   },
-  selectButtonCommon: {
-    marginTop: 8,
-    marginBottom: 34,
-    marginHorizontal: 4,
-  },
   selectButtonTextCommon: {
     fontWeight: FontWeight.SemiBold,
   },
   selectButtonActive: {
+    ...selectButtonCommon,
     backgroundColor: BgColor.Primary,
   },
   selectButtonTextActive: {
+    ...selectButtonCommon,
     color: TextColor.Primary,
   },
   selectButtonInactive: {

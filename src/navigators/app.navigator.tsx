@@ -31,6 +31,7 @@ const AppNavigator = () => {
         <Stack.Screen
           name={NavigationKey.SettingDate}
           component={SettingDateScreen}
+          initialParams={{ region: "" }}
         />
         <Stack.Screen
           name={NavigationKey.SettingRegion}

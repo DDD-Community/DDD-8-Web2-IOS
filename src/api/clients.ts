@@ -2,13 +2,14 @@ import { API_BASE_URL } from "@env";
 import axios from "axios";
 import { getAccessToken } from "~utils/secure-store";
 
-const authedClient = axios.create({
+const httpClient = axios.create({
   baseURL: API_BASE_URL,
 });
 
-authedClient.interceptors.request.use(
+httpClient.interceptors.request.use(
   async (config) => {
     const accessToken = await getAccessToken();
+    console.log(accessToken);
     if (!accessToken) {
       // TODO Implements
       throw new Error("No access token");
@@ -25,4 +26,4 @@ authedClient.interceptors.request.use(
   (error) => error
 );
 
-export { authedClient };
+export { httpClient };

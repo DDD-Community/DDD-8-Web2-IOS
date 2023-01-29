@@ -12,3 +12,4 @@ export * from "./safe-area-layout.component";
 export * from "./stack-header.component";
 export * from "./place-item.component";
 export * from "./bottom-fixed-view.component";
+export * from "./bookmark-item.component";
