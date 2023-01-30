@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import { View } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import {
@@ -15,8 +15,11 @@ import {
 import IconMarker from "~assets/icon/icon-marker.svg";
 import { styles } from "./map.styles";
 import { MainNavigationParamList, MessageType, NavigationKey } from "~types";
-import { useFetchCurrentTravelPlan, useFetchDaySchedule } from "~api";
-import * as Location from "expo-location";
+import {
+  useFetchCurrentTravelPlan,
+  useFetchDaySchedule,
+  FetchDayScheduleResponse,
+} from "~api";
 import { useRef } from "react";
 import { formatDot } from "~utils/date";
 import { getAccessToken } from "~utils/secure-store";
@@ -30,22 +33,18 @@ type Props = {
 const MyTripMapScreen: FC<Props> = ({ navigation }) => {
   const { travelPlan, daySchedules } = useFetchCurrentTravelPlan();
   const [selectedDay, setSelectedDay] = useState(1);
+  const hasDaySchedules = !!daySchedules.data?.daySchedules.length;
   const daySchedule = useFetchDaySchedule(
     {
-      travelPlanId: travelPlan?.data?.content.id!,
+      travelPlanId: travelPlan.data?.content?.id!,
       dayScheduleId: daySchedules.data?.daySchedules?.[selectedDay - 1].id!,
     },
     {
-      enabled: !!daySchedules.data?.daySchedules.length,
+      enabled: hasDaySchedules,
     }
   );
-  console.log(daySchedule.data);
-
+  const daySchedulePlaces = daySchedule.data?.daySchedulePlaces;
   const webViewRef = useRef<MapWebViewHandle>(null);
-  const [currentLocation, setCurrentLocation] =
-    useState<Location.LocationObject | null>(null);
-  const [searchText, setSearchText] = useState("");
-  const [tempList, setTempList] = useState(["카페1", "카페2", "카페3"]);
   const onSelectDay = (day: number) => {
     setSelectedDay(day);
     webViewRef?.current?.postMessage(MessageType.onSelectDay, {
@@ -53,21 +52,23 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
     });
   };
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status === "granted") {
-        const location = await Location.getCurrentPositionAsync();
-        setCurrentLocation(location);
-      }
-    })();
-  }, []);
-
-  const renderItem = (param: { item: string; drag: any }) => {
-    return <PlaceItem title={param.item} onLongPress={param.drag} />;
+  const renderItem = ({
+    item,
+    drag,
+  }: {
+    item: FetchDayScheduleResponse["daySchedulePlaces"][number];
+    drag: any;
+  }) => {
+    return (
+      <PlaceItem
+        name={item.place.name}
+        category={item.place.category}
+        memo={item.memo}
+        onLongPress={drag}
+      />
+    );
   };
-
-  if (!travelPlan.data) {
+  if (!travelPlan.data || !travelPlan.data.content) {
     // TODO loading?
     return <></>;
   }
@@ -85,8 +86,6 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
         <MapWebView
           ref={webViewRef}
           onLoad={async () => {
-            const accessToken = await getAccessToken();
-            console.log("send: " + accessToken);
             webViewRef.current?.postMessage(MessageType.onInit, {
               accessToken: await getAccessToken(),
             });
@@ -98,13 +97,17 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
             selectedDay={selectedDay}
             onSelect={onSelectDay}
           />
-          <DraggableFlatList
-            style={styles.listView}
-            data={tempList}
-            renderItem={renderItem}
-            keyExtractor={(item) => item}
-            onDragEnd={({ data }) => setTempList(data)}
-          />
+
+          {hasDaySchedules && (
+            <DraggableFlatList
+              style={styles.listView}
+              data={daySchedulePlaces || []}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              onDragEnd={({ data }) => data}
+            />
+          )}
+          {!hasDaySchedules && <Text>아직 등록된 일정이 없어요</Text>}
         </View>
       </View>
       <TopFixedView>
@@ -118,8 +121,8 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
         <SearchInput
           style={styles.searchInput}
           placeholder="장소를 검색해보세요!"
-          value={searchText}
-          onChangeText={setSearchText}
+          value={""}
+          onChangeText={() => {}}
           onSumbitEditing={() => {
             console.log("aaa");
           }}

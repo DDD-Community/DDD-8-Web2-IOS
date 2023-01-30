@@ -29,10 +29,18 @@ export const styles = StyleSheet.create({
   placeInfoDetailView: {
     flex: 1,
   },
-  title: {
+  placeInfoDetail: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  name: {
     fontWeight: FontWeight.SemiBold,
-    fontFamily: FontFamily,
     fontSize: FontSize.Small,
+    color: HexColor.N900,
+  },
+  category: {
+    color: HexColor.N500,
+    fontWeight: FontWeight.Regular,
   },
   editButtonText: {
     color: HexColor.Primary,

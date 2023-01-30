@@ -49,7 +49,7 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
         javaScriptEnabled
         source={{ uri: MAP_WEB_URL }}
         onMessage={onMessage}
-        onError={(e) => console.error(e)}
+        onError={(e) => console.error(e.nativeEvent)}
       />
     );
   }

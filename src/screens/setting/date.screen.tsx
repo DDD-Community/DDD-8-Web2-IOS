@@ -113,7 +113,7 @@ export const SettingDateScreen: FC<Props> = ({
     createTravelPlan(
       {
         region,
-        trabelStartDate: formatDateDash(startDate),
+        travelStartDate: formatDateDash(startDate),
         travelDays: Math.abs(differenceInDays(endDate, startDate)) + 1,
       },
       {

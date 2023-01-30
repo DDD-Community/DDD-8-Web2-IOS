@@ -19,7 +19,7 @@ export type SearchPlaceResponse = {
 
 export type CreateTravelPlanParams = {
   region: string;
-  trabelStartDate: string;
+  travelStartDate: string;
   travelDays: number;
 };
 

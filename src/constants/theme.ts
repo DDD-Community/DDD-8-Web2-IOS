@@ -1,4 +1,4 @@
-export const FontFamily = "Apple SD Gothic Neo";
+export const FontFamily = undefined;
 
 export const THEME = {
   PRIMARY_BG_COLOR: "#6147FF",
