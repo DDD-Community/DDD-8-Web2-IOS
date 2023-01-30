@@ -1,1 +1,1 @@
-export { My } from "./My";
+export { My } from "./my.screen";
