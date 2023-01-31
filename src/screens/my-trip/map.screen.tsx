@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 import { View } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import {
-  SearchInput,
   MapWebView,
   TopFixedView,
   Layout,
@@ -118,15 +117,6 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
             <Text>{travelDayInfoText}</Text>
           </View>
         </View>
-        <SearchInput
-          style={styles.searchInput}
-          placeholder="장소를 검색해보세요!"
-          value={""}
-          onChangeText={() => {}}
-          onSumbitEditing={() => {
-            console.log("aaa");
-          }}
-        />
         <Button
           title="temp"
           onPress={() =>

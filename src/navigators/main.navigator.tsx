@@ -6,7 +6,7 @@ import { THEME } from "~constants";
 import { MyTripMapScreen } from "~screens/my-trip";
 import { NavigationKey, AppNavigationParamList } from "~types";
 import { TabBarIcon } from "~components";
-import { HomeMapScreen } from "~screens/home";
+import { MainScreen } from "~screens/home";
 import { NavigationProp } from "@react-navigation/native";
 
 const Tab = createMaterialBottomTabNavigator();
@@ -30,12 +30,12 @@ export const MainNavigator: FC<Props> = ({ navigation }) => {
           <TabBarIcon color={color} name={route.name} />
         ),
       })}
-      initialRouteName={NavigationKey.HomeMap}
+      initialRouteName={NavigationKey.Main}
       activeColor={THEME.PRIMARY_BG_COLOR}
       inactiveColor="#666666"
       labeled={false}
     >
-      <Tab.Screen name={NavigationKey.HomeMap} component={HomeMapScreen} />
+      <Tab.Screen name={NavigationKey.Main} component={MainScreen} />
       <Tab.Screen name={NavigationKey.MyTripMap} component={MyTripMapScreen} />
       <Tab.Screen name={NavigationKey.Bookmark} component={BookmarkScreen} />
       <Tab.Screen name={NavigationKey.Profile} component={My} />

@@ -9,6 +9,7 @@ import {
   SearchResultDetailScreen,
 } from "~screens/my-trip";
 import { NavigationKey } from "~types";
+import { SearchScreen } from "~screens/home";
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,7 @@ const AppNavigator = () => {
           name={NavigationKey.SearchResultDetail}
           component={SearchResultDetailScreen}
         />
+        <Stack.Screen name={NavigationKey.Search} component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

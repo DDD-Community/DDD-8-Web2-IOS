@@ -6,7 +6,8 @@ export enum NavigationKey {
   LoginKakao = "LoginKakao",
   LoginApple = "LoginApple",
 
-  HomeMap = "HomeMap",
+  Main = "Main",
+  Search = "Search",
 
   SettingRegion = "SettingRegion",
   SettingDate = "SettingDate",
@@ -37,7 +38,7 @@ export type LoginNavigationParamList = {
 };
 
 export type HomeNavigationParamList = {
-  [NavigationKey.HomeMap]: undefined;
+  [NavigationKey.Main]: undefined;
   [NavigationKey.SettingRegion]: undefined;
 };
 

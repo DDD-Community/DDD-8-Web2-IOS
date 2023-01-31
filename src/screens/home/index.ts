@@ -1,1 +1,2 @@
-export * from "./map.screen";
+export * from "./main";
+export * from "./search";

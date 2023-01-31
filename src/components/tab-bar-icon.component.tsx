@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ICON_MAP: Record<string, ComponentType<any>> = {
-  [NavigationKey.HomeMap]: IconHome,
+  [NavigationKey.Main]: IconHome,
   [NavigationKey.MyTripMap]: IconCalendar,
   [NavigationKey.Bookmark]: IconInBox,
   [NavigationKey.Profile]: IconProfile,
