@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button, Layout, SearchInput } from "~components";
+import { Button, Layout, MapWebView, SearchInput } from "~components";
 import { NavigationProp } from "@react-navigation/native";
 import { NavigationKey, HomeNavigationParamList } from "~types";
 import { styles } from "./search.styles";
@@ -14,8 +14,13 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
     <Layout safeAreaStyle={styles.container}>
       <View style={styles.searchInputView}>
         <SearchInput />
-        <Button title="취소" style={{ paddingHorizontal: 16 }}></Button>
+        <Button
+          title="취소"
+          style={{ paddingHorizontal: 16 }}
+          onPress={() => navigation.goBack()}
+        />
       </View>
+      <MapWebView />
     </Layout>
   );
 };

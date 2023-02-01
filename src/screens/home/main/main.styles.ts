@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     height: 44,
     alignItems: "center",
     backgroundColor: HexColor.White,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
   },
   topFixedIconView: {
     flex: 1,
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
   },
   searchButton: {
-    marginRight: 27,
+    marginRight: 6,
   },
   buttonView: {
     paddingHorizontal: 20,

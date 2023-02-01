@@ -9,6 +9,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 16,
     paddingVertical: 4,
+    alignItems: "center",
+    height: 44,
   },
   daysTabContainer: {
     minHeight: 227,
@@ -27,7 +29,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   topFixedCardViewTextView: {
-    width: "100%",
+    flex: 1,
   },
   searchInput: {
     position: "relative",

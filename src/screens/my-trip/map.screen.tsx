@@ -24,6 +24,7 @@ import { formatDot } from "~utils/date";
 import { getAccessToken } from "~utils/secure-store";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { addDays } from "date-fns";
+import IconSearch from "~assets/icon/icon-search.svg";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -116,6 +117,13 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
             <Text>{title}</Text>
             <Text>{travelDayInfoText}</Text>
           </View>
+          <Button
+            Icon={IconSearch}
+            style={{ marginRight: 6 }}
+            onPress={() => {
+              navigation.getParent()?.navigate(NavigationKey.Search);
+            }}
+          ></Button>
         </View>
         <Button
           title="temp"

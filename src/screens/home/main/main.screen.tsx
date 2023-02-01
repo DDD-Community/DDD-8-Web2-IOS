@@ -27,14 +27,9 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
             <IconLogo />
           </View>
           <Button
-            Icon={() => <IconSearch width={17} height={17} />}
+            Icon={() => <IconSearch width={28} height={28} />}
             onPress={onPressSearchButton}
             buttonStyle={styles.searchButton}
-          />
-          <Button
-            Icon={() => <IconBell width={17} height={17} />}
-            onPress={() => {}}
-            style={{}}
           />
         </View>
         <View style={styles.buttonView}>
