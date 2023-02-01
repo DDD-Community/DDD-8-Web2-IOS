@@ -10,6 +10,8 @@ import type {
   FetchDayScheduleParams,
   FetchDaySchedulesParams,
   FetchDaySchedulesResponse,
+  FetchPlacesInRegionParams,
+  FetchPlacesInRegionResponse,
 } from "./types";
 
 export const searchPlaces = ({
@@ -63,3 +65,16 @@ export const fetchDaySchedule = ({
       `/v1/travel-plans/${travelPlanId}/day-schedules/${dayScheduleId}`
     )
     .then((res) => res.data);
+
+export const fetchPlacesInRegion = ({
+  region,
+  page,
+  size,
+}: FetchPlacesInRegionParams) =>
+  httpClient
+    .get<FetchPlacesInRegionResponse>(
+      `/v1/places/regions?region=${region}&page=${page}&size=${size}`
+    )
+    .then((res) => res.data);
+
+export const fetchPlacesSearch = () => {};

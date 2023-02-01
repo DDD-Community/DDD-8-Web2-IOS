@@ -13,6 +13,7 @@ type Props = {
   onChangeText?: (value: string) => void;
   onSumbitEditing?: () => void;
   onPress?: () => void;
+  onPressCancel?: () => void;
 };
 
 const SearchInput: FC<Props> = ({
@@ -21,6 +22,7 @@ const SearchInput: FC<Props> = ({
   onSumbitEditing,
   onChangeText,
   onPress,
+  onPressCancel,
 }) => {
   return (
     <View style={styles.innerView}>
@@ -39,7 +41,7 @@ const SearchInput: FC<Props> = ({
         onSubmitEditing={onSumbitEditing}
         onPressIn={onPress}
       />
-      <Button Icon={IconSearchCancel}></Button>
+      <Button Icon={IconSearchCancel} onPress={onPressCancel}></Button>
     </View>
   );
 };

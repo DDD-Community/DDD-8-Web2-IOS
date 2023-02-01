@@ -6,12 +6,14 @@ import {
   fetchCurrentTravelPlan,
   fetchDaySchedule,
   fetchDaySchedules,
+  fetchPlacesInRegion,
 } from "./api";
 import type {
   FetchBookmarkParams,
   FetchDayScheduleParams,
   SearchPlaceParams,
   FetchDaySchedulesParams,
+  FetchPlacesInRegionParams,
 } from "./types";
 
 export const useSearchPlaces = (params: SearchPlaceParams) => {
@@ -59,3 +61,6 @@ export const useFetchDaySchedule = (
     enabled: boolean;
   }
 ) => useQuery("fetchDaySchedule", () => fetchDaySchedule(params), options);
+
+export const useFetchPlacesInRegion = (params: FetchPlacesInRegionParams) =>
+  useQuery("fetchPlacesInRegion", () => fetchPlacesInRegion(params));

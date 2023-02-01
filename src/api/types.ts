@@ -1,5 +1,10 @@
 import { StringLiteral } from "typescript";
 
+type Location = {
+  latitude: number;
+  longitude: number;
+};
+
 export type SearchPlaceParams = {
   keyword: string;
   latitude: string;
@@ -91,11 +96,30 @@ export type FetchDayScheduleResponse = {
       id: string;
       name: string;
       category: string;
-      location: {
-        latitude: number;
-        longitude: number;
-      };
+      location: Location;
     };
   }[];
   hasRegisteredPlace: boolean;
+};
+
+export type FetchPlacesInRegionParams = {
+  region: string;
+  page: number;
+  size: number;
+};
+
+export type FetchPlacesInRegionResponse = {
+  placeInRegionResponses: {
+    id: string;
+    name: string;
+    category: string;
+    imageLink: string;
+    location: Location;
+  }[];
+};
+
+export type FetchPlacesSearchParams = {
+  keyword: string;
+  longitude: string;
+  latitude: string;
 };

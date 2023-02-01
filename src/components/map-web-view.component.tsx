@@ -10,10 +10,11 @@ export type MapWebViewHandle = {
 
 type Props = {
   onLoad?: () => void;
+  uri: string;
 };
 
 const MapWebView = forwardRef<MapWebViewHandle, Props>(
-  ({ onLoad }, forwardedRef) => {
+  ({ onLoad, uri }, forwardedRef) => {
     const webViewRef = useRef<WebViewRef>();
 
     useImperativeHandle(
@@ -42,7 +43,7 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
       <WebView
         ref={webViewRef as any}
         javaScriptEnabled
-        source={{ uri: MAP_WEB_URL }}
+        source={{ uri }}
         onMessage={onMessage}
         onError={(e) => console.error(e.nativeEvent)}
       />
