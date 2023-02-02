@@ -32,9 +32,19 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
     );
 
     const onMessage = (event: WebViewMessageEvent) => {
-      console.log("map message", event.nativeEvent.data);
-      if (event.nativeEvent.data === "onLoad") {
+      console.log(event);
+      if (event.type === "onLoad") {
         console.log("onLoad!!!");
+        onLoad?.();
+      }
+      if (event.type === "markerClick") {
+        console.log("markerClick!!!");
+        onLoad?.();
+      }
+      if (event.type === "goLocaionDetail") {
+        console.log(
+          "goLocaionDetail!!! 장소상세 api호출해서 web에 다시 전달 필요"
+        );
         onLoad?.();
       }
     };
@@ -44,7 +54,9 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
         ref={webViewRef as any}
         javaScriptEnabled
         source={{ uri }}
-        onMessage={onMessage}
+        onMessage={(e) => {
+          onMessage(JSON.parse(e.nativeEvent.data));
+        }}
         onError={(e) => console.error(e.nativeEvent)}
       />
     );
