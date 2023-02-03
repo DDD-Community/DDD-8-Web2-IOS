@@ -1,16 +1,13 @@
 import React, { FC } from "react";
-import {
-  GestureResponderEvent,
-  GestureResponderHandlers,
-  View,
-} from "react-native";
-import { Text } from "./text.component";
-import { styles } from "./place-item.styles";
+import { View } from "react-native";
+import { Text } from "../text.component";
+import { styles } from "./day-schedule-place-item.styles";
 import { ScaleDecorator } from "react-native-draggable-flatlist";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import IconDragButton from "~assets/icon/icon-drag-button.svg";
-import { Button } from "./button.component";
+import { Button } from "../buttons/button.component";
 import { PlaceCategoryText } from "~constants";
+
 type Props = {
   name: string;
   category?: string;

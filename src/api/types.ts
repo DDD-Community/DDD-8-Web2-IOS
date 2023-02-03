@@ -59,13 +59,14 @@ export type FetchBookmarksResponse = {
   hasNext: boolean;
 };
 
-export type FetchCurrentTravelPlanResponse = {
+export type FetchLatestTravelPlanResponse = {
   content: {
     id: string;
     title: string;
     region: string;
     startDate: string;
     travelDays: number;
+    end: boolean;
   };
   hasPlan: boolean;
 };

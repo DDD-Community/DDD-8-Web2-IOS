@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, Suspense, useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import {
   Button,
@@ -6,6 +6,7 @@ import {
   Layout,
   TopFixedView,
   MapWebViewHandle,
+  CtaButton,
 } from "~components";
 import IconSearch from "~assets/icon/icon-search.svg";
 import { styles } from "./main.styles";
@@ -46,31 +47,28 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
 
   return (
     <Layout safeAreaStyle={styles.container}>
-      <MapWebView
-        uri={mapUri}
-        ref={webViewRef}
-        onLoad={() => setWebViewLoaded(true)}
-      />
-      <TopFixedView style={styles.topFixed}>
-        <View style={styles.topFixedTopView}>
-          <View style={styles.topFixedIconView}>
-            <IconLogo />
+      <Suspense>
+        <MapWebView
+          uri={mapUri}
+          ref={webViewRef}
+          onLoad={() => setWebViewLoaded(true)}
+        />
+        <TopFixedView style={styles.topFixed}>
+          <View style={styles.topFixedTopView}>
+            <View style={styles.topFixedIconView}>
+              <IconLogo />
+            </View>
+            <Button
+              Icon={() => <IconSearch width={28} height={28} />}
+              onPress={onPressSearchButton}
+              buttonStyle={styles.searchButton}
+            />
           </View>
-          <Button
-            Icon={() => <IconSearch width={28} height={28} />}
-            onPress={onPressSearchButton}
-            buttonStyle={styles.searchButton}
-          />
-        </View>
-        <View style={styles.buttonView}>
-          <Button
-            title="✏여행 계획을 세워볼까요?"
-            buttonStyle={styles.button}
-            textStyle={styles.buttonText}
-            onPress={onPressStartPlanning}
-          />
-        </View>
-      </TopFixedView>
+          <View style={styles.buttonView}>
+            <CtaButton onPress={onPressStartPlanning} />
+          </View>
+        </TopFixedView>
+      </Suspense>
     </Layout>
   );
 };

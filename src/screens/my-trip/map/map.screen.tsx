@@ -6,78 +6,46 @@ import {
   TopFixedView,
   Layout,
   Text,
-  DaysTab,
+  SelectScheduleDay,
   MapWebViewHandle,
-  PlaceItem,
   Button,
+  CtaButton,
+  DaySchedulePlaceList,
 } from "~components";
 import IconMarker from "~assets/icon/icon-marker.svg";
 import { styles } from "./map.styles";
 import { MainNavigationParamList, MessageType, NavigationKey } from "~types";
-import {
-  useFetchCurrentTravelPlan,
-  useFetchDaySchedule,
-  FetchDayScheduleResponse,
-} from "~api";
+import { useFetchDaySchedule } from "~api";
 import { useRef } from "react";
 import { formatDot } from "~utils/date";
-import DraggableFlatList from "react-native-draggable-flatlist";
 import { addDays } from "date-fns";
 import IconSearch from "~assets/icon/icon-search.svg";
 import { MAP_WEB_URL } from "@env";
+import { useRecoilValue } from "recoil";
+import { daySchedulesQuery, latestPlanQuery } from "~stores/plan";
+import { withSuspense } from "~utils/with-suspense";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
 };
 
-const MyTripMapScreen: FC<Props> = ({ navigation }) => {
-  const mapUri = `${MAP_WEB_URL}/schedule`;
+export const MyTripMapScreen = withSuspense(({ navigation }: Props) => {
+  const mapUri = `${MAP_WEB_URL}`;
   const webViewRef = useRef<MapWebViewHandle>(null);
   const [webViewLoaded, setWebViewLoaded] = useState(false);
-  const { travelPlan, daySchedules } = useFetchCurrentTravelPlan();
+
+  const daySchedules = useRecoilValue(daySchedulesQuery);
+  const travelPlan = useRecoilValue(latestPlanQuery);
+
   const [selectedDay, setSelectedDay] = useState(1);
-  const hasDaySchedules = !!daySchedules.data?.daySchedules.length;
-  const daySchedule = useFetchDaySchedule(
-    {
-      travelPlanId: travelPlan.data?.content?.id!,
-      dayScheduleId: daySchedules.data?.daySchedules?.[selectedDay - 1].id!,
-    },
-    {
-      enabled: hasDaySchedules,
-    }
-  );
-  const daySchedulePlaces = daySchedule.data?.daySchedulePlaces;
-  const onSelectDay = (day: number) => setSelectedDay(day);
+  const selectedSchedule = daySchedules?.data.daySchedules[selectedDay];
 
-  useEffect(() => {
-    if (webViewLoaded && daySchedule.data && daySchedule.isFetched) {
-      webViewRef.current?.postMessage(
-        MessageType.OnResDaySchedulePlaces,
-        daySchedule.data
-      );
-    }
-  }, [webViewLoaded, selectedDay, daySchedule.data]);
+  const dayScheduleQuery = useFetchDaySchedule({
+    travelPlanId: travelPlan.data.content.id,
+    dayScheduleId: selectedSchedule?.id!,
+  });
 
-  const renderItem = ({
-    item,
-    drag,
-  }: {
-    item: FetchDayScheduleResponse["daySchedulePlaces"][number];
-    drag: any;
-  }) => {
-    return (
-      <PlaceItem
-        name={item.place.name}
-        category={item.place.category}
-        memo={item.memo}
-        onLongPress={drag}
-      />
-    );
-  };
-  if (!travelPlan.data || !travelPlan.data.content) {
-    // TODO loading?
-    return <></>;
-  }
+  const hasSchedulePlace = !!dayScheduleQuery.data?.daySchedulePlaces.length;
 
   const title = travelPlan.data.content.title;
   const travelDays = travelPlan.data.content.travelDays;
@@ -95,22 +63,16 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
           onLoad={() => setWebViewLoaded(true)}
         />
         <View style={styles.daysTabContainer}>
-          <DaysTab
-            days={travelDays}
+          <SelectScheduleDay
             selectedDay={selectedDay}
-            onSelect={onSelectDay}
+            onSelect={setSelectedDay}
           />
-
-          {hasDaySchedules && (
-            <DraggableFlatList
-              style={styles.listView}
-              data={daySchedulePlaces || []}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-              onDragEnd={({ data }) => data}
-            />
+          {hasSchedulePlace && <DaySchedulePlaceList daySchedulePlaces={[]} />}
+          {!hasSchedulePlace && (
+            <View style={styles.emptyTextView}>
+              <Text style={styles.emptyText}>아직 등록된 일정이 없어요</Text>
+            </View>
           )}
-          {!hasDaySchedules && <Text>아직 등록된 일정이 없어요</Text>}
         </View>
       </View>
       <TopFixedView>
@@ -128,15 +90,10 @@ const MyTripMapScreen: FC<Props> = ({ navigation }) => {
             }}
           ></Button>
         </View>
-        <Button
-          title="temp"
-          onPress={() =>
-            navigation.getParent()?.navigate(NavigationKey.SearchResultDetail)
-          }
-        ></Button>
+        <View style={styles.buttonView}>
+          <CtaButton onPress={() => {}} />
+        </View>
       </TopFixedView>
     </Layout>
   );
-};
-
-export { MyTripMapScreen };
+});

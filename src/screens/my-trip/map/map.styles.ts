@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { BgColor } from "~constants";
+import { BgColor, FontSize, HexColor } from "~constants";
 
 export const styles = StyleSheet.create({
   topFixedCardView: {
@@ -24,15 +24,26 @@ export const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
   },
-  listView: {
-    width: "100%",
-    paddingHorizontal: 16,
+  emptyTextView: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 170,
   },
+  emptyText: {
+    color: HexColor.N90,
+    fontSize: FontSize.Large,
+  },
+
   topFixedCardViewTextView: {
     flex: 1,
   },
   searchInput: {
     position: "relative",
     bottom: -7,
+  },
+  buttonView: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
 });

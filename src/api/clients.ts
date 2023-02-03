@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "@env";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { getAccessToken } from "~utils/secure-store";
 
 const httpClient = axios.create({
@@ -9,7 +9,7 @@ const httpClient = axios.create({
 httpClient.interceptors.request.use(
   async (config) => {
     const accessToken = await getAccessToken();
-    console.log(accessToken);
+    console.log("accessToken: ", accessToken);
     if (!accessToken) {
       // TODO Implements
       throw new Error("No access token");
@@ -24,6 +24,22 @@ httpClient.interceptors.request.use(
     } as any;
   },
   (error) => error
+);
+
+httpClient.interceptors.response.use(
+  (res) => {
+    console.log(res.data);
+    return res;
+  },
+  (err) => {
+    console.error(err);
+    if (isAxiosError(err)) {
+      console.error(err.message);
+      console.error(err.response?.data);
+    }
+
+    return Promise.reject(err);
+  }
 );
 
 export { httpClient };

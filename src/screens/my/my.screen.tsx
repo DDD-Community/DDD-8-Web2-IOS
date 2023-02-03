@@ -4,15 +4,17 @@ import React from "react";
 import { styles } from "./my.styles";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Layout } from "~components";
-import { authedClient } from "../../api/clients";
+import { httpClient } from "../../api/clients";
 import { getAccessToken, getRefreshToken } from "~utils/secure-store";
 import IconMarker from "~assets/icon/icon-marker.svg";
+import { withSuspense } from "~utils/with-suspense";
+import { useRecoilValue } from "recoil";
+import { userQuery } from "~stores/user";
 
 export const logout = async () => {
   const accessToken = await getAccessToken();
   const refreshToken = await getRefreshToken();
-  console.log(accessToken, refreshToken);
-  return authedClient
+  return httpClient
     .post(`/v1/auth/auth/signout`, {
       accessToken,
       refreshToken,
@@ -24,19 +26,12 @@ export const logout = async () => {
       console.error(e);
     })
     .finally(() => {
-      authedClient.get("v1/notifications").then((r) => console.log(r.data));
+      httpClient.get("v1/notifications").then((r) => console.log(r.data));
     });
 };
 
-// const styles = StyleSheet.create({
-//   view: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-// });
-
-const My = () => {
+const My = withSuspense(() => {
+  const user = useRecoilValue(userQuery);
   return (
     <Layout style={styles.view} safeAreaStyle={{ width: "100%" }}>
       <View style={styles.header}>
@@ -47,7 +42,7 @@ const My = () => {
       </View>
       <View style={styles.contentView}>
         <Text style={styles.userInfo}>
-          김트립님 안녕하세요 😊{"\n"}
+          {user.data.name}님 안녕하세요 😊{"\n"}
           반짝이는 하루 보내세요✨
         </Text>
       </View>
@@ -65,6 +60,6 @@ const My = () => {
       </View>
     </Layout>
   );
-};
+});
 
 export { My };

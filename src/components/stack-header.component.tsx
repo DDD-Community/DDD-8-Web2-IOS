@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { styles } from "./stack-header.styles";
 import IconLeftArrow from "~assets/icon/icon-left-arrow.svg";
 import IconNavClose from "~assets/icon/icon-nav-close.svg";
-import { Button } from "./button.component";
+import { Button } from "./buttons/button.component";
 
 type Props = {
   showGoBack: boolean;

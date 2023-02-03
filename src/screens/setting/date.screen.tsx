@@ -4,7 +4,6 @@ import { NavigationProp, Route } from "@react-navigation/native";
 import { CalendarList, DateData, CalendarProps } from "react-native-calendars";
 import { DateFormatter, getDatesBetween } from "~utils/date";
 import { Button, Layout } from "~components";
-import { usePlanRegionState } from "~stores/plan";
 import { THEME } from "~constants";
 import { styles } from "./date.styles";
 import { NavigationKey, AppNavigationParamList } from "~types";

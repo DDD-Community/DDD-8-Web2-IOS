@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { View } from "react-native";
 import { Text } from "./text.component";
-import { Button } from "./button.component";
+import { Button } from "./buttons/button.component";
 import { styles } from "./bookmark-item.styles";
 import { HexColor } from "~constants";
 import IconBookmark from "~assets/icon/icon-bookmark.svg";

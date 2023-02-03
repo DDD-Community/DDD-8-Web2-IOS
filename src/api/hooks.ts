@@ -3,7 +3,7 @@ import {
   searchPlaces,
   postTravelPlan,
   fetchBookmarks,
-  fetchCurrentTravelPlan,
+  fetchLatestTravelPlan,
   fetchDaySchedule,
   fetchDaySchedules,
   fetchPlacesInRegion,
@@ -37,7 +37,7 @@ export const useGetBookmarks = (params: FetchBookmarkParams) =>
   useQuery("getBookmarks", () => fetchBookmarks(params));
 
 export const useFetchCurrentTravelPlan = () => {
-  const travelPlan = useQuery("fetchCurrentTravel", fetchCurrentTravelPlan);
+  const travelPlan = useQuery("fetchCurrentTravel", fetchLatestTravelPlan);
   const daySchedules = useQuery(
     "fetchDaySchedules",
     () =>
@@ -48,6 +48,7 @@ export const useFetchCurrentTravelPlan = () => {
       enabled: travelPlan.isFetched,
     }
   );
+  daySchedules.data?.daySchedules;
   return {
     travelPlan,
     daySchedules,

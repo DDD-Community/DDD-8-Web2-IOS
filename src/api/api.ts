@@ -5,7 +5,7 @@ import type {
   CreateTravelPlanParams,
   FetchBookmarksResponse,
   FetchBookmarkParams,
-  FetchCurrentTravelPlanResponse,
+  FetchLatestTravelPlanResponse,
   FetchDayScheduleResponse,
   FetchDayScheduleParams,
   FetchDaySchedulesParams,
@@ -44,9 +44,9 @@ export const fetchBookmarks = ({
     .then((res) => res.data);
 };
 
-export const fetchCurrentTravelPlan = () =>
+export const fetchLatestTravelPlan = () =>
   httpClient
-    .get<FetchCurrentTravelPlanResponse>("/v1/travel-plans/ongoing")
+    .get<FetchLatestTravelPlanResponse>("/v1/travel-plans/latest")
     .then((res) => res.data);
 
 export const fetchDaySchedules = ({ travelPlanId }: FetchDaySchedulesParams) =>
@@ -78,3 +78,9 @@ export const fetchPlacesInRegion = ({
     .then((res) => res.data);
 
 export const fetchPlacesSearch = () => {};
+
+export const fetchUserName = () => {
+  return httpClient
+    .get<{ name: string }>(`/v1/user/name`)
+    .then((res) => res.data);
+};

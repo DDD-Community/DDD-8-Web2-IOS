@@ -1,23 +1,27 @@
 import React, { FC, useMemo } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Button } from "./button.component";
-import { styles } from "./days-tab.styles";
+import { useRecoilValue } from "recoil";
+import { latestPlanQuery } from "~stores/plan";
+import { Button } from "../buttons/button.component";
+import { styles } from "./select-schedule-day.styles";
 
 type Props = {
-  days: number;
   selectedDay: number;
   onSelect: (day: number) => void;
 };
 
-export const DaysTab: FC<Props> = ({ days, selectedDay, onSelect }) => {
+export const SelectScheduleDay: FC<Props> = ({ selectedDay, onSelect }) => {
+  const latestPlan = useRecoilValue(latestPlanQuery);
+  const totalDays = latestPlan.data.content.travelDays;
+
   const items = useMemo(
     () =>
-      Array.from({ length: days }).map((_, idx) => ({
+      Array.from({ length: totalDays }).map((_, idx) => ({
         title: `day ${idx + 1}`,
         key: idx + 1,
       })),
-    [days]
+    [totalDays]
   );
 
   return (

@@ -1,6 +1,13 @@
 import { FC } from "react";
-import { StyleProp, TextStyle, ViewStyle } from "react-native";
-import { View, TouchableHighlight, Text } from "react-native";
+import {
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+  View,
+  TouchableHighlight,
+  Text,
+} from "react-native";
+import { styles } from "./button.styles";
 
 type Props = {
   Icon?: FC<any>;
@@ -11,15 +18,6 @@ type Props = {
   textStyle?: StyleProp<TextStyle>;
   iconStyle?: { width?: number; height?: number; fill?: string };
 };
-
-const DEFAULT_BUTTON_STYLE = {
-  display: "flex",
-  flexDirection: "row",
-  borderRadius: 12,
-  paddingVertical: 16,
-  justifyContent: "center",
-  alignItems: "center",
-} as const;
 
 export const Button: FC<Props> = ({
   Icon,
@@ -37,7 +35,7 @@ export const Button: FC<Props> = ({
       underlayColor="transparent"
       style={style}
     >
-      <View style={[DEFAULT_BUTTON_STYLE, buttonStyle]}>
+      <View style={[styles.default, buttonStyle]}>
         {Icon && (
           <View>
             <Icon {...iconStyle} />

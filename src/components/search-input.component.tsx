@@ -4,7 +4,7 @@ import { TextInput } from "react-native";
 import IconSearchInput from "~assets/icon/icon-search-input.svg";
 import IconSearchCancel from "~assets/icon/icon-search-cancel.svg";
 import { FontFamily } from "~constants";
-import { Button } from "./button.component";
+import { Button } from "./buttons/button.component";
 import { styles } from "./search-input.styles";
 
 type Props = {

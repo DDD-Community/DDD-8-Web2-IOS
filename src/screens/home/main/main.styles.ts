@@ -47,12 +47,4 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  button: {
-    backgroundColor: HexColor.Primary,
-  },
-  buttonText: {
-    color: HexColor.White,
-    fontSize: FontSize.Large,
-    fontWeight: FontWeight.SemiBold,
-  },
 });
