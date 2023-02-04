@@ -13,7 +13,7 @@ type Props = {
 
 export const SelectScheduleDay: FC<Props> = ({ selectedDay, onSelect }) => {
   const latestPlan = useRecoilValue(latestPlanQuery);
-  const totalDays = latestPlan.data.content.travelDays;
+  const totalDays = latestPlan.data.content?.travelDays || 10;
 
   const items = useMemo(
     () =>

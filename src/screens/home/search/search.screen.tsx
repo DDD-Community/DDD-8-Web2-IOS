@@ -1,14 +1,22 @@
-import React, { FC, useState } from "react";
-import { Button, Layout, MapWebView, SearchInput } from "~components";
+import React, { FC, useRef, useState } from "react";
+import {
+  Button,
+  Layout,
+  MapWebView,
+  MapWebViewHandle,
+  SearchInput,
+} from "~components";
 import { NavigationProp } from "@react-navigation/native";
-import { NavigationKey, HomeNavigationParamList } from "~types";
+import { NavigationKey, HomeNavigationParamList, MessageType } from "~types";
 import { styles } from "./search.styles";
 import { View } from "react-native";
 import { MAP_WEB_URL } from "@env";
-import { useSearchPlaces } from "~api";
+import { searchPlaces, useSearchPlaces } from "~api";
 import { useRecoilValue } from "recoil";
 import { latestPlanQuery } from "~stores/plan";
 import { REGION_LAT_LANGS } from "../../../constants/regions";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { HexColor } from "../../../constants/theme";
 
 type Props = {
   navigation: NavigationProp<HomeNavigationParamList, NavigationKey.Main>;
@@ -16,40 +24,42 @@ type Props = {
 
 export const SearchScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/search`;
-  const [value, setValue] = useState("");
+  const [keyword, setKeyword] = useState("");
   const travelPlan = useRecoilValue(latestPlanQuery);
-
-  const [refetch, query] = useSearchPlaces({
-    keyword: value,
-    latitude: REGION_LAT_LANGS[travelPlan.data.content.region].latitude,
-    longitude: REGION_LAT_LANGS[travelPlan.data.content.region].longitude,
-    page: 0,
-  });
+  const webViewRef = useRef<MapWebViewHandle>(null);
 
   const onPressBackButton = () => navigation.goBack();
 
-  const onPressCancel = () => setValue("");
+  const onPressCancel = () => setKeyword("");
 
-  const onSubmitEditing = () => {
-    refetch();
+  const onSubmitEditing = async () => {
+    const data = await searchPlaces({
+      keyword,
+      latitude: travelPlan.state.location.latitude,
+      longitude: travelPlan.state.location.longitude,
+      page: 0,
+    });
+    webViewRef.current?.postMessage(MessageType.OnResPlacesSearch, data);
   };
 
   return (
-    <Layout safeAreaStyle={styles.container}>
-      <View style={styles.searchInputView}>
-        <SearchInput
-          value={value}
-          onChangeText={setValue}
-          onPressCancel={onPressCancel}
-          onSumbitEditing={onSubmitEditing}
-        />
-        <Button
-          title="취소"
-          style={{ paddingHorizontal: 16 }}
-          onPress={onPressBackButton}
-        />
-      </View>
-      <MapWebView uri={mapUri} />
-    </Layout>
+    <View style={styles.view}>
+      <SafeAreaView edges={["left", "right", "top"]}>
+        <View style={styles.searchInputView}>
+          <SearchInput
+            value={keyword}
+            onChangeText={setKeyword}
+            onPressCancel={onPressCancel}
+            onSumbitEditing={onSubmitEditing}
+          />
+          <Button
+            title="취소"
+            style={styles.backButton}
+            onPress={onPressBackButton}
+          />
+        </View>
+      </SafeAreaView>
+      <MapWebView uri={mapUri} ref={webViewRef} />
+    </View>
   );
 };

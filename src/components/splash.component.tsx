@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from "react";
-import { Animated, Modal, Image, Dimensions, View } from "react-native";
+import { Animated, Modal, Image, Dimensions } from "react-native";
 import LogoWhite from "../../assets/logo-white.svg";
 
 type Props = {

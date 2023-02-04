@@ -15,6 +15,7 @@ import {
   MapWebViewHandle,
   CtaButton,
   Text,
+  RegionPlacesSuggestionList,
 } from "~components";
 import IconSearch from "~assets/icon/icon-search.svg";
 import { styles } from "./main.styles";
@@ -43,7 +44,7 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
     navigation.getParent()?.navigate(NavigationKey.SettingRegion);
 
   const query = useFetchPlacesInRegion({
-    region: "전국",
+    region: "기타",
     page: 0,
     size: 10,
   });
@@ -80,11 +81,17 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
             <CtaButton onPress={onPressStartPlanning} />
           </View>
         </TopFixedView>
-        <BottomSheet index={0} ref={bottomSheetRef} snapPoints={snapPoints}>
+        <BottomSheet
+          index={0}
+          ref={bottomSheetRef}
+          snapPoints={snapPoints}
+          style={{ width: "100%" }}
+        >
           <View style={styles.bottomSheet}>
             <Text style={styles.bottomSheetCtaText}>
               추천 장소를 더 보고싶다면?
             </Text>
+            <RegionPlacesSuggestionList />
           </View>
         </BottomSheet>
       </Suspense>

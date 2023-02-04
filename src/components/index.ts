@@ -14,3 +14,4 @@ export * from "./stack-header.component";
 export * from "./lists/day-schedule-place-list.component";
 export * from "./bottom-fixed-view.component";
 export * from "./bookmark-item.component";
+export * from "./lists/region-places-suggestion-list.component";

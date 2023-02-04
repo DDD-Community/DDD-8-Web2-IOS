@@ -23,7 +23,6 @@ import IconSearch from "~assets/icon/icon-search.svg";
 import { MAP_WEB_URL } from "@env";
 import { useRecoilValue } from "recoil";
 import { daySchedulesQuery, latestPlanQuery } from "~stores/plan";
-import { withSuspense } from "~utils/with-suspense";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -43,7 +42,7 @@ export const MyTripMapScreenView: FC<Props> = ({ navigation }) => {
   const selectedSchedule = daySchedules?.data.daySchedules[selectedDay];
 
   const dayScheduleQuery = useFetchDaySchedule({
-    travelPlanId: travelPlan.data.content.id,
+    travelPlanId: travelPlan.data.content?.id!,
     dayScheduleId: selectedSchedule?.id!,
   });
 
@@ -56,9 +55,9 @@ export const MyTripMapScreenView: FC<Props> = ({ navigation }) => {
     );
   }, [webViewLoaded, dayScheduleQuery.data]);
 
-  const title = travelPlan.data.content.title;
-  const travelDays = travelPlan.data.content.travelDays;
-  const startDate = new Date(travelPlan.data.content.startDate);
+  const title = travelPlan.data.content?.title!;
+  const travelDays = travelPlan.data.content?.travelDays!;
+  const startDate = new Date(travelPlan.data.content?.startDate!);
   const endDate = addDays(startDate, travelDays - 1);
   const formattedStartDate = formatDot(startDate);
   const travelDayInfoText = `${formattedStartDate} - ${endDate.getDate()} (${travelDays}일간)`;

@@ -70,7 +70,7 @@ export type FetchLatestTravelPlanResponse = {
     startDate: string;
     travelDays: number;
     end: boolean;
-  };
+  } | null;
   hasPlan: boolean;
 };
 
@@ -113,12 +113,17 @@ export type FetchPlacesInRegionParams = {
 };
 
 export type FetchPlacesInRegionResponse = {
-  placeInRegionResponses: {
+  places: {
     id: string;
     name: string;
     category: string;
     imageLink: string;
+    telephone: string;
     location: Location;
+    address: {
+      region: string;
+      detailed: string;
+    };
   }[];
 };
 
