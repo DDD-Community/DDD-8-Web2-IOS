@@ -30,7 +30,7 @@ type Props = {
 };
 
 export const MyTripMapScreen = withSuspense(({ navigation }: Props) => {
-  const mapUri = `${MAP_WEB_URL}`;
+  const mapUri = `${MAP_WEB_URL}/schedule`;
   const webViewRef = useRef<MapWebViewHandle>(null);
   const [webViewLoaded, setWebViewLoaded] = useState(false);
 
@@ -46,6 +46,13 @@ export const MyTripMapScreen = withSuspense(({ navigation }: Props) => {
   });
 
   const hasSchedulePlace = !!dayScheduleQuery.data?.daySchedulePlaces.length;
+
+  useEffect(() => {
+    webViewRef.current?.postMessage(
+      MessageType.OnResDaySchedulePlaces,
+      dayScheduleQuery.data
+    );
+  }, [webViewLoaded, dayScheduleQuery.data]);
 
   const title = travelPlan.data.content.title;
   const travelDays = travelPlan.data.content.travelDays;
