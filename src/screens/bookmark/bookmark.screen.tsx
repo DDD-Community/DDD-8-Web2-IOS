@@ -21,13 +21,19 @@ export const BookmarkScreen = () => {
         <Text style={styles.headerTitleText}>장소 북마크</Text>
       </View>
       <View style={styles.contentView}>
-        {emptyBookmarks && (
+        {emptyBookmarks ? (
           <>
             <IconBookmarkBg />
             <Text style={styles.emptyText}>장소를 북마크 해보세요!</Text>
           </>
+        ) : (
+          bookmarksQuery.data?.places?.map((place: object) => {
+            <BookmarkItem
+              placeName={place.name}
+              address={place.detailAddress}
+            />;
+          })
         )}
-        <BookmarkItem placeName="상생의 손" address="경상북도 포항시 남구" />
       </View>
     </Layout>
   );

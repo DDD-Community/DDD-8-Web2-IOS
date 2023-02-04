@@ -11,7 +11,7 @@ type Props = {
   placeholder?: string;
   value?: string;
   onChangeText?: (value: string) => void;
-  onSumbitEditing?: () => void;
+  onSubmitEditing?: () => void;
   onPress?: () => void;
   onPressCancel?: () => void;
 };
@@ -19,7 +19,7 @@ type Props = {
 const SearchInput: FC<Props> = ({
   placeholder,
   value,
-  onSumbitEditing,
+  onSubmitEditing,
   onChangeText,
   onPress,
   onPressCancel,
@@ -38,7 +38,7 @@ const SearchInput: FC<Props> = ({
         }}
         value={value}
         onChangeText={onChangeText}
-        onSubmitEditing={onSumbitEditing}
+        onSubmitEditing={onSubmitEditing}
         onPressIn={onPress}
       />
       <Button Icon={IconSearchCancel} onPress={onPressCancel}></Button>

@@ -42,9 +42,11 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
         onLoad?.();
       }
       if (event.type === "goLocaionDetail") {
-        console.log(
-          "goLocaionDetail!!! 장소상세 api호출해서 web에 다시 전달 필요"
-        );
+        console.log("goLocaionDetail!!!");
+        onLoad?.();
+      }
+      if (event.type === "showMoreSearchData") {
+        console.log("showMoreSearchData!!! ");
         onLoad?.();
       }
     };

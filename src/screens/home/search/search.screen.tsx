@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useState, useRef, useEffect } from "react";
 import {
   Button,
   Layout,
@@ -9,7 +9,7 @@ import {
 import { NavigationProp } from "@react-navigation/native";
 import { NavigationKey, HomeNavigationParamList, MessageType } from "~types";
 import { styles } from "./search.styles";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { MAP_WEB_URL } from "@env";
 import { searchPlaces, useSearchPlaces } from "~api";
 import { useRecoilValue } from "recoil";
@@ -26,40 +26,58 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/search`;
   const [keyword, setKeyword] = useState("");
   const travelPlan = useRecoilValue(latestPlanQuery);
+  const [webViewLoaded, setWebViewLoaded] = useState(false);
   const webViewRef = useRef<MapWebViewHandle>(null);
-
+  const [refetch, query] = useSearchPlaces({
+    keyword: keyword,
+    latitude: REGION_LAT_LANGS[travelPlan.data.content.region].latitude,
+    longitude: REGION_LAT_LANGS[travelPlan.data.content.region].longitude,
+    page: 0,
+  });
+  useEffect(() => {
+    if (webViewLoaded) {
+      webViewRef.current?.postMessage(MessageType.OnResPlacesSearch, {
+        keyword: keyword,
+        ...query.data,
+      });
+    }
+  }, [webViewLoaded, query.data]);
   const onPressBackButton = () => navigation.goBack();
 
   const onPressCancel = () => setKeyword("");
 
-  const onSubmitEditing = async () => {
-    const data = await searchPlaces({
-      keyword,
-      latitude: travelPlan.state.location.latitude,
-      longitude: travelPlan.state.location.longitude,
-      page: 0,
-    });
-    webViewRef.current?.postMessage(MessageType.OnResPlacesSearch, data);
+  const onSubmitEditing = () => {
+    refetch();
   };
-
   return (
-    <View style={styles.view}>
-      <SafeAreaView edges={["left", "right", "top"]}>
-        <View style={styles.searchInputView}>
-          <SearchInput
-            value={keyword}
-            onChangeText={setKeyword}
-            onPressCancel={onPressCancel}
-            onSumbitEditing={onSubmitEditing}
-          />
-          <Button
-            title="취소"
-            style={styles.backButton}
-            onPress={onPressBackButton}
-          />
+    <Layout safeAreaStyle={styles.container}>
+      <View style={styles.searchInputView}>
+        <SearchInput
+          value={keyword}
+          onChangeText={setKeyword}
+          onPressCancel={onPressCancel}
+          onSubmitEditing={onSubmitEditing}
+        />
+        <Button
+          title="취소"
+          style={{ paddingHorizontal: 16 }}
+          onPress={onPressBackButton}
+        />
+      </View>
+      {keyword === "" ? (
+        <View>
+          <Text>검색전</Text>
         </View>
-      </SafeAreaView>
-      <MapWebView uri={mapUri} ref={webViewRef} />
-    </View>
+      ) : (
+        query.data && (
+          <MapWebView
+            uri={mapUri}
+            ref={webViewRef}
+            onLoad={() => setWebViewLoaded(true)}
+          />
+        )
+      )}
+      {/* 검색결과 없을때도 웹뷰 사용해야할까요 ?  */}
+    </Layout>
   );
 };
