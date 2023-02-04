@@ -49,4 +49,5 @@ export type MainNavigationParamList = {
   [NavigationKey.SearchResultMap]: undefined;
   [NavigationKey.SearchResultList]: undefined;
   [NavigationKey.SearchResultDetail]: undefined;
+  [NavigationKey.SettingRegion]: undefined;
 };

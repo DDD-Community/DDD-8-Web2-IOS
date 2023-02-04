@@ -7,19 +7,22 @@ type Location = {
 
 export type SearchPlaceParams = {
   keyword: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   page: number;
 };
 
 export type SearchPlaceResponse = {
-  palceSearchModels: {
-    placeKakaoId: string;
-    placeName: string;
+  thirdPartyModel: {
+    id: string;
+    name: string;
     address: string;
     latitude: string;
     longitude: string;
-  };
+  }[];
+  pageableCount: number;
+  totalCount: number;
+  end: boolean;
 };
 
 export type CreateTravelPlanParams = {

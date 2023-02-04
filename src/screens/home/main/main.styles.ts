@@ -47,4 +47,14 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
+  bottomSheet: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+  },
+  bottomSheetCtaText: {
+    fontSize: FontSize.Small,
+    fontWeight: FontWeight.SemiBold,
+    color: HexColor.N700,
+  },
 });

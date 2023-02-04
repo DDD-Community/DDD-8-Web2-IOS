@@ -13,6 +13,8 @@ type Props = {
 };
 
 const LoginMenuScreen: FC<Props> = ({ navigation }) => {
+  const items = ["a", "b", "c"];
+
   return (
     <Layout
       style={styles.view}

@@ -22,7 +22,7 @@ export const searchPlaces = ({
 }: SearchPlaceParams) => {
   const query = `?keyword=${keyword}&latitude=${latitude}&longitude=${longitude}&page=${page}`;
   return httpClient
-    .get<SearchPlaceResponse>(`/v1/place/search${query}`)
+    .get<SearchPlaceResponse>(`/v1/places/search${query}`)
     .then((res) => res.data);
 };
 

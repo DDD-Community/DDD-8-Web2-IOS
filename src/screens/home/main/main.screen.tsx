@@ -1,4 +1,11 @@
-import React, { FC, Suspense, useEffect, useRef, useState } from "react";
+import React, {
+  FC,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { View } from "react-native";
 import {
   Button,
@@ -7,6 +14,7 @@ import {
   TopFixedView,
   MapWebViewHandle,
   CtaButton,
+  Text,
 } from "~components";
 import IconSearch from "~assets/icon/icon-search.svg";
 import { styles } from "./main.styles";
@@ -15,6 +23,7 @@ import { NavigationKey, HomeNavigationParamList, MessageType } from "~types";
 import IconLogo from "~assets/icon/icon-logo.svg";
 import { MAP_WEB_URL } from "@env";
 import { useFetchPlacesInRegion } from "~api";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 type Props = {
   navigation: NavigationProp<HomeNavigationParamList, NavigationKey.Main>;
@@ -22,6 +31,9 @@ type Props = {
 
 export const MainScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/main`;
+  const snapPoints = useMemo(() => ["10%", "30%", "50%", "70%"], []);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
   const webViewRef = useRef<MapWebViewHandle>(null);
   const [webViewLoaded, setWebViewLoaded] = useState(false);
   const onPressSearchButton = () =>
@@ -68,6 +80,13 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
             <CtaButton onPress={onPressStartPlanning} />
           </View>
         </TopFixedView>
+        <BottomSheet index={0} ref={bottomSheetRef} snapPoints={snapPoints}>
+          <View style={styles.bottomSheet}>
+            <Text style={styles.bottomSheetCtaText}>
+              추천 장소를 더 보고싶다면?
+            </Text>
+          </View>
+        </BottomSheet>
       </Suspense>
     </Layout>
   );
