@@ -37,7 +37,7 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
   };
 
   const onSubmitEditing = async (hasnext: boolean) => {
-    setPage(page + 1);
+    setPage((prev) => prev + 1);
     const result = await searchPlaces({
       keyword,
       latitude: travelPlan.state.location.latitude,
@@ -47,6 +47,10 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
     webViewRef.current?.postMessage(MessageType.OnResPlacesSearch, {
       keyword: keyword,
       ...result,
+    });
+    webViewRef.current?.postMessage(MessageType.SetLocation, {
+      latitude: travelPlan.state.location.latitude,
+      longitude: travelPlan.state.location.longitude,
     });
   };
 

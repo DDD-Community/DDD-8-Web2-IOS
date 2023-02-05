@@ -4,4 +4,5 @@ export enum MessageType {
   OnResPlacesRegions = "OnResPlacesRegions",
   OnResPlacesSearch = "OnResPlacesSearch",
   OnResDaySchedulePlaces = "OnResDaySchedulePlaces",
+  SetLocation = "SetLocation",
 }
