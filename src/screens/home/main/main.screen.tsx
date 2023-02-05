@@ -16,6 +16,7 @@ import {
   CtaButton,
   Text,
   RegionPlacesSuggestionList,
+  CategorySuggestionList,
 } from "~components";
 import IconSearch from "~assets/icon/icon-search.svg";
 import { styles } from "./main.styles";
@@ -25,6 +26,7 @@ import IconLogo from "~assets/icon/icon-logo.svg";
 import { MAP_WEB_URL } from "@env";
 import { useFetchPlacesInRegion } from "~api";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { ScrollView } from "react-native-gesture-handler";
 
 type Props = {
   navigation: NavigationProp<HomeNavigationParamList, NavigationKey.Main>;
@@ -32,7 +34,7 @@ type Props = {
 
 export const MainScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/main`;
-  const snapPoints = useMemo(() => ["10%", "30%", "50%", "70%"], []);
+  const snapPoints = useMemo(() => ["10%", "80%"], []);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const webViewRef = useRef<MapWebViewHandle>(null);
@@ -88,10 +90,13 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
           style={{ width: "100%" }}
         >
           <View style={styles.bottomSheet}>
-            <Text style={styles.bottomSheetCtaText}>
-              추천 장소를 더 보고싶다면?
-            </Text>
-            <RegionPlacesSuggestionList />
+            <ScrollView style={{ height: "100%" }}>
+              <Text style={styles.bottomSheetCtaText}>
+                추천 장소를 더 보고싶다면?
+              </Text>
+              <RegionPlacesSuggestionList />
+              <CategorySuggestionList />
+            </ScrollView>
           </View>
         </BottomSheet>
       </Suspense>

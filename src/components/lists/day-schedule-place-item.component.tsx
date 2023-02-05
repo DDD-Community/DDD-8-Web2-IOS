@@ -6,11 +6,11 @@ import { ScaleDecorator } from "react-native-draggable-flatlist";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import IconDragButton from "~assets/icon/icon-drag-button.svg";
 import { Button } from "../buttons/button.component";
-import { PlaceCategoryText } from "~constants";
+import { Category, CategoryText } from "~constants";
 
 type Props = {
   name: string;
-  category?: string;
+  category?: Category;
   memo?: string;
   onLongPress?: any;
   onPressEdit?: () => void;
@@ -34,7 +34,7 @@ export const PlaceItem: FC<Props> = ({
             <View style={styles.placeInfoDetail}>
               <Text style={styles.name}>{name}</Text>
               <Text style={styles.category}>
-                {PlaceCategoryText[category || "DEFAULT"]}
+                {CategoryText[category || Category.Etc]}
               </Text>
             </View>
             <View>

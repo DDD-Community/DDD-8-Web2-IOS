@@ -1,23 +1,23 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { BgColor, TextColor } from "~constants";
+import { BgColor, FontWeight, HexColor, TextColor } from "~constants";
 
 const SCROLL_INNER_CONTAINER_PADDING = 16;
 
 export const styles = StyleSheet.create({
   view: {
-    height: 56,
+    height: 44,
   },
   scrollInnerViewContainerStyle: {
     paddingHorizontal: SCROLL_INNER_CONTAINER_PADDING,
   },
   scrollInnerView: {
-    height: 56,
-    paddingVertical: 8,
-    paddingHorizontal: 4,
+    height: 44,
+    paddingHorizontal: 2,
     backgroundColor: "#F3F3F3",
     borderRadius: 40,
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
     minWidth:
       Dimensions.get("screen").width - SCROLL_INNER_CONTAINER_PADDING * 2,
   },
@@ -26,15 +26,17 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 0,
     paddingHorizontal: 18,
-    height: 40,
+    height: 36,
   },
   dayButtonActive: {
     backgroundColor: BgColor.Primary,
   },
   dayButtonActiveText: {
-    color: TextColor.Primary,
+    color: HexColor.White,
+    fontWeight: FontWeight.SemiBold,
   },
   dayButtonInActiveText: {
-    color: "#000",
+    color: HexColor.N200,
+    fontWeight: FontWeight.SemiBold,
   },
 });

@@ -19,10 +19,11 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
   },
   image: {
-    width: 212,
-    height: 160,
-    borderRadius: 16,
+    width: 120,
+    height: 120,
+    borderRadius: 100,
     marginBottom: 20,
+    backgroundColor: "red",
   },
   name: {
     color: HexColor.N700,

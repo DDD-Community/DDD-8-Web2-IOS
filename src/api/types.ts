@@ -1,4 +1,5 @@
 import { StringLiteral } from "typescript";
+import { Category } from "../constants/place-category";
 
 type Location = {
   latitude: number;
@@ -53,7 +54,7 @@ export type FetchBookmarksResponse = {
     name: string;
     defailAddress: string;
     imageUrl: string;
-    category: string;
+    category: Category;
     bookmark: {
       id: string;
       bookmarked: boolean;
@@ -99,7 +100,7 @@ export type FetchDayScheduleResponse = {
     place: {
       id: string;
       name: string;
-      category: string;
+      category: Category;
       location: Location;
     };
   }[];
@@ -116,7 +117,7 @@ export type FetchPlacesInRegionResponse = {
   places: {
     id: string;
     name: string;
-    category: string;
+    category: Category;
     imageLink: string;
     telephone: string;
     location: Location;
