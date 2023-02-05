@@ -25,21 +25,32 @@ type Props = {
 export const SearchScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/search`;
   const [keyword, setKeyword] = useState("");
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState();
   const travelPlan = useRecoilValue(latestPlanQuery);
   const webViewRef = useRef<MapWebViewHandle>(null);
 
   const onPressBackButton = () => navigation.goBack();
 
-  const onPressCancel = () => setKeyword("");
+  const onPressCancel = () => {
+    setKeyword("");
+    setPage(1);
+  };
 
-  const onSubmitEditing = async () => {
-    const data = await searchPlaces({
+  const onSubmitEditing = async (hasnext: boolean) => {
+    setPage(page + 1);
+    console.log(page, hasnext);
+    const result = await searchPlaces({
       keyword,
       latitude: travelPlan.state.location.latitude,
       longitude: travelPlan.state.location.longitude,
-      page: 0,
+      page: page,
     });
-    webViewRef.current?.postMessage(MessageType.OnResPlacesSearch, data);
+    webViewRef.current?.postMessage(MessageType.OnResPlacesSearch, {
+      keyword: keyword,
+      ...result,
+    });
+    setData(result);
   };
 
   return (
@@ -50,7 +61,7 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
             value={keyword}
             onChangeText={setKeyword}
             onPressCancel={onPressCancel}
-            onSumbitEditing={onSubmitEditing}
+            onSumbitEditing={() => onSubmitEditing(false)}
           />
           <Button
             title="취소"
@@ -59,7 +70,11 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
           />
         </View>
       </SafeAreaView>
-      <MapWebView uri={mapUri} ref={webViewRef} />
+      <MapWebView
+        uri={mapUri}
+        ref={webViewRef}
+        showMore={() => onSubmitEditing(true)}
+      />
     </View>
   );
 };

@@ -11,10 +11,11 @@ export type MapWebViewHandle = {
 type Props = {
   onLoad?: () => void;
   uri: string;
+  showMore?: () => void;
 };
 
 const MapWebView = forwardRef<MapWebViewHandle, Props>(
-  ({ onLoad, uri }, forwardedRef) => {
+  ({ onLoad, uri, showMore }, forwardedRef) => {
     const webViewRef = useRef<WebViewRef>();
 
     useImperativeHandle(
@@ -46,6 +47,14 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
           "goLocaionDetail!!! 장소상세 api호출해서 web에 다시 전달 필요"
         );
         onLoad?.();
+      }
+      if (event.type === "OnResPlacesSearch") {
+        console.log("OnResPlacesSearch!!!");
+        // onLoad?.();
+      }
+      if (event.type === "showMoreSearchData") {
+        console.log("showMoreSearchData!!!");
+        showMore?.();
       }
     };
 
