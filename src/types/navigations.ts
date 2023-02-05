@@ -15,9 +15,9 @@ export enum NavigationKey {
   MyTripMap = "MyTripMap",
   Bookmark = "Bookmark",
   Profile = "Profile",
-  SearchResultMap = "SearchResultMap",
-  SearchResultList = "SearchResultList",
-  SearchResultDetail = "SearchResultDetail",
+  PlaceDetail = "PlaceDetail",
+
+  EditSchedule = "EditSchedule",
 }
 
 export type AppNavigationParamList = {
@@ -27,7 +27,7 @@ export type AppNavigationParamList = {
     region: string;
   };
   [NavigationKey.SettingRegion]: undefined;
-  [NavigationKey.SearchResultDetail]: undefined;
+  [NavigationKey.PlaceDetail]: undefined;
 };
 
 export type LoginNavigationParamList = {
@@ -40,14 +40,22 @@ export type LoginNavigationParamList = {
 export type HomeNavigationParamList = {
   [NavigationKey.Main]: undefined;
   [NavigationKey.SettingRegion]: undefined;
+  [NavigationKey.PlaceDetail]: {
+    id: string;
+    address: string;
+    name: string;
+  };
 };
 
 export type MainNavigationParamList = {
   [NavigationKey.MyTripMap]: undefined;
   [NavigationKey.Bookmark]: undefined;
   [NavigationKey.Profile]: undefined;
-  [NavigationKey.SearchResultMap]: undefined;
-  [NavigationKey.SearchResultList]: undefined;
-  [NavigationKey.SearchResultDetail]: undefined;
+  [NavigationKey.PlaceDetail]: {
+    id: string;
+    address: string;
+    name: string;
+  };
   [NavigationKey.SettingRegion]: undefined;
+  [NavigationKey.EditSchedule]: {};
 };

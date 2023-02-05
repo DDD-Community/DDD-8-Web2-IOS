@@ -7,16 +7,19 @@ import {
   SearchInput,
 } from "~components";
 import { NavigationProp } from "@react-navigation/native";
-import { NavigationKey, HomeNavigationParamList, MessageType } from "~types";
+import {
+  NavigationKey,
+  HomeNavigationParamList,
+  MessageType,
+  ReceivedMessageType,
+} from "~types";
 import { styles } from "./search.styles";
 import { View } from "react-native";
 import { MAP_WEB_URL } from "@env";
-import { searchPlaces, useSearchPlaces } from "~api";
+import { searchPlaces } from "~api";
 import { useRecoilValue } from "recoil";
 import { latestPlanQuery } from "~stores/plan";
-import { REGION_LAT_LANGS } from "../../../constants/regions";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { HexColor } from "../../../constants/theme";
 
 type Props = {
   navigation: NavigationProp<HomeNavigationParamList, NavigationKey.Main>;
@@ -36,7 +39,7 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
     setPage(1);
   };
 
-  const onSubmitEditing = async (hasnext: boolean) => {
+  const onSubmitEditing = async () => {
     setPage((prev) => prev + 1);
     const result = await searchPlaces({
       keyword,
@@ -54,6 +57,19 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
     });
   };
 
+  const onMessage = (
+    type: string,
+    data: { id: string; name: string; address: string }
+  ) => {
+    if (type === ReceivedMessageType.GoLocationDetail) {
+      navigation.navigate(NavigationKey.PlaceDetail, {
+        id: data.id,
+        address: data.address,
+        name: data.name,
+      });
+    }
+  };
+
   return (
     <View style={styles.view}>
       <SafeAreaView edges={["left", "right", "top"]}>
@@ -62,7 +78,7 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
             value={keyword}
             onChangeText={setKeyword}
             onPressCancel={onPressCancel}
-            onSumbitEditing={() => onSubmitEditing(false)}
+            onSumbitEditing={() => onSubmitEditing()}
           />
           <Button
             title="취소"
@@ -71,11 +87,7 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
           />
         </View>
       </SafeAreaView>
-      <MapWebView
-        uri={mapUri}
-        ref={webViewRef}
-        showMore={() => onSubmitEditing(true)}
-      />
+      <MapWebView uri={mapUri} ref={webViewRef} onMessage={onMessage} />
     </View>
   );
 };

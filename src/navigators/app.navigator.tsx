@@ -1,17 +1,15 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MainNavigator } from "./main.navigator";
 import { LoginNavigator } from "./login.navigator";
 import { SettingDateScreen, SettingRegionScreen } from "~screens/setting";
-import {
-  SearchResultMapScreen,
-  SearchResultDetailScreen,
-} from "~screens/my-trip";
+import { EditScheduleScreen } from "~screens/my-trip/edit-schedule/edit-schedule.screen";
+import { PlaceDetailScreen } from "~screens/my-trip";
 import { NavigationKey } from "~types";
 import { SearchScreen } from "~screens/home";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
@@ -39,14 +37,16 @@ const AppNavigator = () => {
           component={SettingRegionScreen}
         />
         <Stack.Screen
-          name={NavigationKey.SearchResultMap}
-          component={SearchResultMapScreen}
-        />
-        <Stack.Screen
-          name={NavigationKey.SearchResultDetail}
-          component={SearchResultDetailScreen}
+          name={NavigationKey.PlaceDetail}
+          component={PlaceDetailScreen}
         />
         <Stack.Screen name={NavigationKey.Search} component={SearchScreen} />
+        <Stack.Group screenOptions={{ presentation: "modal" }}>
+          <Stack.Screen
+            name={NavigationKey.EditSchedule}
+            component={EditScheduleScreen}
+          />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

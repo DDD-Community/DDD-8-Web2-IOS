@@ -12,6 +12,12 @@ import type {
   FetchDaySchedulesResponse,
   FetchPlacesInRegionParams,
   FetchPlacesInRegionResponse,
+  PostKakaoPlaceParams,
+  PostKakaoPlaceResponse,
+  FetchUserResponse,
+  FetchPlaceParams,
+  FetchPlaceResponse,
+  PostDaySchedulePlaceParams,
 } from "./types";
 
 export const searchPlaces = ({
@@ -81,6 +87,39 @@ export const fetchPlacesSearch = () => {};
 
 export const fetchUserName = () => {
   return httpClient
-    .get<{ name: string }>(`/v1/user/name`)
+    .get<FetchUserResponse>(`/v1/user/name`)
+    .then((res) => res.data);
+};
+
+export const postKakaoPlace = ({ id, name, address }: PostKakaoPlaceParams) => {
+  return httpClient
+    .post<PostKakaoPlaceResponse>(`/v1/places`, {
+      id,
+      name,
+      address,
+    })
+    .then((res) => res.data);
+};
+
+export const fetchPlace = ({ id }: FetchPlaceParams) => {
+  return httpClient
+    .get<FetchPlaceResponse>(`/v1/places/${id}`)
+    .then((res) => res.data);
+};
+
+export const postDaySchedulePlace = ({
+  travelPlanId,
+  dayScheduleId,
+  placeId,
+  memo,
+}: PostDaySchedulePlaceParams) => {
+  return httpClient
+    .post(
+      `/v1/travel-plans/${travelPlanId}/day-schedules/${dayScheduleId}/day-schedule-places`,
+      {
+        id: placeId,
+        memo,
+      }
+    )
     .then((res) => res.data);
 };

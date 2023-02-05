@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
-import { MessageType } from "../types/messages";
+import { MessageType, ReceivedMessageType } from "../types/messages";
 import { MAP_WEB_URL } from "@env";
 import { WebViewRef } from "~types";
 
@@ -11,11 +11,11 @@ export type MapWebViewHandle = {
 type Props = {
   onLoad?: () => void;
   uri: string;
-  showMore?: () => void;
+  onMessage?: (type: string, data: any) => void;
 };
 
-const MapWebView = forwardRef<MapWebViewHandle, Props>(
-  ({ onLoad, uri, showMore }, forwardedRef) => {
+export const MapWebView = forwardRef<MapWebViewHandle, Props>(
+  ({ onLoad, uri, onMessage }, forwardedRef) => {
     const webViewRef = useRef<WebViewRef>();
 
     useImperativeHandle(
@@ -32,29 +32,13 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
       [webViewRef]
     );
 
-    const onMessage = (event: WebViewMessageEvent) => {
-      console.log(event);
-      if (event.type === "onLoad") {
-        console.log("onLoad!!!");
-        onLoad?.();
-      }
-      if (event.type === "markerClick") {
-        console.log("markerClick!!!");
-        onLoad?.();
-      }
-      if (event.type === "goLocaionDetail") {
-        console.log(
-          "goLocaionDetail!!! 장소상세 api호출해서 web에 다시 전달 필요"
-        );
-        onLoad?.();
-      }
-      if (event.type === "OnResPlacesSearch") {
-        console.log("OnResPlacesSearch!!!");
-        // onLoad?.();
-      }
-      if (event.type === "showMoreSearchData") {
-        console.log("showMoreSearchData!!!");
-        showMore?.();
+    const handleOnMessage = (data: { type: string; data: any }) => {
+      if (data && typeof data === "object" && typeof data.type === "string") {
+        if (data.type === ReceivedMessageType.OnLoad) {
+          onLoad?.();
+          return;
+        }
+        onMessage?.(data.type, data.data);
       }
     };
 
@@ -64,12 +48,10 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
         javaScriptEnabled
         source={{ uri }}
         onMessage={(e) => {
-          onMessage(JSON.parse(e.nativeEvent.data));
+          handleOnMessage(JSON.parse(e.nativeEvent.data));
         }}
         onError={(e) => console.error(e.nativeEvent)}
       />
     );
   }
 );
-
-export { MapWebView };

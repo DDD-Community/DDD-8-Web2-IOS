@@ -133,3 +133,59 @@ export type FetchPlacesSearchParams = {
   longitude: string;
   latitude: string;
 };
+
+export type PostKakaoPlaceParams = {
+  id: string;
+  name: string;
+  address: string;
+};
+
+export type FetchUserResponse = {
+  name: string;
+};
+
+export type PostKakaoPlaceResponse = {
+  id: string;
+  name: string;
+  category: Category;
+  address: string;
+  location: Location;
+  telephone: string;
+  bookmark: {
+    present: boolean;
+    activated: boolean;
+  };
+};
+
+export type FetchPlaceParams = {
+  id: string;
+};
+
+export type FetchPlaceResponse = {
+  id: string;
+  kakaoId: string;
+  name: string;
+  caregory: Category;
+  address: string;
+  location: Location;
+  imageLink: string;
+  additionalInfoLink: string;
+  telephone: string;
+  blogs: [
+    {
+      title: string;
+      link: string;
+    }
+  ];
+  bookmark: {
+    present: boolean;
+    activated: boolean;
+  };
+};
+
+export type PostDaySchedulePlaceParams = {
+  travelPlanId: string;
+  dayScheduleId: string;
+  placeId: string;
+  memo: string;
+};

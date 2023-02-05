@@ -1,16 +1,13 @@
 import { StyleSheet } from "react-native";
-import {
-  BgColor,
-  FontFamily,
-  FontSize,
-  FontWeight,
-  HexColor,
-} from "~constants";
+import { FontFamily, FontSize, FontWeight, HexColor } from "~constants";
 
 export const styles = StyleSheet.create({
   view: {
-    backgroundColor: HexColor.N10,
+    backgroundColor: HexColor.White,
     height: "100%",
+  },
+  image: {
+    height: 400,
   },
   placeDetailView: {
     paddingVertical: 12,
@@ -79,5 +76,35 @@ export const styles = StyleSheet.create({
   },
   blogItemText: {
     color: HexColor.Green,
+  },
+  topFixedView: {
+    display: "flex",
+    alignItems: "flex-start",
+  },
+  backButton: {
+    marginLeft: 20,
+  },
+  bottomFixedView: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    backgroundColor: "#fff",
+  },
+  button: {
+    borderColor: HexColor.Primary,
+    borderWidth: 1,
+    marginLeft: 8,
+  },
+  buttonText: {
+    color: HexColor.Primary,
+    fontWeight: FontWeight.SemiBold,
+    fontSize: FontSize.Large,
+  },
+  addScheduleButton: {
+    backgroundColor: HexColor.Primary,
+  },
+  addScheduleButtonText: {
+    color: HexColor.White,
   },
 });

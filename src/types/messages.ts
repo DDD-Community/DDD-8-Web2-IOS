@@ -6,3 +6,8 @@ export enum MessageType {
   OnResDaySchedulePlaces = "OnResDaySchedulePlaces",
   SetLocation = "SetLocation",
 }
+
+export enum ReceivedMessageType {
+  OnLoad = "onLoad",
+  GoLocationDetail = "goLocaionDetail",
+}

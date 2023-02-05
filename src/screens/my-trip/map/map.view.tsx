@@ -39,7 +39,7 @@ export const MyTripMapScreenView: FC<Props> = ({ navigation }) => {
   const travelPlan = useRecoilValue(latestPlanQuery);
 
   const [selectedDay, setSelectedDay] = useState(1);
-  const selectedSchedule = daySchedules?.data.daySchedules[selectedDay];
+  const selectedSchedule = daySchedules?.data.daySchedules[selectedDay - 1];
 
   const dayScheduleQuery = useFetchDaySchedule({
     travelPlanId: travelPlan.data.content?.id!,
@@ -47,7 +47,6 @@ export const MyTripMapScreenView: FC<Props> = ({ navigation }) => {
   });
 
   const hasSchedulePlace = !!dayScheduleQuery.data?.daySchedulePlaces.length;
-
   useEffect(() => {
     webViewRef.current?.postMessage(
       MessageType.OnResDaySchedulePlaces,
@@ -55,6 +54,9 @@ export const MyTripMapScreenView: FC<Props> = ({ navigation }) => {
     );
   }, [webViewLoaded, dayScheduleQuery.data]);
 
+  useEffect(() => {
+    dayScheduleQuery.refetch();
+  }, [selectedDay]);
   const title = travelPlan.data.content?.title!;
   const travelDays = travelPlan.data.content?.travelDays!;
   const startDate = new Date(travelPlan.data.content?.startDate!);
@@ -75,7 +77,11 @@ export const MyTripMapScreenView: FC<Props> = ({ navigation }) => {
             selectedDay={selectedDay}
             onSelect={setSelectedDay}
           />
-          {hasSchedulePlace && <DaySchedulePlaceList daySchedulePlaces={[]} />}
+          {hasSchedulePlace && (
+            <DaySchedulePlaceList
+              daySchedulePlaces={dayScheduleQuery.data?.daySchedulePlaces || []}
+            />
+          )}
           {!hasSchedulePlace && (
             <View style={styles.emptyTextView}>
               <Text style={styles.emptyText}>아직 등록된 일정이 없어요</Text>

@@ -16,3 +16,4 @@ export * from "./bottom-fixed-view.component";
 export * from "./bookmark-item.component";
 export * from "./lists/region-places-suggestion-list.component";
 export * from "./lists/category-suggestion-list.component";
+export * from "./modals/schedule-edit-modal.component";
