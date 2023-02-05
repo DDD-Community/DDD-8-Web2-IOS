@@ -26,7 +26,6 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/search`;
   const [keyword, setKeyword] = useState("");
   const [page, setPage] = useState(1);
-  const [data, setData] = useState();
   const travelPlan = useRecoilValue(latestPlanQuery);
   const webViewRef = useRef<MapWebViewHandle>(null);
 
@@ -39,7 +38,6 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
 
   const onSubmitEditing = async (hasnext: boolean) => {
     setPage(page + 1);
-    console.log(page, hasnext);
     const result = await searchPlaces({
       keyword,
       latitude: travelPlan.state.location.latitude,
@@ -50,7 +48,6 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
       keyword: keyword,
       ...result,
     });
-    setData(result);
   };
 
   return (
