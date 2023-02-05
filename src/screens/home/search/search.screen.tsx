@@ -25,6 +25,7 @@ type Props = {
 export const SearchScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/search`;
   const [keyword, setKeyword] = useState("");
+  const page = 0;
   const travelPlan = useRecoilValue(latestPlanQuery);
   const [webViewLoaded, setWebViewLoaded] = useState(false);
   const webViewRef = useRef<MapWebViewHandle>(null);
@@ -32,7 +33,7 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
     keyword: keyword,
     latitude: REGION_LAT_LANGS[travelPlan.data.content.region].latitude,
     longitude: REGION_LAT_LANGS[travelPlan.data.content.region].longitude,
-    page: 0,
+    page: page,
   });
   useEffect(() => {
     if (webViewLoaded) {
@@ -50,20 +51,22 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
     refetch();
   };
   return (
-    <Layout safeAreaStyle={styles.container}>
-      <View style={styles.searchInputView}>
-        <SearchInput
-          value={keyword}
-          onChangeText={setKeyword}
-          onPressCancel={onPressCancel}
-          onSubmitEditing={onSubmitEditing}
-        />
-        <Button
-          title="취소"
-          style={{ paddingHorizontal: 16 }}
-          onPress={onPressBackButton}
-        />
-      </View>
+    <View style={styles.view}>
+      <SafeAreaView edges={["left", "right", "top"]}>
+        <View style={styles.searchInputView}>
+          <SearchInput
+            value={keyword}
+            onChangeText={setKeyword}
+            onPressCancel={onPressCancel}
+            onSubmitEditing={onSubmitEditing}
+          />
+          <Button
+            title="취소"
+            style={styles.backButton}
+            onPress={onPressBackButton}
+          />
+        </View>
+      </SafeAreaView>
       {keyword === "" ? (
         <View>
           <Text>검색전</Text>
@@ -73,11 +76,21 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
           <MapWebView
             uri={mapUri}
             ref={webViewRef}
+            showMore={async () =>
+              await searchPlaces({
+                keyword: keyword,
+                latitude:
+                  REGION_LAT_LANGS[travelPlan.data.content.region].latitude,
+                longitude:
+                  REGION_LAT_LANGS[travelPlan.data.content.region].longitude,
+                page: 1,
+              })
+            }
             onLoad={() => setWebViewLoaded(true)}
           />
         )
       )}
       {/* 검색결과 없을때도 웹뷰 사용해야할까요 ?  */}
-    </Layout>
+    </View>
   );
 };

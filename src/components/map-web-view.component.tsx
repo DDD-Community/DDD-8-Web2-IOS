@@ -11,10 +11,11 @@ export type MapWebViewHandle = {
 type Props = {
   onLoad?: () => void;
   uri: string;
+  showMore?: () => void;
 };
 
 const MapWebView = forwardRef<MapWebViewHandle, Props>(
-  ({ onLoad, uri }, forwardedRef) => {
+  ({ onLoad, uri, showMore }, forwardedRef) => {
     const webViewRef = useRef<WebViewRef>();
 
     useImperativeHandle(
@@ -30,7 +31,6 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
       }),
       [webViewRef]
     );
-
     const onMessage = (event: WebViewMessageEvent) => {
       console.log(event);
       if (event.type === "onLoad") {
@@ -47,7 +47,7 @@ const MapWebView = forwardRef<MapWebViewHandle, Props>(
       }
       if (event.type === "showMoreSearchData") {
         console.log("showMoreSearchData!!! ");
-        onLoad?.();
+        showMore?.();
       }
     };
 
