@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Modal, TextInput, View } from "react-native";
 import { Text } from "../text.component";
 import { SelectScheduleDay } from "../selects/select-schedule-day.component";
@@ -16,10 +16,9 @@ type Props = {
   placeCategory: Category;
   address: string;
   visible: boolean;
-  value: string;
-  onChangeText: (text: string) => void;
+  initialMemo: string;
   onPressClose: () => void;
-  onPressConfirm: () => void;
+  onPressConfirm: (data: { selectedDay: number; memo: string }) => void;
 };
 
 export const ScheduleEditModal: FC<Props> = ({
@@ -27,11 +26,14 @@ export const ScheduleEditModal: FC<Props> = ({
   placeCategory,
   address,
   visible,
-  value,
-  onChangeText,
+  initialMemo,
   onPressClose,
   onPressConfirm,
 }) => {
+  const [memo, setMemo] = useState(initialMemo);
+  const [selectedDay, setSelectedDay] = useState(1);
+
+  useEffect(() => setMemo(memo), [initialMemo]);
   return (
     <Modal visible={visible} transparent>
       <View
@@ -83,12 +85,15 @@ export const ScheduleEditModal: FC<Props> = ({
                 </Text>
               </View>
 
-              <SelectScheduleDay selectedDay={1} onSelect={() => {}} />
+              <SelectScheduleDay
+                selectedDay={selectedDay}
+                onSelect={setSelectedDay}
+              />
               <View style={{ paddingHorizontal: 20, flex: 1 }}>
                 <TextInput
                   multiline
-                  value={value}
-                  onChangeText={onChangeText}
+                  value={memo}
+                  onChangeText={setMemo}
                   autoFocus
                   style={{
                     borderColor: "rgba(194, 200, 207, 1)",
@@ -128,7 +133,12 @@ export const ScheduleEditModal: FC<Props> = ({
                       borderRadius: 12,
                     }}
                     textStyle={{ color: HexColor.White }}
-                    onPress={onPressConfirm}
+                    onPress={() => {
+                      onPressConfirm({
+                        memo,
+                        selectedDay,
+                      });
+                    }}
                   />
                 </View>
               </View>

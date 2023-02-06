@@ -189,3 +189,7 @@ export type PostDaySchedulePlaceParams = {
   placeId: string;
   memo: string;
 };
+
+export type PostBookmarkParams = {
+  placeId: string;
+};

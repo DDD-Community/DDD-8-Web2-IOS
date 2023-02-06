@@ -22,7 +22,7 @@ export const MapWebView = forwardRef<MapWebViewHandle, Props>(
       forwardedRef,
       () => ({
         postMessage(type: MessageType, data: unknown) {
-          console.log(type, data);
+          console.log(type, JSON.stringify(data));
           webViewRef.current?.postMessage({
             type,
             data,

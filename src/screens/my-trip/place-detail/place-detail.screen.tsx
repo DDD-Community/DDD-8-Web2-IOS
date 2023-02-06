@@ -13,6 +13,8 @@ import { MainNavigationParamList, NavigationKey } from "~types";
 import {
   fetchPlace,
   FetchPlaceResponse,
+  patchBookmark,
+  postBookmark,
   postDaySchedulePlace,
   postKakaoPlace,
 } from "~api";
@@ -22,8 +24,12 @@ import IconNaverBlog from "~assets/icon/icon-naver-blog.svg";
 import IconLeftArrowWhite from "~assets/icon/icon-left-arrow-white.svg";
 import IconBookmarkBoxInactive from "~assets/icon/icon-bookmark-box-inactive.svg";
 import IconBookmarkBoxActive from "~assets/icon/icon-bookmark-box-active.svg";
-import { useRecoilValue } from "recoil";
-import { latestPlanQuery } from "~stores/plan";
+import {
+  useRecoilRefresher_UNSTABLE,
+  useRecoilValue,
+  useRecoilValueLoadable,
+} from "recoil";
+import { daySchedulesQuery, latestPlanQuery } from "~stores/plan";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -37,7 +43,9 @@ type Props = {
 };
 
 export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
-  const travelPlan = useRecoilValue(latestPlanQuery);
+  const travelPlan = useRecoilValueLoadable(latestPlanQuery);
+  const refreshTravelPlan = useRecoilRefresher_UNSTABLE(latestPlanQuery);
+  const daySchedules = useRecoilValueLoadable(daySchedulesQuery);
   const [place, setPlace] = useState<FetchPlaceResponse | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -55,6 +63,9 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
 
   if (!place) {
     return null;
+  }
+  if (travelPlan.state === "loading" || daySchedules.state === "loading") {
+    return <></>;
   }
 
   return (
@@ -96,7 +107,20 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
       </TopFixedView>
       <SafeAreaView style={{ height: 68, backgroundColor: "#fff" }}>
         <BottomFixedView style={styles.bottomFixedView}>
-          <Button Icon={IconBookmarkBoxInactive} />
+          <Button
+            Icon={
+              !place.bookmark.activated || !place.bookmark.present
+                ? IconBookmarkBoxInactive
+                : IconBookmarkBoxActive
+            }
+            onPress={() => {
+              if (!place.bookmark.present) {
+                postBookmark({ placeId: place.id });
+              } else {
+                patchBookmark({ placeId: place.id });
+              }
+            }}
+          />
           <Button
             title="일정 추가하기"
             style={{ flex: 1 }}
@@ -110,17 +134,20 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
         placeName={place.name}
         placeCategory={place.caregory}
         address={place.address}
-        value={""}
+        initialMemo={""}
         visible={modalVisible}
-        onChangeText={() => {}}
         onPressClose={() => setModalVisible(false)}
-        onPressConfirm={() => {
-          if (place && travelPlan.data.content) {
-            postDaySchedulePlace({
+        onPressConfirm={async ({ selectedDay, memo }) => {
+          if (place && travelPlan.contents.data.content) {
+            await postDaySchedulePlace({
               placeId: place.id,
-              travelPlanId: travelPlan.data.content.id,
-              memo: "anyting",
+              travelPlanId: travelPlan.contents.data.content.id,
+              memo,
+              dayScheduleId:
+                daySchedules.contents!.data.daySchedules[selectedDay - 1].id,
             });
+            refreshTravelPlan();
+            setModalVisible(false);
           }
         }}
       />

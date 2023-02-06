@@ -18,6 +18,7 @@ import type {
   FetchPlaceParams,
   FetchPlaceResponse,
   PostDaySchedulePlaceParams,
+  PostBookmarkParams,
 } from "./types";
 
 export const searchPlaces = ({
@@ -121,5 +122,17 @@ export const postDaySchedulePlace = ({
         memo,
       }
     )
+    .then((res) => res.data);
+};
+
+export const postBookmark = ({ placeId }: PostBookmarkParams) => {
+  return httpClient
+    .post(`/v1/places/${placeId}/bookmarks`)
+    .then((res) => res.data);
+};
+
+export const patchBookmark = ({ placeId }: PostBookmarkParams) => {
+  return httpClient
+    .patch(`/v1/places/${placeId}/bookmarks`)
     .then((res) => res.data);
 };

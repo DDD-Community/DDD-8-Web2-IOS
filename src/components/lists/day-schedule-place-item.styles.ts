@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   placeInfoDetailView: {
-    flex: 1,
+    width: 500,
   },
   placeInfoDetail: {
     display: "flex",
@@ -37,6 +37,7 @@ export const styles = StyleSheet.create({
     fontWeight: FontWeight.SemiBold,
     fontSize: FontSize.Small,
     color: HexColor.N900,
+    marginRight: 4,
   },
   category: {
     color: HexColor.N500,
@@ -44,5 +45,12 @@ export const styles = StyleSheet.create({
   },
   editButtonText: {
     color: HexColor.Primary,
+    fontWeight: FontWeight.SemiBold,
+  },
+
+  touchableView: {
+    height: "100%",
+    justifyContent: "center",
+    paddingHorizontal: 2,
   },
 });

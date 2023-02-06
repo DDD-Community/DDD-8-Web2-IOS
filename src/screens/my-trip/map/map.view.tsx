@@ -39,6 +39,7 @@ export const MyTripMapScreenView: FC<Props> = ({ navigation }) => {
   const travelPlan = useRecoilValue(latestPlanQuery);
 
   const [selectedDay, setSelectedDay] = useState(1);
+  const [edtiable, setEditable] = useState(false);
   const selectedSchedule = daySchedules?.data.daySchedules[selectedDay - 1];
 
   const dayScheduleQuery = useFetchDaySchedule({
@@ -79,6 +80,8 @@ export const MyTripMapScreenView: FC<Props> = ({ navigation }) => {
           />
           {hasSchedulePlace && (
             <DaySchedulePlaceList
+              editable={edtiable}
+              onChangeEditMode={setEditable}
               daySchedulePlaces={dayScheduleQuery.data?.daySchedulePlaces || []}
             />
           )}
