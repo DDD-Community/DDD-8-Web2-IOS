@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MainNavigator } from "./main.navigator";
 import { LoginNavigator } from "./login.navigator";
 import { SettingDateScreen, SettingRegionScreen } from "~screens/setting";
-import { EditScheduleScreen } from "~screens/my-trip/edit-schedule/edit-schedule.screen";
 import { PlaceDetailScreen } from "~screens/my-trip";
 import { NavigationKey } from "~types";
 import { SearchScreen } from "~screens/home";
@@ -41,12 +40,6 @@ const AppNavigator = () => {
           component={PlaceDetailScreen}
         />
         <Stack.Screen name={NavigationKey.Search} component={SearchScreen} />
-        <Stack.Group screenOptions={{ presentation: "modal" }}>
-          <Stack.Screen
-            name={NavigationKey.EditSchedule}
-            component={EditScheduleScreen}
-          />
-        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

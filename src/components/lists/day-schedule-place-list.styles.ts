@@ -40,4 +40,14 @@ export const styles = StyleSheet.create({
     color: HexColor.White,
     fontWeight: FontWeight.SemiBold,
   },
+  emptyTextView: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 170,
+  },
+  emptyText: {
+    color: HexColor.N90,
+    fontSize: FontSize.Large,
+  },
 });

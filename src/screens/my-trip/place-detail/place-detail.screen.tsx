@@ -29,7 +29,11 @@ import {
   useRecoilValue,
   useRecoilValueLoadable,
 } from "recoil";
-import { daySchedulesQuery, latestPlanQuery } from "~stores/plan";
+import {
+  daySchedulesQuery,
+  latestPlanQuery,
+  useDayScheduleAction,
+} from "~stores/plan";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -44,7 +48,7 @@ type Props = {
 
 export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   const travelPlan = useRecoilValueLoadable(latestPlanQuery);
-  const refreshTravelPlan = useRecoilRefresher_UNSTABLE(latestPlanQuery);
+  const dayScheduleAction = useDayScheduleAction;
   const daySchedules = useRecoilValueLoadable(daySchedulesQuery);
   const [place, setPlace] = useState<FetchPlaceResponse | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -131,6 +135,7 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
         </BottomFixedView>
       </SafeAreaView>
       <ScheduleEditModal
+        placeId={place.id}
         placeName={place.name}
         placeCategory={place.caregory}
         address={place.address}
@@ -139,14 +144,6 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
         onPressClose={() => setModalVisible(false)}
         onPressConfirm={async ({ selectedDay, memo }) => {
           if (place && travelPlan.contents.data.content) {
-            await postDaySchedulePlace({
-              placeId: place.id,
-              travelPlanId: travelPlan.contents.data.content.id,
-              memo,
-              dayScheduleId:
-                daySchedules.contents!.data.daySchedules[selectedDay - 1].id,
-            });
-            refreshTravelPlan();
             setModalVisible(false);
           }
         }}

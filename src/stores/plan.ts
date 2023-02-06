@@ -1,5 +1,17 @@
-import { selector } from "recoil";
-import { fetchLatestTravelPlan, fetchDaySchedules } from "~api";
+import {
+  selector,
+  selectorFamily,
+  useRecoilRefresher_UNSTABLE,
+  useRecoilValue,
+  useRecoilValueLoadable,
+} from "recoil";
+import {
+  fetchLatestTravelPlan,
+  fetchDaySchedules,
+  deleteDaySchedulePlace,
+  fetchDaySchedule,
+  postDaySchedulePlace,
+} from "~api";
 import { REGION_LAT_LANGS } from "../constants/regions";
 
 const DEFAULT_LOCATION = {
@@ -40,3 +52,53 @@ export const daySchedulesQuery = selector({
     };
   },
 });
+
+export const dayScheduleQuery = selectorFamily({
+  key: "fetchDaySchedule",
+  get:
+    (day: number) =>
+    async ({ get }) => {
+      const travelPlan = get(latestPlanQuery);
+      const daySchedules = get(daySchedulesQuery);
+      if (!daySchedules || !travelPlan.data.content) {
+        return null;
+      }
+      const data = await fetchDaySchedule({
+        travelPlanId: travelPlan.data.content.id,
+        dayScheduleId: daySchedules.data.daySchedules[day - 1].id,
+      });
+      return data;
+    },
+});
+
+export const useDayScheduleAction = (day: number) => {
+  const travelPlan = useRecoilValueLoadable(latestPlanQuery);
+  const resetDaySchedule = useRecoilRefresher_UNSTABLE(dayScheduleQuery(day));
+
+  const remove = async (params: { placeId: string; dayScheduleId: string }) => {
+    await deleteDaySchedulePlace({
+      travelPlanId: travelPlan.contents.data.content!.id,
+      ...params,
+    });
+    resetDaySchedule();
+  };
+
+  const add = async (params: {
+    placeId: string;
+    memo: string;
+    dayScheduleId: string;
+  }) => {
+    await postDaySchedulePlace({
+      placeId: params.placeId,
+      travelPlanId: travelPlan.contents.data.content.id,
+      memo: params.memo,
+      dayScheduleId: params.dayScheduleId,
+    });
+    resetDaySchedule();
+  };
+
+  return {
+    remove,
+    add,
+  };
+};

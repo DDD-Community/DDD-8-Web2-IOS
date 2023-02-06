@@ -26,6 +26,8 @@ type Props = {
   editable?: boolean;
   number: number;
   isLast: boolean;
+  id: string;
+  onPressDelete: () => void;
 };
 
 export const DaySchedulePlaceItem: FC<Props> = ({
@@ -36,13 +38,19 @@ export const DaySchedulePlaceItem: FC<Props> = ({
   onLongPress,
   editable,
   onPressEdit,
+  onPressDelete,
   isLast,
+  id,
 }) => {
   return (
     <ScaleDecorator>
       <View style={styles.view}>
         {editable ? (
-          <Button Icon={IconTrash} style={{ width: 40 }} />
+          <Button
+            Icon={IconTrash}
+            style={{ width: 40 }}
+            onPress={onPressDelete}
+          />
         ) : (
           <>
             <View

@@ -16,8 +16,6 @@ export enum NavigationKey {
   Bookmark = "Bookmark",
   Profile = "Profile",
   PlaceDetail = "PlaceDetail",
-
-  EditSchedule = "EditSchedule",
 }
 
 export type AppNavigationParamList = {
@@ -57,5 +55,4 @@ export type MainNavigationParamList = {
     name: string;
   };
   [NavigationKey.SettingRegion]: undefined;
-  [NavigationKey.EditSchedule]: {};
 };

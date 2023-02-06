@@ -19,6 +19,7 @@ import type {
   FetchPlaceResponse,
   PostDaySchedulePlaceParams,
   PostBookmarkParams,
+  DeleteDayScheduleParams,
 } from "./types";
 
 export const searchPlaces = ({
@@ -134,5 +135,17 @@ export const postBookmark = ({ placeId }: PostBookmarkParams) => {
 export const patchBookmark = ({ placeId }: PostBookmarkParams) => {
   return httpClient
     .patch(`/v1/places/${placeId}/bookmarks`)
+    .then((res) => res.data);
+};
+
+export const deleteDaySchedulePlace = ({
+  placeId,
+  travelPlanId,
+  dayScheduleId,
+}: DeleteDayScheduleParams) => {
+  return httpClient
+    .delete(
+      `/v1/travel-plans/${travelPlanId}/day-schedules/${dayScheduleId}/day-schedule-places/${placeId}`
+    )
     .then((res) => res.data);
 };

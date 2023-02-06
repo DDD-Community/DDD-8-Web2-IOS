@@ -1,7 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import { WebView, WebViewMessageEvent } from "react-native-webview";
-import { MessageType, ReceivedMessageType } from "../types/messages";
-import { MAP_WEB_URL } from "@env";
+import { WebView } from "react-native-webview";
+import { MessageType, ReceivedMessageType } from "../../types/messages";
 import { WebViewRef } from "~types";
 
 export type MapWebViewHandle = {

@@ -10,8 +10,12 @@ import {
   FontWeight,
   HexColor,
 } from "~constants";
+import { daySchedulesQuery, useDayScheduleAction } from "~stores/plan";
+import { RecoilValue, useRecoilValueLoadable } from "recoil";
+import { FetchDaySchedulesResponse } from "../../api/types";
 
 type Props = {
+  placeId: string;
   placeName: string;
   placeCategory: Category;
   address: string;
@@ -22,6 +26,7 @@ type Props = {
 };
 
 export const ScheduleEditModal: FC<Props> = ({
+  placeId,
   placeName,
   placeCategory,
   address,
@@ -32,8 +37,13 @@ export const ScheduleEditModal: FC<Props> = ({
 }) => {
   const [memo, setMemo] = useState(initialMemo);
   const [selectedDay, setSelectedDay] = useState(1);
+  const lodableDaySchedules = useRecoilValueLoadable(daySchedulesQuery);
+  const dayScheduleAction = useDayScheduleAction(selectedDay);
 
   useEffect(() => setMemo(memo), [initialMemo]);
+
+  const daySchedules: { data: FetchDaySchedulesResponse } =
+    lodableDaySchedules.contents;
   return (
     <Modal visible={visible} transparent>
       <View
@@ -133,7 +143,13 @@ export const ScheduleEditModal: FC<Props> = ({
                       borderRadius: 12,
                     }}
                     textStyle={{ color: HexColor.White }}
-                    onPress={() => {
+                    onPress={async () => {
+                      await dayScheduleAction.add({
+                        placeId,
+                        memo,
+                        dayScheduleId:
+                          daySchedules.data.daySchedules[selectedDay - 1].id,
+                      });
                       onPressConfirm({
                         memo,
                         selectedDay,

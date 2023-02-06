@@ -7,8 +7,7 @@ import { Button, Layout } from "~components";
 import { httpClient } from "../../api/clients";
 import { getAccessToken, getRefreshToken } from "~utils/secure-store";
 import IconMarker from "~assets/icon/icon-marker.svg";
-import { withSuspense } from "~utils/with-suspense";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { userQuery } from "~stores/user";
 
 export const logout = async () => {
@@ -30,8 +29,12 @@ export const logout = async () => {
     });
 };
 
-const My = withSuspense(() => {
-  const user = useRecoilValue(userQuery);
+const My = () => {
+  const lodableUser = useRecoilValueLoadable(userQuery);
+  if (lodableUser.state === "loading") {
+    return <></>;
+  }
+  const user = lodableUser.contents;
   return (
     <Layout style={styles.view} safeAreaStyle={{ width: "100%" }}>
       <View style={styles.header}>
@@ -60,6 +63,6 @@ const My = withSuspense(() => {
       </View>
     </Layout>
   );
-});
+};
 
 export { My };

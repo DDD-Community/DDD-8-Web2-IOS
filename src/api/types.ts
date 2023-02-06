@@ -193,3 +193,9 @@ export type PostDaySchedulePlaceParams = {
 export type PostBookmarkParams = {
   placeId: string;
 };
+
+export type DeleteDayScheduleParams = {
+  travelPlanId: string;
+  dayScheduleId: string;
+  placeId: string;
+};
