@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     },
     shadowRadius: 4,
     shadowOpacity: 0.05,
+    marginBottom: 16,
   },
   textView: {
     flex: 1,

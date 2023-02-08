@@ -1,13 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import {
-  ColorValue,
-  ImageBackground,
-  ImageSourcePropType,
-  StyleProp,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from "react-native";
+import { StyleProp, TouchableOpacity, View, ViewStyle } from "react-native";
 
 type Props = {
   children: ReactNode;
@@ -15,7 +7,11 @@ type Props = {
 
 export const Grid: FC<Props> = ({ children }) => {
   return (
-    <View style={{ display: "flex", flexDirection: "column" }}>{children}</View>
+    <View
+      style={{ display: "flex", flexDirection: "column", paddingBottom: 80 }}
+    >
+      {children}
+    </View>
   );
 };
 

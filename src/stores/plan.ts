@@ -11,6 +11,8 @@ import {
   deleteDaySchedulePlace,
   fetchDaySchedule,
   postDaySchedulePlace,
+  postTravelPlan,
+  CreateTravelPlanParams,
 } from "~api";
 import { REGION_LAT_LANGS } from "../constants/regions";
 
@@ -23,6 +25,7 @@ export const latestPlanQuery = selector({
   key: "fetchLatestTravelPlan",
   get: async () => {
     const data = await fetchLatestTravelPlan();
+    console.log(data);
     const state = {
       isEffectivePlan: data.hasPlan && !data.content?.end,
       hasPlan: data.hasPlan,
@@ -36,6 +39,18 @@ export const latestPlanQuery = selector({
     };
   },
 });
+
+export const useTravelPlanAction = () => {
+  const refresh = useRecoilRefresher_UNSTABLE(latestPlanQuery);
+  const create = async (params: CreateTravelPlanParams) => {
+    await postTravelPlan(params);
+    refresh();
+  };
+
+  return {
+    create,
+  };
+};
 
 export const daySchedulesQuery = selector({
   key: "fetchDaySchedules",

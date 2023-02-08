@@ -17,18 +17,20 @@ export const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
   },
-  headerTitleText: {
-    fontFamily: FontFamily,
+  title: {
     fontWeight: FontWeight.SemiBold,
     fontSize: FontSize.Large,
+    lineHeight: 25,
   },
   contentView: {
     backgroundColor: HexColor.N10,
     flex: 1,
     height: "100%",
+    paddingHorizontal: 16,
+  },
+  contentViewEmpty: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 16,
   },
   emptyText: {
     color: HexColor.N90,

@@ -7,6 +7,8 @@ import {
   fetchDaySchedule,
   fetchDaySchedules,
   fetchPlacesInRegion,
+  postKakaoPlace,
+  fetchPlace,
 } from "./api";
 import type {
   FetchBookmarkParams,
@@ -65,3 +67,14 @@ export const useFetchDaySchedule = (
 
 export const useFetchPlacesInRegion = (params: FetchPlacesInRegionParams) =>
   useQuery("fetchPlacesInRegion", () => fetchPlacesInRegion(params));
+
+export const useFetchPlaceByKakaoData = (params: {
+  id: string;
+  name: string;
+  address: string;
+}) => {
+  return useQuery("fetchPlacesByKakaoData", async () => {
+    const kakaoPlaceData = await postKakaoPlace(params);
+    return fetchPlace({ id: kakaoPlaceData.id });
+  });
+};

@@ -2,20 +2,31 @@ import React, { FC, useMemo, useState } from "react";
 import { View } from "react-native";
 import { NavigationProp, Route } from "@react-navigation/native";
 import { CalendarList, DateData, CalendarProps } from "react-native-calendars";
-import { DateFormatter, getDatesBetween } from "~utils/date";
-import { Button, Layout } from "~components";
+import {
+  formatOnlyDay,
+  formatDash,
+  formatDot,
+  getDatesBetween,
+} from "~utils/date";
+import { Button, Layout, Text } from "~components";
 import { THEME } from "~constants";
-import { styles } from "./date.styles";
+import { styles } from "./setting-date.styles";
 import { NavigationKey, AppNavigationParamList } from "~types";
-import { useCreateTravelPlan } from "~api";
+import { postTravelPlan } from "~api";
 import { differenceInDays } from "date-fns";
+import IconLeftArrow from "~assets/icon/icon-left-arrow.svg";
+import IconNavClose from "~assets/icon/icon-nav-close.svg";
+import { useTravelPlanAction } from "~stores/plan";
 
 type Props = {
   navigation: NavigationProp<AppNavigationParamList, NavigationKey.SettingDate>;
   route: Route<
     NavigationKey.SettingDate,
     {
-      region: string;
+      region: {
+        title: string;
+        value: string;
+      };
     }
   >;
 };
@@ -24,17 +35,13 @@ type MarkedDates = CalendarProps["markedDates"];
 type NullableDateData = DateData | null;
 type DateRange = [NullableDateData, NullableDateData];
 
-const formatDateDash = DateFormatter["yyyy-MM-dd"];
-const formatDateDot = DateFormatter["yyyy.MM.dd"];
-const formatDay = DateFormatter["dd"];
-
 export const SettingDateScreen: FC<Props> = ({
   navigation,
   route: {
     params: { region },
   },
 }) => {
-  const { createTravelPlan, isLoading } = useCreateTravelPlan();
+  const travelPlanAction = useTravelPlanAction();
   const [buttonText, setButtonText] = useState("날짜를 선택해주세요");
   const [[startDateData, endDateData], setDateDataRange] = useState<DateRange>([
     null,
@@ -63,19 +70,22 @@ export const SettingDateScreen: FC<Props> = ({
 
   const markedDates = useMemo(() => {
     const datesSet: MarkedDates = {};
-
+    let endDateTemp = endDate;
     if (startDate) {
-      const key = formatDateDash(startDate);
+      const key = formatDash(startDate);
       datesSet[key] = {
         startingDay: true,
         endingDay: endDate ? false : true,
         selected: true,
         color: THEME.PRIMARY_BG_COLOR,
       };
+      if (!endDateTemp) {
+        endDateTemp = startDate;
+      }
     }
 
     if (endDate) {
-      const key = formatDateDash(endDate);
+      const key = formatDash(endDate);
       datesSet[key] = {
         startingDay: false,
         endingDay: true,
@@ -84,11 +94,11 @@ export const SettingDateScreen: FC<Props> = ({
       };
     }
 
-    if (startDate && endDate) {
-      const dateBetween = getDatesBetween(startDate, endDate);
+    if (startDate && endDateTemp) {
+      const dateBetween = getDatesBetween(startDate, endDate || endDateTemp);
 
       dateBetween.forEach((date) => {
-        const key = formatDateDash(date);
+        const key = formatDash(date);
         datesSet[key] = {
           selected: true,
           color: THEME.PRIMARY_BG_COLOR,
@@ -96,7 +106,9 @@ export const SettingDateScreen: FC<Props> = ({
       });
 
       setButtonText(
-        `${formatDateDot(startDate)} - ${formatDay(endDate)} 출발!`
+        `${formatDot(startDate)} - ${formatOnlyDay(
+          endDate || endDateTemp
+        )} 출발!`
       );
     }
 
@@ -105,29 +117,26 @@ export const SettingDateScreen: FC<Props> = ({
 
   const dateSelected = startDateData || endDateData;
 
-  const onPressSubmit = () => {
+  const onPressSubmit = async () => {
     if (!startDate || !endDate || !region) {
       return;
     }
-    createTravelPlan(
-      {
-        region,
-        travelStartDate: formatDateDash(startDate),
-        travelDays: Math.abs(differenceInDays(endDate, startDate)) + 1,
-      },
-      {
-        onSuccess() {
-          navigation.navigate(NavigationKey.MainNavigator);
-        },
-        onError(e) {
-          alert(JSON.stringify(e));
-        },
-      }
-    );
+
+    await travelPlanAction.create({
+      region: region.value,
+      travelDays: Math.abs(differenceInDays(endDate, startDate)) + 1,
+      travelStartDate: formatDash(startDate),
+    });
+    navigation.navigate(NavigationKey.MyTripMap);
   };
 
   return (
-    <Layout style={styles.view} safeAreaStyle={{ height: "100%" }}>
+    <Layout style={styles.view} safeAreaStyle={styles.safeArea}>
+      <View style={styles.header}>
+        <Button Icon={IconLeftArrow} onPress={() => navigation.goBack()} />
+        <Text style={styles.headerText}>경기도 여행{"\n"}며칠에 가시나요?</Text>
+        <Button Icon={IconNavClose} onPress={() => navigation.goBack()} />
+      </View>
       <CalendarList
         markingType="period"
         onDayPress={onDayPress}

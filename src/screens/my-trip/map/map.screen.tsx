@@ -2,21 +2,16 @@ import React, { FC, useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
 import { NavigationProp, useFocusEffect } from "@react-navigation/native";
 import {
-  MapWebView,
-  TopFixedView,
   Layout,
-  Text,
   SelectScheduleDay,
-  MapWebViewHandle,
-  Button,
-  CtaButton,
   DaySchedulePlaceList,
-  ConfirmModal,
   ScheduleHeader,
   ScheduleMapWebView,
 } from "~components";
 import { styles } from "./map.styles";
 import { MainNavigationParamList, NavigationKey } from "~types";
+import { ScrollView } from "react-native-gesture-handler";
+import { NestableScrollContainer } from "react-native-draggable-flatlist";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -35,8 +30,10 @@ export const MyTripMapScreen: FC<Props> = ({ navigation }) => {
 
   return (
     <Layout>
-      <View style={styles.mapContainer}>
-        <ScheduleMapWebView day={selectedDay} />
+      <NestableScrollContainer style={styles.mapContainer}>
+        <View style={{ height: 460 }}>
+          <ScheduleMapWebView day={selectedDay} />
+        </View>
         <View style={styles.daysTabContainer}>
           <SelectScheduleDay
             selectedDay={selectedDay}
@@ -48,7 +45,7 @@ export const MyTripMapScreen: FC<Props> = ({ navigation }) => {
             day={selectedDay}
           />
         </View>
-      </View>
+      </NestableScrollContainer>
       <ScheduleHeader
         onPressSearch={onPressSearch}
         onPressStartPlanning={onPressStartPlanning}

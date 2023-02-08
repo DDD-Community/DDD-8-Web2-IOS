@@ -18,11 +18,6 @@ export const getDatesBetween = (start: Date, end: Date): Date[] => {
   return dates;
 };
 
-export const DateFormatter = {
-  ["yyyy-MM-dd"]: createDateFormatter("yyyy-MM-dd"),
-  ["yyyy.MM.dd"]: createDateFormatter("yyyy.MM.dd"),
-  ["dd"]: createDateFormatter("dd"),
-};
-
 export const formatDash = createDateFormatter("yyyy-MM-dd");
 export const formatDot = createDateFormatter("yyyy.MM.dd");
+export const formatOnlyDay = createDateFormatter("dd");

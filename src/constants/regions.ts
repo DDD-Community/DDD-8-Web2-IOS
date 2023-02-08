@@ -71,7 +71,7 @@ export const ALL_REGION_LIST = [
   },
   {
     title: "경상남도",
-    value: "경상북도",
+    value: "경상남도",
     source: require("../../assets/images/gyeongsang-south.png"),
   },
   {

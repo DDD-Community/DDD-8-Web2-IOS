@@ -3,7 +3,6 @@ import { FontSize, FontWeight, HexColor } from "../../constants/theme";
 
 export const styles = StyleSheet.create({
   containerView: {
-    maxHeight: 300,
     paddingTop: 12,
     paddingBottom: 12,
   },

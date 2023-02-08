@@ -1,13 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { View, Image, SafeAreaView } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import {
-  BottomFixedView,
-  Button,
-  ScheduleEditModal,
-  Text,
-  TopFixedView,
-} from "~components";
+import { FixedView, Button, ScheduleEditModal, Text } from "~components";
 import { styles } from "./place-detail.styles";
 import { MainNavigationParamList, NavigationKey } from "~types";
 import {
@@ -17,6 +11,7 @@ import {
   postBookmark,
   postDaySchedulePlace,
   postKakaoPlace,
+  useFetchPlaceByKakaoData,
 } from "~api";
 import { CategoryText } from "~constants";
 import { removeTags } from "~utils/string";
@@ -34,6 +29,7 @@ import {
   latestPlanQuery,
   useDayScheduleAction,
 } from "~stores/plan";
+import { useQuery } from "react-query";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -53,19 +49,9 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   const [place, setPlace] = useState<FetchPlaceResponse | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const kakaoPlaceData = await postKakaoPlace({
-        id: route.params.id,
-        name: route.params.name,
-        address: route.params.address,
-      });
-      const data = await fetchPlace({ id: kakaoPlaceData.id });
-      setPlace(data);
-    })();
-  }, [route.params.id]);
+  const placeQuery = useFetchPlaceByKakaoData(route.params);
 
-  if (!place) {
+  if (placeQuery.isFetching || !placeQuery.data || placeQuery.isRefetching) {
     return null;
   }
   if (travelPlan.state === "loading" || daySchedules.state === "loading") {
@@ -75,18 +61,21 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   return (
     <View style={styles.view}>
       <View>
-        <Image source={{ uri: place.imageLink }} style={styles.image} />
+        <Image
+          source={{ uri: placeQuery.data.imageLink }}
+          style={styles.image}
+        />
       </View>
       <View style={styles.placeDetailView}>
         <View style={styles.titleView}>
-          <Text style={styles.titleText}>{place.name}</Text>
+          <Text style={styles.titleText}>{placeQuery.data.name}</Text>
           <Text style={styles.categoryText}>
-            {CategoryText[place.caregory]}
+            {CategoryText[placeQuery.data.caregory]}
           </Text>
         </View>
         <View style={styles.addressView}>
-          <Text style={styles.addressText}>{place.address}</Text>
-          <Text style={styles.phoneNumText}>{place.telephone}</Text>
+          <Text style={styles.addressText}>{placeQuery.data.address}</Text>
+          <Text style={styles.phoneNumText}>{placeQuery.data.telephone}</Text>
         </View>
       </View>
       <View style={styles.blogItemsView}>
@@ -95,34 +84,36 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
           <Text style={styles.blogTitleText}>네이버 블로그 장소 후기</Text>
         </View>
         <View>
-          {place.blogs.map((item, index) => (
+          {placeQuery.data.blogs.map((item, index) => (
             <View style={styles.blogItemView} key={index}>
               <Text style={styles.blogItemText}>{removeTags(item.title)}</Text>
             </View>
           ))}
         </View>
       </View>
-      <TopFixedView style={styles.topFixedView}>
+      <FixedView type="top" style={styles.topFixedView}>
         <Button
           Icon={IconLeftArrowWhite}
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         />
-      </TopFixedView>
+      </FixedView>
       <SafeAreaView style={{ height: 68, backgroundColor: "#fff" }}>
-        <BottomFixedView style={styles.bottomFixedView}>
+        <FixedView type="bottom" style={styles.bottomFixedView}>
           <Button
             Icon={
-              !place.bookmark.activated || !place.bookmark.present
+              !placeQuery.data.bookmark.activated ||
+              !placeQuery.data.bookmark.present
                 ? IconBookmarkBoxInactive
                 : IconBookmarkBoxActive
             }
             onPress={() => {
-              if (!place.bookmark.present) {
-                postBookmark({ placeId: place.id });
+              if (!placeQuery.data.bookmark.present) {
+                postBookmark({ placeId: placeQuery.data.id });
               } else {
-                patchBookmark({ placeId: place.id });
+                patchBookmark({ placeId: placeQuery.data.id });
               }
+              placeQuery.refetch();
             }}
           />
           <Button
@@ -132,13 +123,13 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
             textStyle={[styles.buttonText, styles.addScheduleButtonText]}
             onPress={() => setModalVisible(true)}
           />
-        </BottomFixedView>
+        </FixedView>
       </SafeAreaView>
       <ScheduleEditModal
-        placeId={place.id}
-        placeName={place.name}
-        placeCategory={place.caregory}
-        address={place.address}
+        placeId={placeQuery.data.id}
+        placeName={placeQuery.data.name}
+        placeCategory={placeQuery.data.caregory}
+        address={placeQuery.data.address}
         initialMemo={""}
         visible={modalVisible}
         onPressClose={() => setModalVisible(false)}

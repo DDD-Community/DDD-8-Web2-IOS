@@ -1,5 +1,5 @@
 import React, { FC, Suspense } from "react";
-import { TopFixedView } from "../top-fixed-view.component";
+import { FixedView } from "../views/fixed-view.component";
 import { CtaButton } from "../buttons/cta-button.component";
 import { Button } from "../buttons/button.component";
 import { Text } from "../text.component";
@@ -25,8 +25,9 @@ export const ScheduleHeader: FC<Props> = ({
   if (loadableTravelPlan.state === "loading") {
     return <></>;
   }
-  const travelPlan = loadableTravelPlan.contents;
 
+  const travelPlan = loadableTravelPlan.contents;
+  console.log("here", travelPlan.data.content);
   const title = travelPlan.data.content?.title!;
   const travelDays = travelPlan.data.content?.travelDays!;
   const startDate = new Date(travelPlan.data.content?.startDate!);
@@ -35,7 +36,7 @@ export const ScheduleHeader: FC<Props> = ({
   const travelDayInfoText = `${formattedStartDate} - ${endDate.getDate()} (${travelDays}일간)`;
 
   return (
-    <TopFixedView>
+    <FixedView type="top">
       <View style={styles.topFixedCardView}>
         <IconMarker />
         <View style={styles.topFixedCardViewTextView}>
@@ -51,6 +52,6 @@ export const ScheduleHeader: FC<Props> = ({
       <View style={styles.buttonView}>
         <CtaButton onPress={onPressStartPlanning} />
       </View>
-    </TopFixedView>
+    </FixedView>
   );
 };

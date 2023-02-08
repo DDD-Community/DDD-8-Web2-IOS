@@ -7,6 +7,19 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  safeArea: {
+    height: "100%",
+  },
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 21,
+    alignItems: "center",
+  },
+  headerText: {
+    textAlign: "center",
+  },
   bottomFixed: {
     width: "100%",
     backgroundColor: "#fff",

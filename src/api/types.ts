@@ -52,7 +52,7 @@ export type FetchBookmarksResponse = {
   places: {
     id: string;
     name: string;
-    defailAddress: string;
+    detailAddress: string;
     imageUrl: string;
     category: Category;
     bookmark: {

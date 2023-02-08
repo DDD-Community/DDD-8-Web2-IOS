@@ -17,7 +17,7 @@ import { styles } from "./search.styles";
 import { View } from "react-native";
 import { MAP_WEB_URL } from "@env";
 import { searchPlaces } from "~api";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { latestPlanQuery } from "~stores/plan";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -29,9 +29,14 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/search`;
   const [keyword, setKeyword] = useState("");
   const [page, setPage] = useState(1);
-  const travelPlan = useRecoilValue(latestPlanQuery);
+  const loadableTravelPlan = useRecoilValueLoadable(latestPlanQuery);
   const webViewRef = useRef<MapWebViewHandle>(null);
 
+  if (loadableTravelPlan.state === "loading") {
+    return <></>;
+  }
+
+  const travelPlan = loadableTravelPlan.contents;
   const onPressBackButton = () => navigation.goBack();
 
   const onPressCancel = () => {

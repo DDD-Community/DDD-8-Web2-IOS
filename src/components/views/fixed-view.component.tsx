@@ -1,15 +1,16 @@
 import React, { FC, ReactNode } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
-import Constants from "expo-constants";
+import { styles } from "./fixed-view.styles";
 
 type Props = {
+  type: "top" | "bottom";
   style?: StyleProp<ViewStyle>;
   children: ReactNode;
 };
 
-export const BottomFixedView: FC<Props> = ({ style, children }) => {
+export const FixedView: FC<Props> = ({ type, style, children }) => {
   return (
-    <View style={[style, { position: "absolute", bottom: 0, width: "100%" }]}>
+    <View style={[style, type === "bottom" ? styles.bottom : styles.top]}>
       {children}
     </View>
   );

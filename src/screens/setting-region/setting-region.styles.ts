@@ -4,6 +4,7 @@ import {
   FontWeight,
   BgColor,
   TextColor,
+  HexColor,
 } from "../../constants/theme";
 
 const selectButtonCommon = {
@@ -20,6 +21,9 @@ export const styles = StyleSheet.create({
     paddingRight: 16,
   },
   safeArea: { height: "100%" },
+  innerView: {
+    height: "100%",
+  },
   header: {
     display: "flex",
     flexDirection: "row",
@@ -28,9 +32,11 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "flex-start",
   },
-  headerDescText: {
+  headerDesc: {
     fontWeight: FontWeight.SemiBold,
     fontSize: FontSize.Small,
+    color: HexColor.N900,
+    lineHeight: 17,
   },
   headerCloseButton: {
     marginLeft: "auto",
@@ -64,8 +70,8 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
-  regionText: {
-    color: "#fff",
+  regionTitle: {
+    color: HexColor.White,
     textAlign: "center",
     textAlignVertical: "center",
     fontSize: FontSize.Small,
@@ -74,25 +80,24 @@ export const styles = StyleSheet.create({
   selectButtonTextCommon: {
     fontWeight: FontWeight.SemiBold,
   },
-  selectButtonActive: {
-    ...selectButtonCommon,
-    backgroundColor: BgColor.Primary,
+  confirmButton: {
+    marginHorizontal: 4,
+    backgroundColor: HexColor.N20,
   },
-  selectButtonTextActive: {
-    ...selectButtonCommon,
-    color: TextColor.Primary,
+  confirmButtonActive: {
+    backgroundColor: HexColor.Primary,
   },
-  selectButtonInactive: {
-    backgroundColor: BgColor.InActive,
+  confirmButtonText: {
+    color: HexColor.N50,
+    fontWeight: FontWeight.SemiBold,
+    fontSize: FontSize.Large,
   },
-  selectButtonTextInactive: {
-    color: TextColor.InActive,
+  confirmButtonTextActive: {
+    color: HexColor.White,
   },
   bottomFixedView: {
-    position: "absolute",
-    width: "100%",
-    bottom: 0,
-    backgroundColor: "#fff",
+    backgroundColor: HexColor.White,
     paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 });

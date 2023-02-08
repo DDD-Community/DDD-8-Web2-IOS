@@ -12,6 +12,7 @@ import { DaySchedulePlaceItem } from "./day-schedule-place-item.component";
 import { Text } from "../text.component";
 import { styles } from "./day-schedule-place-list.styles";
 import { FetchDayScheduleResponse } from "../../api/types";
+import { ScheduleMapWebView } from "../webviews/schdule-map-web-view.component";
 
 type Props = {
   editable: boolean;
@@ -55,51 +56,51 @@ export const DaySchedulePlaceList: FC<Props> = ({
 
   return (
     <>
-      <NestableScrollContainer style={styles.containerView}>
-        <NestableDraggableFlatList
-          style={styles.listView}
-          data={data || []}
-          renderItem={(args) => {
-            const num = (args.getIndex() || 0) + 1;
-            return (
-              <DaySchedulePlaceItem
-                name={args.item.place.name}
-                category={args.item.place.category}
-                memo={args.item.memo}
-                onLongPress={args.drag}
-                editable={editable}
-                number={num}
-                isLast={num === data.length}
-                id={args.item.id}
-                onPressDelete={() => {
-                  setDeletePlaceId(args.item.id);
-                  setModalVisible(true);
-                }}
-              />
-            );
-          }}
-          keyExtractor={(item) => item.id}
-          onDragEnd={({ data }) => setData(data)}
-        />
-        <View style={styles.buttonView}>
-          {editable && (
-            <Button
-              title="일정 편집완료"
-              buttonStyle={styles.saveButton}
-              textStyle={styles.saveButtonText}
-              onPress={onPressChangeEditMode}
+      <NestableDraggableFlatList
+        scrollEnabled={false}
+        style={styles.listView}
+        data={data || []}
+        renderItem={(args) => {
+          const num = (args.getIndex() || 0) + 1;
+          return (
+            <DaySchedulePlaceItem
+              name={args.item.place.name}
+              category={args.item.place.category}
+              memo={args.item.memo}
+              onLongPress={args.drag}
+              editable={editable}
+              number={num}
+              isLast={num === data.length}
+              id={args.item.id}
+              onPressDelete={() => {
+                setDeletePlaceId(args.item.id);
+                setModalVisible(true);
+              }}
             />
-          )}
-          {!editable && (
-            <Button
-              title="일정 편집하기"
-              buttonStyle={styles.editButton}
-              textStyle={styles.editButtonText}
-              onPress={onPressChangeEditMode}
-            />
-          )}
-        </View>
-      </NestableScrollContainer>
+          );
+        }}
+        keyExtractor={(item) => item.id}
+        onDragEnd={({ data }) => setData(data)}
+      />
+      <View style={styles.buttonView}>
+        {editable && (
+          <Button
+            title="일정 편집완료"
+            buttonStyle={styles.saveButton}
+            textStyle={styles.saveButtonText}
+            onPress={onPressChangeEditMode}
+          />
+        )}
+        {!editable && (
+          <Button
+            title="일정 편집하기"
+            buttonStyle={styles.editButton}
+            textStyle={styles.editButtonText}
+            onPress={onPressChangeEditMode}
+          />
+        )}
+      </View>
+
       <ConfirmModal
         visible={modalVisible}
         onPressCancel={() => {

@@ -2,8 +2,9 @@ import { MAP_WEB_URL } from "@env";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useRecoilValueLoadable } from "recoil";
 import { dayScheduleQuery } from "~stores/plan";
-import { MessageType } from "../../types/messages";
+import { MessageType } from "~types";
 import { MapWebView, MapWebViewHandle } from "./map-web-view.component";
+import { styles } from "./schdule-map-web-view.styles";
 
 type Props = {
   day: number;

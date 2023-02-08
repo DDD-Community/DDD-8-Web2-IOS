@@ -11,7 +11,7 @@ import {
   Button,
   MapWebView,
   Layout,
-  TopFixedView,
+  FixedView,
   MapWebViewHandle,
   CtaButton,
   Text,
@@ -68,7 +68,7 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
           ref={webViewRef}
           onLoad={() => setWebViewLoaded(true)}
         />
-        <TopFixedView style={styles.topFixed}>
+        <FixedView type="top" style={styles.topFixed}>
           <View style={styles.topFixedTopView}>
             <View style={styles.topFixedIconView}>
               <IconLogo />
@@ -82,7 +82,7 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
           <View style={styles.buttonView}>
             <CtaButton onPress={onPressStartPlanning} />
           </View>
-        </TopFixedView>
+        </FixedView>
         <BottomSheet
           index={0}
           ref={bottomSheetRef}

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, startTransition, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Modal, TextInput, View } from "react-native";
 import { Text } from "../text.component";
 import { SelectScheduleDay } from "../selects/select-schedule-day.component";

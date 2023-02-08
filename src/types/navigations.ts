@@ -22,10 +22,14 @@ export type AppNavigationParamList = {
   [NavigationKey.LoginNavigator]: undefined;
   [NavigationKey.MainNavigator]: undefined;
   [NavigationKey.SettingDate]: {
-    region: string;
+    region: {
+      title: string;
+      value: string;
+    };
   };
   [NavigationKey.SettingRegion]: undefined;
   [NavigationKey.PlaceDetail]: undefined;
+  [NavigationKey.MyTripMap]: undefined;
 };
 
 export type LoginNavigationParamList = {

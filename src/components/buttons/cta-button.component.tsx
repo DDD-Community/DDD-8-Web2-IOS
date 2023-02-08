@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Button } from "./button.component";
 import { latestPlanQuery } from "~stores/plan";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { styles } from "./cta-button.styles";
 
 type Props = {
@@ -9,10 +9,17 @@ type Props = {
 };
 
 export const CtaButton: FC<Props> = ({ onPress }) => {
-  const latestPlan = useRecoilValue(latestPlanQuery);
+  const loadableTravelPlan = useRecoilValueLoadable(latestPlanQuery);
 
-  if (!latestPlan.state.isEffectivePlan || !latestPlan.state.hasPlan) {
-    const title = !latestPlan.state.hasPlan
+  if (loadableTravelPlan.state === "loading") {
+    return <></>;
+  }
+
+  if (
+    !loadableTravelPlan.contents.state.isEffectivePlan ||
+    !loadableTravelPlan.contents.state.hasPlan
+  ) {
+    const title = !loadableTravelPlan.contents.state.hasPlan
       ? "✏ 여행 계획을 세워볼까요?"
       : "✏여행 종료! 새 여행을 시작해봐요 🤩";
 
