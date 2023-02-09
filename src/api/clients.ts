@@ -1,6 +1,9 @@
 import { API_BASE_URL } from "@env";
 import axios, { isAxiosError } from "axios";
+import { QueryClient } from "react-query";
 import { getAccessToken } from "~utils/secure-store";
+
+export const queryClient = new QueryClient();
 
 const httpClient = axios.create({
   baseURL: API_BASE_URL,

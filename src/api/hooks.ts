@@ -1,4 +1,9 @@
-import { useQuery, useMutation } from "react-query";
+import {
+  useQuery,
+  useMutation,
+  useInfiniteQuery,
+  InvalidateOptions,
+} from "react-query";
 import {
   searchPlaces,
   postTravelPlan,
@@ -9,13 +14,17 @@ import {
   fetchPlacesInRegion,
   postKakaoPlace,
   fetchPlace,
+  postBookmark,
+  patchBookmark,
 } from "./api";
+import { queryClient } from "./clients";
 import type {
   FetchBookmarkParams,
   FetchDayScheduleParams,
   SearchPlaceParams,
   FetchDaySchedulesParams,
   FetchPlacesInRegionParams,
+  PostBookmarkParams,
 } from "./types";
 
 export const useSearchPlaces = (params: SearchPlaceParams) => {
@@ -25,18 +34,70 @@ export const useSearchPlaces = (params: SearchPlaceParams) => {
   return [query.refetch, query] as const;
 };
 
-export const useCreateTravelPlan = () => {
-  const { data, isLoading, mutate } = useMutation(postTravelPlan);
+// export const useCreateTravelPlan = () => {
+//   const { data, isLoading, mutate } = useMutation(postTravelPlan);
 
-  return {
-    createTravelPlan: mutate,
-    data,
-    isLoading,
-  } as const;
+//   return {
+//     createTravelPlan: mutate,
+//     data,
+//     isLoading,
+//   } as const;
+// };
+
+// export const useGetBookmarks = (params: FetchBookmarkParams) =>
+//   useQuery("getBookmarks", () => fetchBookmarks(params));
+
+export const useGetInifiniteBookmarks = ({
+  size,
+  category,
+}: Omit<FetchBookmarkParams, "page">) => {
+  return useInfiniteQuery(
+    ["getBookmarks"],
+    async ({ pageParam = 0 }) => {
+      const bookmarks = await fetchBookmarks({
+        category,
+        page: pageParam,
+        size,
+      });
+      return {
+        places: bookmarks.places,
+        hasNext: bookmarks.hasNext,
+        currentPage: pageParam,
+      };
+    },
+    {
+      getNextPageParam(lastPage) {
+        if (lastPage.hasNext) {
+          return lastPage.currentPage + 1;
+        }
+        return undefined;
+      },
+    }
+  );
 };
 
-export const useGetBookmarks = (params: FetchBookmarkParams) =>
-  useQuery("getBookmarks", () => fetchBookmarks(params));
+export const useBookmarkAction = () => {
+  const add = async (params: PostBookmarkParams) => {
+    await postBookmark(params);
+    queryClient.invalidateQueries({
+      queryKey: ["getBookmarks"],
+    });
+  };
+
+  const toggle = async (params: PostBookmarkParams, refetch = true) => {
+    await patchBookmark(params);
+    if (refetch) {
+      queryClient.invalidateQueries({
+        queryKey: ["getBookmarks"],
+      });
+    }
+  };
+
+  return {
+    add,
+    toggle,
+  };
+};
 
 export const useFetchCurrentTravelPlan = () => {
   const travelPlan = useQuery("fetchCurrentTravel", fetchLatestTravelPlan);

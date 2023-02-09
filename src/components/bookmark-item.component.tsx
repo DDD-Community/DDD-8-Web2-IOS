@@ -7,11 +7,20 @@ import { HexColor } from "~constants";
 import IconBookmark from "~assets/icon/icon-bookmark.svg";
 
 type Props = {
+  id: string;
   placeName: string;
   address: string;
+  isBookmarked?: boolean;
+  onPressBookmark: (params: { id: string; isBookmarked: boolean }) => void;
 };
 
-export const BookmarkItem: FC<Props> = ({ placeName, address }) => {
+export const BookmarkItem: FC<Props> = ({
+  id,
+  placeName,
+  address,
+  isBookmarked = true,
+  onPressBookmark,
+}) => {
   return (
     <View style={styles.view}>
       <View style={styles.textView}>
@@ -20,7 +29,12 @@ export const BookmarkItem: FC<Props> = ({ placeName, address }) => {
       </View>
       <Button
         style={styles.bookmarkButton}
-        Icon={() => <IconBookmark fill={HexColor.Primary} />}
+        onPress={() => {
+          onPressBookmark({ id, isBookmarked });
+        }}
+        Icon={() => (
+          <IconBookmark fill={isBookmarked ? HexColor.Primary : HexColor.N40} />
+        )}
       />
     </View>
   );

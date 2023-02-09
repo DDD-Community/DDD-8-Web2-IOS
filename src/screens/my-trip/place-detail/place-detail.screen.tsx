@@ -1,35 +1,23 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { View, Image, SafeAreaView } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { FixedView, Button, ScheduleEditModal, Text } from "~components";
 import { styles } from "./place-detail.styles";
 import { MainNavigationParamList, NavigationKey } from "~types";
-import {
-  fetchPlace,
-  FetchPlaceResponse,
-  patchBookmark,
-  postBookmark,
-  postDaySchedulePlace,
-  postKakaoPlace,
-  useFetchPlaceByKakaoData,
-} from "~api";
+import { FetchPlaceResponse, useFetchPlaceByKakaoData } from "~api";
 import { CategoryText } from "~constants";
 import { removeTags } from "~utils/string";
 import IconNaverBlog from "~assets/icon/icon-naver-blog.svg";
 import IconLeftArrowWhite from "~assets/icon/icon-left-arrow-white.svg";
 import IconBookmarkBoxInactive from "~assets/icon/icon-bookmark-box-inactive.svg";
 import IconBookmarkBoxActive from "~assets/icon/icon-bookmark-box-active.svg";
-import {
-  useRecoilRefresher_UNSTABLE,
-  useRecoilValue,
-  useRecoilValueLoadable,
-} from "recoil";
+import { useRecoilValueLoadable } from "recoil";
 import {
   daySchedulesQuery,
   latestPlanQuery,
   useDayScheduleAction,
 } from "~stores/plan";
-import { useQuery } from "react-query";
+import { useBookmarkAction } from "~api";
 
 type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
@@ -48,6 +36,7 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   const daySchedules = useRecoilValueLoadable(daySchedulesQuery);
   const [place, setPlace] = useState<FetchPlaceResponse | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const bookmarkAction = useBookmarkAction();
 
   const placeQuery = useFetchPlaceByKakaoData(route.params);
 
@@ -109,9 +98,9 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
             }
             onPress={() => {
               if (!placeQuery.data.bookmark.present) {
-                postBookmark({ placeId: placeQuery.data.id });
+                bookmarkAction.add({ placeId: placeQuery.data.id });
               } else {
-                patchBookmark({ placeId: placeQuery.data.id });
+                bookmarkAction.toggle({ placeId: placeQuery.data.id });
               }
               placeQuery.refetch();
             }}
