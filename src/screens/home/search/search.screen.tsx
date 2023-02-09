@@ -38,7 +38,7 @@ export const SearchScreen: FC<Props> = ({ navigation }) => {
   };
 
   const onSubmitEditing = async (hasnext: boolean) => {
-    setPage(page + 1);
+    hasnext ? setPage(page + 1) : setPage(1);
     console.log(page, hasnext);
     const result = await searchPlaces({
       keyword,
