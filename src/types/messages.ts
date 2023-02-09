@@ -5,9 +5,11 @@ export enum MessageType {
   OnResPlacesSearch = "OnResPlacesSearch",
   OnResDaySchedulePlaces = "OnResDaySchedulePlaces",
   SetLocation = "SetLocation",
+  RefreshBookmark = "RefreshBookmark",
 }
 
 export enum ReceivedMessageType {
   OnLoad = "onLoad",
   GoLocationDetail = "goLocaionDetail",
+  SetBookmark = "setBookmark",
 }

@@ -21,10 +21,15 @@ import {
 import IconSearch from "~assets/icon/icon-search.svg";
 import { styles } from "./main.styles";
 import { NavigationProp } from "@react-navigation/native";
-import { NavigationKey, HomeNavigationParamList, MessageType } from "~types";
+import {
+  NavigationKey,
+  HomeNavigationParamList,
+  MessageType,
+  ReceivedMessageType,
+} from "~types";
 import IconLogo from "~assets/icon/icon-logo.svg";
 import { MAP_WEB_URL } from "@env";
-import { useFetchPlacesInRegion } from "~api";
+import { useFetchPlacesInRegion, patchBookmark, postBookmark } from "~api";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -50,7 +55,6 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
     page: 0,
     size: 10,
   });
-
   useEffect(() => {
     if (webViewLoaded) {
       webViewRef.current?.postMessage(
@@ -59,7 +63,24 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
       );
     }
   }, [webViewLoaded, query.data]);
-
+  const onMessage = async (
+    type: string,
+    data: { placeId: string; bookmarkTF: boolean }
+  ) => {
+    let bookMarkResult;
+    if (type === ReceivedMessageType.SetBookmark) {
+      if (!data.bookmarkTF) {
+        bookMarkResult = await postBookmark({ placeId: data.placeId });
+      } else {
+        bookMarkResult = await patchBookmark({ placeId: data.placeId });
+      }
+      webViewRef.current?.postMessage(
+        MessageType.RefreshBookmark,
+        bookMarkResult.activated
+        // query.data
+      );
+    }
+  };
   return (
     <Layout safeAreaStyle={styles.container}>
       <Suspense>
@@ -67,6 +88,7 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
           uri={mapUri}
           ref={webViewRef}
           onLoad={() => setWebViewLoaded(true)}
+          onMessage={onMessage}
         />
         <FixedView type="top" style={styles.topFixed}>
           <View style={styles.topFixedTopView}>
