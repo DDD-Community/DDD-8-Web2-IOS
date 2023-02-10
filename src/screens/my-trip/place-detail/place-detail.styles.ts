@@ -90,6 +90,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     backgroundColor: "#fff",
+    paddingBottom: 16,
   },
   button: {
     borderColor: HexColor.Primary,

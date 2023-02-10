@@ -86,7 +86,15 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
           onPress={() => navigation.goBack()}
         />
       </FixedView>
-      <SafeAreaView style={{ height: 68, backgroundColor: "#fff" }}>
+      <SafeAreaView
+        style={{
+          height: 40,
+          backgroundColor: "#fff",
+          position: "absolute",
+          width: "100%",
+          bottom: 0,
+        }}
+      >
         <FixedView type="bottom" style={styles.bottomFixedView}>
           <Button
             Icon={
