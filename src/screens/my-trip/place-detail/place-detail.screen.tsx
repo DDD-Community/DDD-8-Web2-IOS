@@ -49,6 +49,7 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   }
 
   console.log("here", route);
+  if(route.params.placeId === placeQuery.data.id)
   return (
     <View style={styles.view}>
       <View>
