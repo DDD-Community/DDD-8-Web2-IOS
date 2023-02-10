@@ -221,3 +221,10 @@ export type PatchDaySchedulePlaceParams = {
   daySchedulePlaceId: string;
   memo: string;
 };
+
+export type GetPlacesByCategoryAndRegionParams = {
+  region: string;
+  category: Category;
+};
+
+export type GetPlacesByCategoryAndRegionResponse = {};

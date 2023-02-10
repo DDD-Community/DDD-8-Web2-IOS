@@ -4,7 +4,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { FixedView, Button, ScheduleEditModal, Text } from "~components";
 import { styles } from "./place-detail.styles";
 import { MainNavigationParamList, NavigationKey } from "~types";
-import { FetchPlaceResponse, useFetchPlaceByKakaoData } from "~api";
+import { FetchPlaceResponse, useFetchPlace } from "~api";
 import { CategoryText } from "~constants";
 import { removeTags } from "~utils/string";
 import IconNaverBlog from "~assets/icon/icon-naver-blog.svg";
@@ -23,9 +23,7 @@ type Props = {
   navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
   route: {
     params: {
-      id: string;
-      name: string;
-      address: string;
+      placeId: string;
     };
   };
 };
@@ -38,7 +36,7 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const bookmarkAction = useBookmarkAction();
 
-  const placeQuery = useFetchPlaceByKakaoData(route.params);
+  const placeQuery = useFetchPlace({ placeId: route.params.placeId });
 
   if (placeQuery.isFetching || !placeQuery.data || placeQuery.isRefetching) {
     return null;
@@ -46,6 +44,8 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   if (travelPlan.state === "loading" || daySchedules.state === "loading") {
     return <></>;
   }
+
+  console.log(placeQuery.data);
 
   return (
     <View style={styles.view}>

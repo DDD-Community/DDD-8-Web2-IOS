@@ -183,3 +183,9 @@ export const patchDaySchedulePlace = ({
     )
     .then((res) => res.data);
 };
+
+export const getPlacesByCategoryAndRegion = () => {
+  return httpClient
+    .get(`/v1/places/categories/regions`)
+    .then((res) => res.data);
+};

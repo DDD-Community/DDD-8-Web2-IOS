@@ -131,14 +131,10 @@ export const useFetchDaySchedule = (
 export const useFetchPlacesInRegion = (params: FetchPlacesInRegionParams) =>
   useQuery("fetchPlacesInRegion", () => fetchPlacesInRegion(params));
 
-export const useFetchPlaceByKakaoData = (params: {
-  id: string;
-  name: string;
-  address: string;
-}) => {
+export const useFetchPlace = (params: { placeId: string }) => {
   return useQuery("fetchPlacesByKakaoData", async () => {
-    const kakaoPlaceData = await postKakaoPlace(params);
-    return fetchPlace({ id: kakaoPlaceData.id });
+    // const kakaoPlaceData = await postKakaoPlace(params);
+    return fetchPlace({ id: params.placeId });
   });
 };
 

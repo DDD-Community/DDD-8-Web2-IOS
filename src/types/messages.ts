@@ -10,6 +10,6 @@ export enum MessageType {
 
 export enum ReceivedMessageType {
   OnLoad = "onLoad",
-  GoLocationDetail = "goLocaionDetail",
+  GoLocationDetail = "goLocationDetail",
   SetBookmark = "setBookmark",
 }

@@ -81,10 +81,7 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
       );
     }
   }, [webViewLoaded, query.data]);
-  const onMessage = async (
-    type: string,
-    data: { placeId: string; bookmarkTF: boolean }
-  ) => {
+  const onMessage = async (type: string, data: any) => {
     let bookMarkResult;
     if (type === ReceivedMessageType.SetBookmark) {
       if (!data.bookmarkTF) {
@@ -95,8 +92,11 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
       webViewRef.current?.postMessage(
         MessageType.RefreshBookmark,
         bookMarkResult.activated
-        // query.data
       );
+    } else if (type === ReceivedMessageType.GoLocationDetail) {
+      navigation.navigate(NavigationKey.PlaceDetail, {
+        placeId: data.id,
+      });
     }
   };
   return (

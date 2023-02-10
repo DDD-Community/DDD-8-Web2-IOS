@@ -1,3 +1,5 @@
+import { Category } from "~constants";
+
 export enum NavigationKey {
   LoginNavigator = "LoginNavigator",
   MainNavigator = "MainNavigator",
@@ -43,10 +45,14 @@ export type HomeNavigationParamList = {
   [NavigationKey.Main]: undefined;
   [NavigationKey.SettingRegion]: undefined;
   [NavigationKey.PlaceDetail]: {
-    id: string;
-    address: string;
-    name: string;
+    placeId: string;
   };
+  [NavigationKey.Search]:
+    | undefined
+    | {
+        keyword?: string;
+        category?: Category;
+      };
 };
 
 export type MainNavigationParamList = {
@@ -54,9 +60,7 @@ export type MainNavigationParamList = {
   [NavigationKey.Bookmark]: undefined;
   [NavigationKey.Profile]: undefined;
   [NavigationKey.PlaceDetail]: {
-    id: string;
-    address: string;
-    name: string;
+    placeId: string;
   };
   [NavigationKey.SettingRegion]: undefined;
 };
