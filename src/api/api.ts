@@ -20,6 +20,8 @@ import type {
   PostDaySchedulePlaceParams,
   PostBookmarkParams,
   DeleteDayScheduleParams,
+  GetBookmarksRegionsParams,
+  GetBookmarksRegionsResponse,
 } from "./types";
 
 export const searchPlaces = ({
@@ -146,6 +148,18 @@ export const deleteDaySchedulePlace = ({
   return httpClient
     .delete(
       `/v1/travel-plans/${travelPlanId}/day-schedules/${dayScheduleId}/day-schedule-places/${placeId}`
+    )
+    .then((res) => res.data);
+};
+
+export const getBookmarksRegions = ({
+  region,
+  page,
+  size,
+}: GetBookmarksRegionsParams): Promise<GetBookmarksRegionsResponse> => {
+  return httpClient
+    .get(
+      `/v1/places/bookmarks/regions?region=${region}&page=${page}&size=${size}`
     )
     .then((res) => res.data);
 };

@@ -16,6 +16,7 @@ import {
   fetchPlace,
   postBookmark,
   patchBookmark,
+  getBookmarksRegions,
 } from "./api";
 import { queryClient } from "./clients";
 import type {
@@ -25,6 +26,7 @@ import type {
   FetchDaySchedulesParams,
   FetchPlacesInRegionParams,
   PostBookmarkParams,
+  GetBookmarksRegionsParams,
 } from "./types";
 
 export const useSearchPlaces = (params: SearchPlaceParams) => {
@@ -138,4 +140,8 @@ export const useFetchPlaceByKakaoData = (params: {
     const kakaoPlaceData = await postKakaoPlace(params);
     return fetchPlace({ id: kakaoPlaceData.id });
   });
+};
+
+export const useGetBookmarkRegions = (params: GetBookmarksRegionsParams) => {
+  return useQuery("fetchRegionBookmarks", () => getBookmarksRegions(params));
 };

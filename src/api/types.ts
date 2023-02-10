@@ -199,3 +199,18 @@ export type DeleteDayScheduleParams = {
   dayScheduleId: string;
   placeId: string;
 };
+
+export type GetBookmarksRegionsParams = {
+  region: string;
+  page: number;
+  size: number;
+};
+
+export type GetBookmarksRegionsResponse = {
+  places: {
+    id: string;
+    name: string;
+    imageLink: string;
+  }[];
+  hasNext: boolean;
+};

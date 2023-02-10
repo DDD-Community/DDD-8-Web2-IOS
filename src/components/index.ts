@@ -22,3 +22,4 @@ export * from "./headers/schedule-header.component";
 export * from "./webviews/schdule-map-web-view.component";
 export * from "./tabs/category-tabs.component";
 export * from "./views/fixed-view.component";
+export * from "./lists/bookmarks-places-suggestion-list.component";
