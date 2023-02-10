@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { View, Image, SafeAreaView } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { FixedView, Button, ScheduleEditModal, Text } from "~components";
@@ -35,7 +35,9 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   const bookmarkAction = useBookmarkAction();
 
   const placeQuery = useFetchPlace({ placeId: route.params.placeId });
-
+  useEffect(() => {
+    placeQuery.refetch();
+  }, [route.params?.placeId]);
   if (placeQuery.isLoading || !placeQuery.data) {
     return null;
   }
@@ -43,6 +45,7 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
     return <></>;
   }
 
+  console.log("here", route);
   return (
     <View style={styles.view}>
       <View>

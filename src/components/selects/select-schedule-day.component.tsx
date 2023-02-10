@@ -28,7 +28,8 @@ export const SelectScheduleDay: FC<Props> = ({ selectedDay, onSelect }) => {
 
   if (
     lodableTravelPlan.state === "loading" ||
-    lodableDaySchedules.state === "loading"
+    lodableDaySchedules.state === "loading" ||
+    !travelPlan?.data?.content
   ) {
     return <></>;
   }

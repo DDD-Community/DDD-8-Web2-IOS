@@ -108,6 +108,9 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
           onLoad={() => setWebViewLoaded(true)}
           onMessage={onMessage}
         />
+        <View style={styles.buttonView}>
+          <CtaButton onPress={onPressStartPlanning} />
+        </View>
         <BottomSheet
           detached
           index={0}
@@ -138,9 +141,6 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
               onPress={onPressSearchButton}
               buttonStyle={styles.searchButton}
             />
-          </View>
-          <View style={styles.buttonView}>
-            <CtaButton onPress={onPressStartPlanning} />
           </View>
         </FixedView>
       </Suspense>

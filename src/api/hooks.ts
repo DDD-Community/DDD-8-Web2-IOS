@@ -132,10 +132,14 @@ export const useFetchPlacesInRegion = (params: FetchPlacesInRegionParams) =>
   useQuery("fetchPlacesInRegion", () => fetchPlacesInRegion(params));
 
 export const useFetchPlace = (params: { placeId: string }) => {
-  return useQuery("fetchPlacesByKakaoData", async () => {
-    // const kakaoPlaceData = await postKakaoPlace(params);
-    return fetchPlace({ id: params.placeId });
-  });
+  return useQuery(
+    "fetchPlacesByKakaoData",
+    async () => {
+      // const kakaoPlaceData = await postKakaoPlace(params);
+      return fetchPlace({ id: params.placeId });
+    },
+    { enabled: false }
+  );
 };
 
 export const useGetBookmarkRegions = (params: GetBookmarksRegionsParams) => {

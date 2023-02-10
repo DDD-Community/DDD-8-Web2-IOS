@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { FontSize, FontWeight, HexColor } from "../../../constants/theme";
-//import { UiConstants } from "~constants";
+import Constants from "expo-constants";
 
 export const styles = StyleSheet.create({
   container: {
@@ -44,6 +44,8 @@ export const styles = StyleSheet.create({
   },
   buttonView: {
     position: "absolute",
+    top: 44 + Constants.statusBarHeight,
+    width: "100%",
     paddingHorizontal: 20,
     paddingTop: 20,
   },

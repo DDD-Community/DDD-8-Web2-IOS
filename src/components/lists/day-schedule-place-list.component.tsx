@@ -28,8 +28,9 @@ export const DaySchedulePlaceList: FC<Props> = ({
 }) => {
   const lodableDaySchedule = useRecoilValueLoadable(dayScheduleQuery(day));
   const dayScheduleAction = useDayScheduleAction(day);
-  const daySchedule: FetchDayScheduleResponse = lodableDaySchedule.contents;
-  const [data, setData] = useState(daySchedule.daySchedulePlaces || []);
+  const daySchedule: FetchDayScheduleResponse | null =
+    lodableDaySchedule.contents;
+  const [data, setData] = useState(daySchedule?.daySchedulePlaces || []);
   const [modalVisible, setModalVisible] = useState(false);
   const [deletePlaceId, setDeletePlaceId] = useState<string | null>(null);
   const [edtiModalVisible, setEditModalVisible] = useState(false);
