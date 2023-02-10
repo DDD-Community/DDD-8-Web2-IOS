@@ -44,9 +44,6 @@ export const ScheduleEditModal: FC<Props> = ({
   const placeQuery = useFetchPlace({ placeId });
   useEffect(() => setMemo(initialMemo), [initialMemo]);
 
-  useEffect(() => {
-    placeQuery.refetch();
-  }, [placeId]);
   return (
     <Modal visible={visible} transparent>
       <View

@@ -36,11 +36,9 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   const bookmarkAction = useBookmarkAction();
   const [day, setDay] = useState(1);
   const dayScheduleAction = useDayScheduleAction(day);
-
+  console.log("routeparams", route.params.placeId);
   const placeQuery = useFetchPlace({ placeId: route.params.placeId });
-  useEffect(() => {
-    placeQuery.refetch();
-  }, [route.params?.placeId]);
+  console.log(placeQuery);
   if (placeQuery.isLoading || !placeQuery.data) {
     return null;
   }
@@ -49,7 +47,7 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   }
 
   console.log("here", route);
-  if(route.params.placeId === placeQuery.data.id)
+
   return (
     <View style={styles.view}>
       <View>
