@@ -30,22 +30,18 @@ type Props = {
 
 export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   const travelPlan = useRecoilValueLoadable(latestPlanQuery);
-  const dayScheduleAction = useDayScheduleAction;
   const daySchedules = useRecoilValueLoadable(daySchedulesQuery);
-  const [place, setPlace] = useState<FetchPlaceResponse | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const bookmarkAction = useBookmarkAction();
 
   const placeQuery = useFetchPlace({ placeId: route.params.placeId });
 
-  if (placeQuery.isFetching || !placeQuery.data || placeQuery.isRefetching) {
+  if (placeQuery.isLoading || !placeQuery.data) {
     return null;
   }
   if (travelPlan.state === "loading" || daySchedules.state === "loading") {
     return <></>;
   }
-
-  console.log(placeQuery.data);
 
   return (
     <View style={styles.view}>
@@ -118,15 +114,15 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
         placeId={placeQuery.data.id}
         placeName={placeQuery.data.name}
         placeCategory={placeQuery.data.caregory}
-        address={placeQuery.data.address}
         initialMemo={""}
         visible={modalVisible}
         onPressClose={() => setModalVisible(false)}
         onPressConfirm={async ({ selectedDay, memo }) => {
-          if (place && travelPlan.contents.data.content) {
+          if (travelPlan.contents.data.content) {
             setModalVisible(false);
           }
         }}
+        initialiSelectedDay={1}
         confirmButtonTitle="완료"
       />
     </View>

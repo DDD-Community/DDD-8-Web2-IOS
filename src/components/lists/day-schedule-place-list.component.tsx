@@ -146,9 +146,8 @@ export const DaySchedulePlaceList: FC<Props> = ({
             setEditingItem(null);
             setEditModalVisible(false);
           }}
-          initialiSelectedDay={1}
+          initialiSelectedDay={day}
           confirmButtonTitle="완료"
-          address={""}
         />
       )}
     </>

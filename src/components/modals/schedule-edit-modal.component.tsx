@@ -13,12 +13,12 @@ import {
 import { daySchedulesQuery, useDayScheduleAction } from "~stores/plan";
 import { useRecoilValueLoadable } from "recoil";
 import { FetchDaySchedulesResponse } from "../../api/types";
+import { useFetchPlace } from "../../api/hooks";
 
 type Props = {
   placeId: string;
   placeName: string;
   placeCategory: Category;
-  address: string;
   visible: boolean;
   initialMemo: string;
   initialiSelectedDay: number;
@@ -31,7 +31,6 @@ export const ScheduleEditModal: FC<Props> = ({
   placeId,
   placeName,
   placeCategory,
-  address,
   visible,
   initialMemo,
   confirmButtonTitle,
@@ -40,14 +39,11 @@ export const ScheduleEditModal: FC<Props> = ({
   onPressConfirm,
 }) => {
   const [memo, setMemo] = useState(initialMemo);
-  const [selectedDay, setSelectedDay] = useState(1);
-  const lodableDaySchedules = useRecoilValueLoadable(daySchedulesQuery);
-  const dayScheduleAction = useDayScheduleAction(selectedDay);
+  const [selectedDay, setSelectedDay] = useState(initialiSelectedDay);
 
-  useEffect(() => setMemo(memo), [initialMemo]);
+  const placeQuery = useFetchPlace({ placeId });
+  useEffect(() => setMemo(initialMemo), [initialMemo]);
 
-  const daySchedules: { data: FetchDaySchedulesResponse } =
-    lodableDaySchedules.contents;
   return (
     <Modal visible={visible} transparent>
       <View
@@ -74,7 +70,14 @@ export const ScheduleEditModal: FC<Props> = ({
                 borderTopRightRadius: 20,
               }}
             >
-              <View style={{ alignItems: "center" }}>
+              <View
+                style={{
+                  alignItems: "center",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                }}
+              >
                 <Text
                   style={{
                     color: HexColor.N900,
@@ -84,7 +87,25 @@ export const ScheduleEditModal: FC<Props> = ({
                 >
                   {placeName}
                 </Text>
-                <Text>{CategoryText[placeCategory]}</Text>
+                <Text
+                  style={{
+                    color: HexColor.N500,
+                    fontSize: FontSize.Small,
+                    fontWeight: FontWeight.Regular,
+                    marginLeft: 4,
+                  }}
+                >
+                  {CategoryText[placeCategory]}
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: 4,
+                  marginBottom: 16,
+                }}
+              >
                 <Text
                   style={{
                     fontWeight: FontWeight.Regular,
@@ -92,9 +113,10 @@ export const ScheduleEditModal: FC<Props> = ({
                     color: HexColor.N500,
                   }}
                 >
-                  {address}
+                  {placeQuery.data?.address}
                 </Text>
               </View>
+
               <SelectScheduleDay
                 selectedDay={selectedDay}
                 onSelect={setSelectedDay}
