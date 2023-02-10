@@ -17,10 +17,10 @@ export const styles = StyleSheet.create({
   card: {
     display: "flex",
     flexDirection: "column",
-    marginHorizontal: 8,
+    flex: 1,
   },
   image: {
-    width: 212,
+    width: "100%",
     height: 160,
     borderRadius: 16,
     marginBottom: 20,
@@ -29,14 +29,22 @@ export const styles = StyleSheet.create({
     color: HexColor.N700,
     fontWeight: FontWeight.SemiBold,
     fontSize: FontSize.Large,
-    marginBottom: 5,
+    marginBottom: 4,
     paddingLeft: 2,
-    lineHeight: 25,
   },
   category: {
     color: HexColor.N90,
     fontSize: FontSize.Small,
     fontWeight: FontWeight.Regular,
     paddingLeft: 2,
+  },
+  grid: {
+    width: "100%",
+  },
+  row: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    marginBottom: 16,
   },
 });

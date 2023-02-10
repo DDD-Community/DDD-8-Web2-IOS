@@ -17,6 +17,7 @@ import {
   Text,
   RegionPlacesSuggestionList,
   CategorySuggestionList,
+  BookmarksPlacesSuggesionList,
 } from "~components";
 import IconSearch from "~assets/icon/icon-search.svg";
 import { styles } from "./main.styles";
@@ -32,14 +33,31 @@ import { MAP_WEB_URL } from "@env";
 import { useFetchPlacesInRegion, patchBookmark, postBookmark } from "~api";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { ScrollView } from "react-native-gesture-handler";
+import IconResizeHandle from "~assets/icon/icon-resize-handle.svg";
 
 type Props = {
   navigation: NavigationProp<HomeNavigationParamList, NavigationKey.Main>;
 };
 
+const BottomSheetHandle: FC = () => {
+  return (
+    <View
+      style={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        height: 28,
+        paddingTop: 4,
+      }}
+    >
+      <IconResizeHandle />
+    </View>
+  );
+};
+
 export const MainScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/main`;
-  const snapPoints = useMemo(() => ["10%", "80%"], []);
+  const snapPoints = useMemo(() => [60, "50", "80%"], []);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const webViewRef = useRef<MapWebViewHandle>(null);
@@ -110,14 +128,25 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
           ref={bottomSheetRef}
           snapPoints={snapPoints}
           style={{ width: "100%" }}
+          handleHeight={50}
+          handleComponent={() => <BottomSheetHandle />}
         >
           <View style={styles.bottomSheet}>
             <ScrollView style={{ height: "100%" }}>
-              <Text style={styles.bottomSheetCtaText}>
-                추천 장소를 더 보고싶다면?
-              </Text>
+              <View
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: 40,
+                }}
+              >
+                <Text style={styles.bottomSheetCtaText}>
+                  추천 장소를 더 보고싶다면?
+                </Text>
+              </View>
               <RegionPlacesSuggestionList />
               <CategorySuggestionList />
+              <BookmarksPlacesSuggesionList />
             </ScrollView>
           </View>
         </BottomSheet>

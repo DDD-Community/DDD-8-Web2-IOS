@@ -7,6 +7,22 @@ import { Category, CategoryText } from "../../constants/place-category";
 import { Text } from "../text.component";
 import { styles } from "./category-suggestion-list.styles";
 
+const CATEGORY_IMAGES = {
+  [Category.Accommodation]: require("../../../assets/images/category-accommodation.jpeg"),
+  [Category.Cafe]: require("../../../assets/images/category-cafe.jpeg"),
+  [Category.Mart]: require("../../../assets/images/category-mart.jpeg"),
+  [Category.TouristAttraction]: require("../../../assets/images/category-tourist-attraction.jpeg"),
+  [Category.Restaurant]: require("../../../assets/images/category-restaurant.jpeg"),
+};
+
+const CAREGORY_ITEMS = [
+  Category.TouristAttraction,
+  Category.Accommodation,
+  Category.Restaurant,
+  Category.Cafe,
+  Category.Mart,
+];
+
 export const CategorySuggestionList = () => {
   const travelPlan = useRecoilValue(latestPlanQuery);
   const region =
@@ -20,14 +36,21 @@ export const CategorySuggestionList = () => {
         {travelPlan.data.content?.region} 카테고리 추천
       </Text>
       <ScrollView horizontal style={{ display: "flex", flexDirection: "row" }}>
-        {Object.values(Category).map((category) => {
-          return (
-            <View key={category} style={styles.card}>
-              <Image source={{ uri: undefined }} style={styles.image} />
-              <Text style={styles.name}>{CategoryText[category]}</Text>
-            </View>
-          );
-        })}
+        {CAREGORY_ITEMS.filter((category) => category !== Category.Etc).map(
+          (category) => {
+            return (
+              <View key={category} style={styles.card}>
+                <Image
+                  source={
+                    CATEGORY_IMAGES[category as Exclude<Category, Category.Etc>]
+                  }
+                  style={styles.image}
+                />
+                <Text style={styles.name}>{CategoryText[category]}</Text>
+              </View>
+            );
+          }
+        )}
       </ScrollView>
     </View>
   );
