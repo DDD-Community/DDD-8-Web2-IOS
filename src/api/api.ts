@@ -22,6 +22,7 @@ import type {
   DeleteDayScheduleParams,
   GetBookmarksRegionsParams,
   GetBookmarksRegionsResponse,
+  PatchDaySchedulePlaceParams,
 } from "./types";
 
 export const searchPlaces = ({
@@ -160,6 +161,25 @@ export const getBookmarksRegions = ({
   return httpClient
     .get(
       `/v1/places/bookmarks/regions?region=${region}&page=${page}&size=${size}`
+    )
+    .then((res) => res.data);
+};
+
+export const patchDaySchedulePlace = ({
+  travelPlanId,
+  dayScheduleId,
+  daySchedulePlaceId,
+  memo,
+}: PatchDaySchedulePlaceParams) => {
+  console.log(
+    `/v1/travel-plans/${travelPlanId}/day-schedules/${dayScheduleId}/day-schedule-places/${daySchedulePlaceId}`
+  );
+  return httpClient
+    .patch(
+      `/v1/travel-plans/${travelPlanId}/day-schedules/${dayScheduleId}/day-schedule-places/${daySchedulePlaceId}`,
+      {
+        memo,
+      }
     )
     .then((res) => res.data);
 };

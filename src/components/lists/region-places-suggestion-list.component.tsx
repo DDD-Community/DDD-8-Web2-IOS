@@ -20,6 +20,11 @@ export const RegionPlacesSuggestionList = () => {
     page: 0,
     size: 10,
   });
+
+  if (!placesInRegion.data?.places.length) {
+    return <></>;
+  }
+
   return (
     <View style={styles.view}>
       <Text style={styles.title}>

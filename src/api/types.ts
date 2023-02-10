@@ -214,3 +214,10 @@ export type GetBookmarksRegionsResponse = {
   }[];
   hasNext: boolean;
 };
+
+export type PatchDaySchedulePlaceParams = {
+  travelPlanId: string;
+  dayScheduleId: string;
+  daySchedulePlaceId: string;
+  memo: string;
+};

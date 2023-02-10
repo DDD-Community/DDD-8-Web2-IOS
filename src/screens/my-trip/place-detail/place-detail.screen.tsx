@@ -127,6 +127,7 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
             setModalVisible(false);
           }
         }}
+        confirmButtonTitle="완료"
       />
     </View>
   );

@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
   },
   top: {
     position: "absolute",
-    top: StatusBarHeight,
+    top: 0,
+    paddingTop: StatusBarHeight,
     width: "100%",
   },
 });

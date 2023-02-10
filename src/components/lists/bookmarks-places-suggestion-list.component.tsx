@@ -8,6 +8,8 @@ import { CategoryText } from "../../constants/place-category";
 import { Text } from "../text.component";
 import { styles } from "./bookmarks-places-suggestion-list.styles";
 import { chunk } from "~utils/array";
+import { Button } from "../buttons/button.component";
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 
 export const BookmarksPlacesSuggesionList = () => {
   const travelPlan = useRecoilValue(latestPlanQuery);
@@ -28,9 +30,32 @@ export const BookmarksPlacesSuggesionList = () => {
     }
     return chunk(placesInBookmarks.data?.places || [], 2);
   }, [placesInBookmarks.data?.places]);
+
+  if (rows.length === 0) {
+    return <></>;
+  }
   return (
     <View style={styles.view}>
-      <Text style={styles.title}>근처에 북마크한 장소가 있어요!</Text>
+      <View
+        style={{
+          display: "flex",
+          width: "100%",
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 20,
+        }}
+      >
+        <Text style={styles.title}>근처에 북마크한 장소가 있어요!</Text>
+        <TouchableOpacity
+          style={{
+            marginLeft: "auto",
+            marginRight: 0,
+          }}
+        >
+          <Text>더보기</Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.grid}>
         {rows.map((row, index) => {
           return (

@@ -35,36 +35,34 @@ export const SelectScheduleDay: FC<Props> = ({ selectedDay, onSelect }) => {
   const daySchedules = lodableDaySchedules.contents;
 
   return (
-    <View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollInnerViewContainerStyle}
-      >
-        <View style={styles.scrollInnerView}>
-          {items.map((item) => (
-            <Button
-              key={item.key}
-              title={item.title}
-              buttonStyle={[
-                styles.dayButtonCommon,
-                item.key === selectedDay && styles.dayButtonActive,
-              ]}
-              textStyle={
-                item.key === selectedDay
-                  ? styles.dayButtonActiveText
-                  : styles.dayButtonInActiveText
-              }
-              onPress={() =>
-                onSelect(
-                  item.key,
-                  daySchedules.data.daySchedules[selectedDay - 1].id
-                )
-              }
-            />
-          ))}
-        </View>
-      </ScrollView>
-    </View>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.scrollInnerViewContainerStyle}
+    >
+      <View style={styles.scrollInnerView}>
+        {items.map((item) => (
+          <Button
+            key={item.key}
+            title={item.title}
+            buttonStyle={[
+              styles.dayButtonCommon,
+              item.key === selectedDay && styles.dayButtonActive,
+            ]}
+            textStyle={
+              item.key === selectedDay
+                ? styles.dayButtonActiveText
+                : styles.dayButtonInActiveText
+            }
+            onPress={() =>
+              onSelect(
+                item.key,
+                daySchedules.data.daySchedules[selectedDay - 1].id
+              )
+            }
+          />
+        ))}
+      </View>
+    </ScrollView>
   );
 };

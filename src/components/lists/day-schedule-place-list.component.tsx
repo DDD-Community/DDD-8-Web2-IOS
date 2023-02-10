@@ -13,6 +13,7 @@ import { Text } from "../text.component";
 import { styles } from "./day-schedule-place-list.styles";
 import { FetchDayScheduleResponse } from "../../api/types";
 import { ScheduleMapWebView } from "../webviews/schdule-map-web-view.component";
+import { ScheduleEditModal } from "../modals/schedule-edit-modal.component";
 
 type Props = {
   editable: boolean;
@@ -31,6 +32,10 @@ export const DaySchedulePlaceList: FC<Props> = ({
   const [data, setData] = useState(daySchedule.daySchedulePlaces || []);
   const [modalVisible, setModalVisible] = useState(false);
   const [deletePlaceId, setDeletePlaceId] = useState<string | null>(null);
+  const [edtiModalVisible, setEditModalVisible] = useState(false);
+  const [editingItem, setEditingItem] = useState<
+    null | FetchDayScheduleResponse["daySchedulePlaces"][number]
+  >(null);
 
   const onPressChangeEditMode = () => onChangeEditMode(!editable);
 
@@ -76,6 +81,10 @@ export const DaySchedulePlaceList: FC<Props> = ({
                 setDeletePlaceId(args.item.id);
                 setModalVisible(true);
               }}
+              onPressEdit={() => {
+                setEditingItem(args.item);
+                setEditModalVisible(true);
+              }}
             />
           );
         }}
@@ -117,6 +126,31 @@ export const DaySchedulePlaceList: FC<Props> = ({
           }
         }}
       />
+      {editingItem && (
+        <ScheduleEditModal
+          visible={edtiModalVisible}
+          placeId={editingItem.place.id}
+          placeCategory={editingItem.place.category}
+          placeName={editingItem.place.name}
+          initialMemo={editingItem.memo}
+          onPressClose={() => {
+            setEditingItem(null);
+            setEditModalVisible(false);
+          }}
+          onPressConfirm={async ({ memo, selectedDay }) => {
+            await dayScheduleAction.edit({
+              daySchedulePlaceId: editingItem.id,
+              memo,
+              dayScheduleId: daySchedule.id,
+            });
+            setEditingItem(null);
+            setEditModalVisible(false);
+          }}
+          initialiSelectedDay={1}
+          confirmButtonTitle="완료"
+          address={""}
+        />
+      )}
     </>
   );
 };

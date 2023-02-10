@@ -13,6 +13,7 @@ import {
   postDaySchedulePlace,
   postTravelPlan,
   CreateTravelPlanParams,
+  patchDaySchedulePlace,
 } from "~api";
 import { REGION_LAT_LANGS } from "../constants/regions";
 
@@ -88,6 +89,7 @@ export const dayScheduleQuery = selectorFamily({
 
 export const useDayScheduleAction = (day: number) => {
   const travelPlan = useRecoilValueLoadable(latestPlanQuery);
+  const daySchedule = useRecoilValueLoadable(dayScheduleQuery(day));
   const resetDaySchedule = useRecoilRefresher_UNSTABLE(dayScheduleQuery(day));
 
   const remove = async (params: { placeId: string; dayScheduleId: string }) => {
@@ -112,8 +114,22 @@ export const useDayScheduleAction = (day: number) => {
     resetDaySchedule();
   };
 
+  const edit = async (params: {
+    daySchedulePlaceId: string;
+    memo: string;
+    dayScheduleId: string;
+  }) => {
+    await patchDaySchedulePlace({
+      travelPlanId: travelPlan.contents.data.content.id,
+      memo: params.memo,
+      dayScheduleId: params.dayScheduleId,
+      daySchedulePlaceId: params.daySchedulePlaceId,
+    });
+    resetDaySchedule();
+  };
   return {
     remove,
     add,
+    edit,
   };
 };

@@ -7,12 +7,11 @@ export const styles = StyleSheet.create({
     backgroundColor: "#fff",
     height: "100%",
     width: "100%",
-    paddingTop: 44,
+    // paddingTop: 44,
   },
   topFixed: {
-    paddingBottom: 40,
     width: "100%",
-    backgroundColor: "transparent",
+    backgroundColor: HexColor.White,
   },
   topFixedTopView: {
     display: "flex",
@@ -44,6 +43,7 @@ export const styles = StyleSheet.create({
     marginRight: 6,
   },
   buttonView: {
+    position: "absolute",
     paddingHorizontal: 20,
     paddingTop: 20,
   },

@@ -11,7 +11,7 @@ import {
   HexColor,
 } from "~constants";
 import { daySchedulesQuery, useDayScheduleAction } from "~stores/plan";
-import { RecoilValue, useRecoilValueLoadable } from "recoil";
+import { useRecoilValueLoadable } from "recoil";
 import { FetchDaySchedulesResponse } from "../../api/types";
 
 type Props = {
@@ -21,6 +21,8 @@ type Props = {
   address: string;
   visible: boolean;
   initialMemo: string;
+  initialiSelectedDay: number;
+  confirmButtonTitle: string;
   onPressClose: () => void;
   onPressConfirm: (data: { selectedDay: number; memo: string }) => void;
 };
@@ -32,6 +34,8 @@ export const ScheduleEditModal: FC<Props> = ({
   address,
   visible,
   initialMemo,
+  confirmButtonTitle,
+  initialiSelectedDay,
   onPressClose,
   onPressConfirm,
 }) => {
@@ -62,15 +66,12 @@ export const ScheduleEditModal: FC<Props> = ({
             paddingTop: 28,
           }}
         >
-          <KeyboardAvoidingView behavior="height" style={{ height: "100%" }}>
+          <KeyboardAvoidingView behavior="padding" style={{ height: "100%" }}>
             <View
               style={{
                 backgroundColor: HexColor.White,
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
-                display: "flex",
-                flex: 1,
-                height: "100%",
               }}
             >
               <View style={{ alignItems: "center" }}>
@@ -94,12 +95,17 @@ export const ScheduleEditModal: FC<Props> = ({
                   {address}
                 </Text>
               </View>
-
               <SelectScheduleDay
                 selectedDay={selectedDay}
                 onSelect={setSelectedDay}
               />
-              <View style={{ paddingHorizontal: 20, flex: 1 }}>
+              <View
+                style={{
+                  paddingHorizontal: 20,
+                  marginTop: 0,
+                  marginBottom: "auto",
+                }}
+              >
                 <TextInput
                   multiline
                   value={memo}
@@ -117,7 +123,6 @@ export const ScheduleEditModal: FC<Props> = ({
                 />
                 <View
                   style={{
-                    display: "flex",
                     flexDirection: "row",
                     width: "100%",
                     justifyContent: "space-between",
@@ -144,12 +149,12 @@ export const ScheduleEditModal: FC<Props> = ({
                     }}
                     textStyle={{ color: HexColor.White }}
                     onPress={async () => {
-                      await dayScheduleAction.add({
-                        placeId,
-                        memo,
-                        dayScheduleId:
-                          daySchedules.data.daySchedules[selectedDay - 1].id,
-                      });
+                      // await dayScheduleAction.add({
+                      //   placeId,
+                      //   memo,
+                      //   dayScheduleId:
+                      //     daySchedules.data.daySchedules[selectedDay - 1].id,
+                      // });
                       onPressConfirm({
                         memo,
                         selectedDay,

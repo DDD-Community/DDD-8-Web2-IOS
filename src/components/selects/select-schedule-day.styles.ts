@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   },
   scrollInnerViewContainerStyle: {
     paddingHorizontal: SCROLL_INNER_CONTAINER_PADDING,
+    marginBottom: 16,
   },
   scrollInnerView: {
     height: 44,

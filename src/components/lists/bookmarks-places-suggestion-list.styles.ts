@@ -12,7 +12,6 @@ export const styles = StyleSheet.create({
     color: HexColor.N700,
     fontSize: FontSize.XLarge,
     fontWeight: FontWeight.Bold,
-    marginBottom: 20,
   },
   card: {
     display: "flex",
