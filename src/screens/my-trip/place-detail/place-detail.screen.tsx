@@ -4,7 +4,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { FixedView, Button, ScheduleEditModal, Text } from "~components";
 import { styles } from "./place-detail.styles";
 import { MainNavigationParamList, NavigationKey } from "~types";
-import { FetchPlaceResponse, useFetchPlace } from "~api";
+import { FetchPlaceResponse, postDaySchedulePlace, useFetchPlace } from "~api";
 import { CategoryText } from "~constants";
 import { removeTags } from "~utils/string";
 import IconNaverBlog from "~assets/icon/icon-naver-blog.svg";
@@ -16,6 +16,7 @@ import {
   daySchedulesQuery,
   latestPlanQuery,
   useDayScheduleAction,
+  useTravelPlanAction,
 } from "~stores/plan";
 import { useBookmarkAction } from "~api";
 
@@ -33,6 +34,8 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
   const daySchedules = useRecoilValueLoadable(daySchedulesQuery);
   const [modalVisible, setModalVisible] = useState(false);
   const bookmarkAction = useBookmarkAction();
+  const [day, setDay] = useState(1);
+  const dayScheduleAction = useDayScheduleAction(day);
 
   const placeQuery = useFetchPlace({ placeId: route.params.placeId });
   useEffect(() => {
@@ -95,31 +98,33 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
           bottom: 0,
         }}
       >
-        <FixedView type="bottom" style={styles.bottomFixedView}>
-          <Button
-            Icon={
-              !placeQuery.data.bookmark.activated ||
-              !placeQuery.data.bookmark.present
-                ? IconBookmarkBoxInactive
-                : IconBookmarkBoxActive
-            }
-            onPress={() => {
-              if (!placeQuery.data.bookmark.present) {
-                bookmarkAction.add({ placeId: placeQuery.data.id });
-              } else {
-                bookmarkAction.toggle({ placeId: placeQuery.data.id });
+        {daySchedules && (
+          <FixedView type="bottom" style={styles.bottomFixedView}>
+            <Button
+              Icon={
+                !placeQuery.data.bookmark.activated ||
+                !placeQuery.data.bookmark.present
+                  ? IconBookmarkBoxInactive
+                  : IconBookmarkBoxActive
               }
-              placeQuery.refetch();
-            }}
-          />
-          <Button
-            title="일정 추가하기"
-            style={{ flex: 1 }}
-            buttonStyle={[styles.button, styles.addScheduleButton]}
-            textStyle={[styles.buttonText, styles.addScheduleButtonText]}
-            onPress={() => setModalVisible(true)}
-          />
-        </FixedView>
+              onPress={() => {
+                if (!placeQuery.data.bookmark.present) {
+                  bookmarkAction.add({ placeId: placeQuery.data.id });
+                } else {
+                  bookmarkAction.toggle({ placeId: placeQuery.data.id });
+                }
+                placeQuery.refetch();
+              }}
+            />
+            <Button
+              title="일정 추가하기"
+              style={{ flex: 1 }}
+              buttonStyle={[styles.button, styles.addScheduleButton]}
+              textStyle={[styles.buttonText, styles.addScheduleButtonText]}
+              onPress={() => setModalVisible(true)}
+            />
+          </FixedView>
+        )}
       </SafeAreaView>
       <ScheduleEditModal
         placeId={placeQuery.data.id}
@@ -130,6 +135,18 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
         onPressClose={() => setModalVisible(false)}
         onPressConfirm={async ({ selectedDay, memo }) => {
           if (travelPlan.contents.data.content) {
+            const dayScheduleId =
+              daySchedules.contents?.data?.daySchedules?.[selectedDay - 1]?.id;
+            console.log("asdasd", {
+              placeId: placeQuery.data.id,
+              memo,
+              dayScheduleId,
+            });
+            await dayScheduleAction.add({
+              placeId: placeQuery.data.id,
+              memo,
+              dayScheduleId,
+            });
             setModalVisible(false);
           }
         }}
