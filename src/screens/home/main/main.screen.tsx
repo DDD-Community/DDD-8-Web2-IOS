@@ -57,7 +57,7 @@ const BottomSheetHandle: FC = () => {
 
 export const MainScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/main`;
-  const snapPoints = useMemo(() => [60, "50", "100%"], []);
+  const snapPoints = useMemo(() => [60, "50", "90%"], []);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const webViewRef = useRef<MapWebViewHandle>(null);

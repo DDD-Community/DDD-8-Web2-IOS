@@ -93,6 +93,7 @@ export const SearchScreen: FC<Props> = ({ navigation, route }) => {
       <SafeAreaView edges={["left", "right", "top"]}>
         <View style={styles.searchInputView}>
           <SearchInput
+            placeholder="검색어를 입력해주세요."
             value={keyword}
             onChangeText={setKeyword}
             onPressCancel={onPressCancel}

@@ -41,7 +41,7 @@ const My = () => {
         <Text style={styles.headerTitleText}>마이페이지</Text>
       </View>
       <View style={styles.iconMarker}>
-        <IconMarker />
+        <IconMarker width={60} height={60} />
       </View>
       <View style={styles.contentView}>
         <Text style={styles.userInfo}>
@@ -50,16 +50,13 @@ const My = () => {
         </Text>
       </View>
       <View style={styles.listView}>
-        <Text style={styles.listText}>내 작성 일정</Text>
+        <Text style={styles.listText}>내 지난 여행</Text>
       </View>
       <View style={styles.listView}>
         <Text style={styles.listText}>공지사항</Text>
       </View>
       <View style={styles.listView}>
         <Text style={styles.listText}>회원정보 수정</Text>
-      </View>
-      <View style={styles.listView}>
-        <Text style={styles.listText}>설정</Text>
       </View>
     </Layout>
   );
