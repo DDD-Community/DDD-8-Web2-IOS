@@ -4,6 +4,8 @@ import { Text } from "../text.component";
 import { styles } from "./day-schedule-place-item.styles";
 import { ScaleDecorator } from "react-native-draggable-flatlist";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { NavigationProp } from "@react-navigation/native";
+import { NavigationKey, MainNavigationParamList } from "~types";
 import IconDragButton from "~assets/icon/icon-drag-button.svg";
 import IconTrash from "~assets/icon/icon-trash.svg";
 import { Button } from "../buttons/button.component";
@@ -28,6 +30,7 @@ type Props = {
   isLast: boolean;
   id: string;
   onPressDelete: () => void;
+  navigation: NavigationProp<MainNavigationParamList, NavigationKey.Main>;
 };
 
 export const DaySchedulePlaceItem: FC<Props> = ({
@@ -39,6 +42,7 @@ export const DaySchedulePlaceItem: FC<Props> = ({
   editable,
   onPressEdit,
   onPressDelete,
+  navigation,
   isLast,
   id,
 }) => {
@@ -101,6 +105,10 @@ export const DaySchedulePlaceItem: FC<Props> = ({
             onPress={() => {
               if (editable) {
                 onPressEdit?.();
+              } else {
+                navigation.navigate(NavigationKey.PlaceDetail, {
+                  placeId: id,
+                });
               }
             }}
           >
@@ -116,6 +124,7 @@ export const DaySchedulePlaceItem: FC<Props> = ({
                   <Text
                     style={{
                       fontWeight: FontWeight.Regular,
+                      fontSize: FontSize.XSmall,
                       color: HexColor.N900,
                     }}
                   >

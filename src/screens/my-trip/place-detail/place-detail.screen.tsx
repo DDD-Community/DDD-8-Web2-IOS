@@ -60,7 +60,7 @@ export const PlaceDetailScreen: FC<Props> = ({ navigation, route }) => {
         <View style={styles.titleView}>
           <Text style={styles.titleText}>{placeQuery.data.name}</Text>
           <Text style={styles.categoryText}>
-            {CategoryText[placeQuery.data.caregory]}
+            {CategoryText[placeQuery.data.category]}
           </Text>
         </View>
         <View style={styles.addressView}>

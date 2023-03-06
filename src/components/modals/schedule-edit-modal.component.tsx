@@ -1,6 +1,8 @@
 import React, { FC, startTransition, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Modal, TextInput, View } from "react-native";
+import { NavigationKey, MainNavigationParamList } from "~types";
 import { Text } from "../text.component";
+import { NavigationProp } from "@react-navigation/native";
 import { SelectScheduleDay } from "../selects/select-schedule-day.component";
 import { Button } from "../buttons/button.component";
 import {
@@ -23,6 +25,7 @@ type Props = {
   initialMemo: string;
   initialiSelectedDay: number;
   confirmButtonTitle: string;
+  navigation: NavigationProp<MainNavigationParamList, NavigationKey.MyTripMap>;
   onPressClose: () => void;
   onPressConfirm: (data: { selectedDay: number; memo: string }) => void;
 };
@@ -35,6 +38,7 @@ export const ScheduleEditModal: FC<Props> = ({
   initialMemo,
   confirmButtonTitle,
   initialiSelectedDay,
+  navigation,
   onPressClose,
   onPressConfirm,
 }) => {
@@ -43,7 +47,10 @@ export const ScheduleEditModal: FC<Props> = ({
 
   const placeQuery = useFetchPlace({ placeId });
   useEffect(() => setMemo(initialMemo), [initialMemo]);
-
+  const goMyTripMap = () => {
+    console.log("goMyTripMap");
+    navigation.navigate(NavigationKey.MyTripMap);
+  };
   return (
     <Modal visible={visible} transparent>
       <View
@@ -181,6 +188,7 @@ export const ScheduleEditModal: FC<Props> = ({
                         memo,
                         selectedDay,
                       });
+                      goMyTripMap();
                     }}
                   />
                 </View>

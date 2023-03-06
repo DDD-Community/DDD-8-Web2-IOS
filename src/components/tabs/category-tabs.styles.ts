@@ -7,8 +7,11 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   itemView: {
+    paddingTop: 10,
     alignItems: "center",
+    justifyContent: "space-around",
     flex: 1,
+    backgroundColor: HexColor.N10,
   },
   buttonView: {
     marginBottom: 5,
@@ -27,6 +30,9 @@ export const styles = StyleSheet.create({
     fontSize: FontSize.Small,
     color: HexColor.N500,
     lineHeight: 19,
+    // marginRight: 10,
+    // marginLeft: 10,
+    // flexShrink: 0,
   },
   tabTitleActive: {
     fontWeight: FontWeight.Bold,

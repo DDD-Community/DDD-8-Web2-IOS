@@ -44,6 +44,7 @@ export const styles = StyleSheet.create({
   },
   phoneNumText: {
     color: HexColor.Primary,
+    fontSize: FontSize.Medium,
   },
   blogTitleView: {
     display: "flex",
@@ -54,9 +55,11 @@ export const styles = StyleSheet.create({
   blogTitleText: {
     color: HexColor.Green,
     fontWeight: FontWeight.Bold,
+    fontSize: FontSize.Large,
     marginLeft: 8,
   },
   blogItemsView: {
+    backgroundColor: HexColor.N10,
     paddingHorizontal: 16,
     paddingVertical: 16,
   },
