@@ -59,5 +59,6 @@ export const styles = StyleSheet.create({
     fontWeight: FontWeight.SemiBold,
     color: HexColor.N700,
     marginTop: 10,
+    marginBottom: 20,
   },
 });

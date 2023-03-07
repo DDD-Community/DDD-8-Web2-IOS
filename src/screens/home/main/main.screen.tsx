@@ -34,10 +34,14 @@ import { useFetchPlacesInRegion, patchBookmark, postBookmark } from "~api";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { ScrollView } from "react-native-gesture-handler";
 import IconResizeHandle from "~assets/icon/icon-resize-handle.svg";
+import Constants from "expo-constants";
+import { Dimensions } from "react-native";
 
 type Props = {
   navigation: NavigationProp<HomeNavigationParamList, NavigationKey.Main>;
 };
+
+const WINDOW_HEIGHT = Dimensions.get("window").height;
 
 const BottomSheetHandle: FC = () => {
   return (
@@ -57,7 +61,13 @@ const BottomSheetHandle: FC = () => {
 
 export const MainScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/main`;
-  const snapPoints = useMemo(() => [60, "50", "90%"], []);
+  const [lastSnap, setLastSnap] = useState(
+    WINDOW_HEIGHT - Constants.statusBarHeight - 78 - 28
+  );
+  const snapPoints = useMemo(
+    () => [60, WINDOW_HEIGHT / 2, lastSnap],
+    [lastSnap]
+  );
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const webViewRef = useRef<MapWebViewHandle>(null);
@@ -116,11 +126,11 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
           index={0}
           ref={bottomSheetRef}
           snapPoints={snapPoints}
-          style={{ width: "100%" }}
+          style={{ width: "100%", borderBottomLeftRadius: 0 }}
           handleHeight={50}
           handleComponent={() => <BottomSheetHandle />}
         >
-          <BottomSheetScrollView>
+          <BottomSheetScrollView style={{ backgroundColor: "white" }}>
             <View style={{ display: "flex", alignItems: "center" }}>
               <Text style={styles.bottomSheetCtaText}>
                 추천 장소를 더 보고싶다면?
