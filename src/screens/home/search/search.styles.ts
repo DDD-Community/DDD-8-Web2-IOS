@@ -14,5 +14,5 @@ export const styles = StyleSheet.create({
     paddingVertical: 0,
     height: 72,
   },
-  backButton: { paddingHorizontal: 16 },
+  backButton: { paddingHorizontal: 16, fontSize: FontSize.Medium },
 });

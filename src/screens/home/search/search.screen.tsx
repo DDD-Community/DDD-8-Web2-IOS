@@ -99,11 +99,9 @@ export const SearchScreen: FC<Props> = ({ navigation, route }) => {
             onPressCancel={onPressCancel}
             onSumbitEditing={() => onSubmitEditing()}
           />
-          <Button
-            title="취소"
-            style={styles.backButton}
-            onPress={onPressBackButton}
-          />
+          <Text style={styles.backButton} onPress={onPressBackButton}>
+            취소
+          </Text>
         </View>
       </SafeAreaView>
       <View
