@@ -26,6 +26,8 @@ export const styles = StyleSheet.create({
   },
   header: {
     display: "flex",
+    paddingLeft: 16,
+    paddingRight: 16,
     flexDirection: "row",
     paddingTop: 16,
     paddingBottom: 8,
@@ -37,6 +39,7 @@ export const styles = StyleSheet.create({
     fontSize: FontSize.Small,
     color: HexColor.N900,
     lineHeight: 17,
+    left: 7,
   },
   headerCloseButton: {
     marginLeft: "auto",

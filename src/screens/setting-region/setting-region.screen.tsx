@@ -41,8 +41,19 @@ export const SettingRegionScreen: FC<Props> = ({ navigation }) => {
   return (
     <Layout safeAreaStyle={styles.safeArea}>
       <View style={styles.innerView}>
+        <View style={styles.header}>
+          <IconMarker />
+          <Text style={styles.headerDesc}>
+            라트립은 현재 국내여행 중,{"\n"}여행지를 선택해주세요!
+          </Text>
+          <Button
+            Icon={IconNavClose}
+            style={styles.headerCloseButton}
+            onPress={onPressBackButton}
+          />
+        </View>
         <ScrollView style={styles.view}>
-          <View style={styles.header}>
+          {/* <View style={styles.header}>
             <IconMarker />
             <Text style={styles.headerDesc}>
               라트립은 현재 국내여행 중,{"\n"}여행지를 선택해주세요!
@@ -52,7 +63,7 @@ export const SettingRegionScreen: FC<Props> = ({ navigation }) => {
               style={styles.headerCloseButton}
               onPress={onPressBackButton}
             />
-          </View>
+          </View> */}
           <Grid>
             {REGION_ROWS.map((row, rowIndex) => {
               return (
