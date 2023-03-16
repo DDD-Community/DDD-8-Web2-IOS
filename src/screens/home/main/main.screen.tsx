@@ -50,7 +50,6 @@ const BottomSheetHandle: FC = () => {
         width: "100%",
         display: "flex",
         alignItems: "center",
-        height: 28,
         paddingTop: 4,
       }}
     >
@@ -62,10 +61,10 @@ const BottomSheetHandle: FC = () => {
 export const MainScreen: FC<Props> = ({ navigation }) => {
   const mapUri = `${MAP_WEB_URL}/main`;
   const [lastSnap, setLastSnap] = useState(
-    WINDOW_HEIGHT - Constants.statusBarHeight - 78 - 28
+    WINDOW_HEIGHT - Constants.statusBarHeight - 70
   );
   const snapPoints = useMemo(
-    () => [60, WINDOW_HEIGHT / 2, lastSnap],
+    () => [76, WINDOW_HEIGHT / 2, lastSnap],
     [lastSnap]
   );
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -130,12 +129,17 @@ export const MainScreen: FC<Props> = ({ navigation }) => {
           handleHeight={50}
           handleComponent={() => <BottomSheetHandle />}
         >
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Text style={styles.bottomSheetCtaText}>
+              추천 장소를 더 보고싶다면?
+            </Text>
+          </View>
           <BottomSheetScrollView style={{ backgroundColor: "white" }}>
-            <View style={{ display: "flex", alignItems: "center" }}>
-              <Text style={styles.bottomSheetCtaText}>
-                추천 장소를 더 보고싶다면?
-              </Text>
-            </View>
             <RegionPlacesSuggestionList />
             <CategorySuggestionList />
             <BookmarksPlacesSuggesionList />
