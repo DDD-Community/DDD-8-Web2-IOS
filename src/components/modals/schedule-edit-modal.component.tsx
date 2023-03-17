@@ -2,7 +2,7 @@ import React, { FC, startTransition, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Modal, TextInput, View } from "react-native";
 import { NavigationKey, MainNavigationParamList } from "~types";
 import { Text } from "../text.component";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { SelectScheduleDay } from "../selects/select-schedule-day.component";
 import { Button } from "../buttons/button.component";
 import {
@@ -38,18 +38,17 @@ export const ScheduleEditModal: FC<Props> = ({
   initialMemo,
   confirmButtonTitle,
   initialiSelectedDay,
-  navigation,
   onPressClose,
   onPressConfirm,
 }) => {
   const [memo, setMemo] = useState(initialMemo);
   const [selectedDay, setSelectedDay] = useState(initialiSelectedDay);
-
+  const navigatior = useNavigation();
   const placeQuery = useFetchPlace({ placeId });
   useEffect(() => setMemo(initialMemo), [initialMemo]);
   const goMyTripMap = () => {
-    console.log("goMyTripMap");
-    navigation.navigate(NavigationKey.MyTripMap);
+    // @ts-ignore
+    navigatior.navigate(NavigationKey.MyTripMap);
   };
   return (
     <Modal visible={visible} transparent>

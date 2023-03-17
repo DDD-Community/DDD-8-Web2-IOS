@@ -77,6 +77,7 @@ export const DaySchedulePlaceList: FC<Props> = ({
               editable={editable}
               number={num}
               isLast={num === data.length}
+              placeId={args.item.place.id}
               id={args.item.id}
               onPressDelete={() => {
                 setDeletePlaceId(args.item.id);
