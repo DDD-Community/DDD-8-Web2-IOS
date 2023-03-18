@@ -46,8 +46,10 @@ export const MapWebView = forwardRef<MapWebViewHandle, Props>(
     return (
       <WebView
         ref={webViewRef as any}
+        style={{ width: "100%" }}
         javaScriptEnabled
-        source={{ uri }}
+        source={{ uri: uri }}
+        incognito={true}
         onMessage={(e) => {
           handleOnMessage(JSON.parse(e.nativeEvent.data));
         }}
