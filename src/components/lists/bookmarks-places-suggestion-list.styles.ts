@@ -22,7 +22,6 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 160,
     borderRadius: 16,
-    marginBottom: 20,
   },
   name: {
     color: HexColor.N700,
